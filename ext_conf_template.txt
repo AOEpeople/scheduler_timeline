@@ -1,0 +1,2 @@
+# cat=basic//; type=boolean; label=Enable sample tasks: When turned on, you can use the sample, test tasks provided by the scheduler. Before turning this off, make sure you don't have any of those sample tasks currently scheduled. You will also need to clear the configuration cache.
+showSampleTasks = 1

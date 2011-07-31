@@ -1,0 +1,70 @@
+{namespace s=Tx_SchedulerTimeline_ViewHelpers}
+
+<f:layout name="module" />
+
+<f:section name="main">
+
+	<h2>Scheduler Timeline</h2>
+
+	<div class="gantt">
+		<div class="row hours">
+			<div class="caption"></div>
+			<div class="timeline">
+				<f:for each="{intervals}" as="hour">
+					<div class="hour">{hour}</div>
+				</f:for>
+			</div>
+		</div>
+		<f:groupedFor each="{logs}" as="logOfThisTask" groupBy="task" groupKey="task">
+			<f:if condition="{task}">
+				<div class="row">
+					<div class="caption">
+						<div class="caption-container">
+							{task.title} ({task.extension})
+							<f:if condition="{task.taskObject.additionalInformation}">
+								<br />
+								[{task.taskObject.additionalInformation}]
+							</f:if>
+						</div>
+					</div>
+					<div class="timeline timeline_{task.uid}">
+						<f:for each="{logOfThisTask}" as="log">
+							<s:gantt log="{log}" starttime="{starttime}" zoom="{zoom}">
+								<div class="details">
+									<h3 title="{log.uid}">{log.task.title}</h3>
+									<f:if condition="{task.taskObject.additionalInformation}">
+										<p>[{task.taskObject.additionalInformation}]</p>
+									</f:if>
+									<p>Timespan: {log.timespan}</p>
+									<p>Duration [h:m:s]: <s:duration duration="{log.duration}" /></p>
+									<p>Process id: {log.processid}</p>
+									<f:if condition="{log.exception}">
+										<div class="exception">
+											<h4>Exception: {log.exception.message}</h4>
+											<pre>{log.exception.stacktrace}</pre>
+										</div>
+									</f:if>
+								</div>
+							</s:gantt>
+						</f:for>
+					</div>
+				</div>
+			</f:if>
+		</f:groupedFor>
+	</div>
+
+	<div class="details-area">
+		<h2>Details:</h2>
+		<div id="details">
+			<p>Click on one of the bars in the timeline to see detail information of this execution</p>
+		</div>
+	</div>
+
+	<h2>Status legend</h2>
+	<ul class="legend">
+		<li><div class="task">&nbsp;</div> Successfully executed task</li>
+		<li><div class="task error">&nbsp;</div> An exception has occurred</li>
+		<li><div class="task running">&nbsp;</div> The task is still running</li>
+	</ul>
+
+</f:section>
