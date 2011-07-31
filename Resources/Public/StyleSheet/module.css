@@ -1,17 +1,21 @@
-.gantt {
-	width: 1150px;
+div.gantt {
 	overflow: hidden;
 }
 
 div.caption-box {
 	float: left;
 	width: 300px;
+	margin-right: -100%;
+}
+
+div.fluidcolumn {
+	float: left;
+	width: 100%;
 }
 
 div.timeline-box {
-	float: left;
-	width: 720px;
 	overflow: scroll;
+	margin-left: 300px;
 }
 
 div.timeline-panel {

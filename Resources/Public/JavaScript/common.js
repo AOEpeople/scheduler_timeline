@@ -2,6 +2,9 @@
  *
  */
 $(function() {
+
+	$('.timeline-box').scrollLeft($('.timeline-panel').width());
+
 	$('.task').click(function() {
 		var $this = $(this);
 		$('.task').removeClass('active');
