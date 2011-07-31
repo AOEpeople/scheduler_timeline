@@ -55,13 +55,16 @@ class Tx_SchedulerTimeline_Controller_TimelineController extends Tx_Extbase_MVC_
      */
     public function timelineAction() {
 
-    	$starttime = mktime(date('H', $GLOBALS['EXEC_TIME'])-2, 0, 0);
+    	$starttime = mktime(date('H', $GLOBALS['EXEC_TIME'])-24, 0, 0);
     	$endtime = mktime(date('H', $GLOBALS['EXEC_TIME'])+1, 0, 0);
+
+    	$this->view->assign('timelinePanelWidth', 240*25);
 
     	$intervals = array();
 
+    	$dateFormat = $GLOBALS['TYPO3_CONF_VARS']['SYS']['ddmmyy'] . ' ' . $GLOBALS['TYPO3_CONF_VARS']['SYS']['hhmm'];
     	for ($i = $starttime; $i<$endtime; $i+=60*60) {
-    		$intervals[] = date('H', $i);
+    		$intervals[] = date($dateFormat, $i);
     	}
 
 		$logs = $this->logRepository->findByTime($starttime, $endtime); /* @var $logs Tx_Extbase_Persistence_QueryResult */

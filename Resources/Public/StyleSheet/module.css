@@ -1,5 +1,21 @@
 .gantt {
 	width: 1150px;
+	overflow: hidden;
+}
+
+div.caption-box {
+	float: left;
+	width: 300px;
+}
+
+div.timeline-box {
+	float: left;
+	width: 720px;
+	overflow: scroll;
+}
+
+div.timeline-panel {
+	background-image: url('../Images/hour.gif');
 }
 
 div.row {
@@ -8,7 +24,6 @@ div.row {
 	padding: 0;
 	margin: 0;
 	height: 40px;
-	width: 1020px;
 }
 
 div.caption {
@@ -22,10 +37,7 @@ div.caption-container {
 	padding: 5px;
 }
 
-
 div.timeline {
-	background-image: url('../Images/hour.gif');
-	width: 720px;
 	height: 40px;
 	float: left;
 	position: relative;

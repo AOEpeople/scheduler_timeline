@@ -23,7 +23,7 @@ class Tx_SchedulerTimeline_ViewHelpers_GanttViewHelper extends Tx_Fluid_Core_Vie
 			$offset = 0;
 		}
 
-		$duration = min($duration, 3*240);
+		// $duration = min($duration, 3*240);
 
 		$this->tag->addAttribute('style', sprintf('width: %spx; left: %spx;', $duration, $offset));
 		$class = 'task';
