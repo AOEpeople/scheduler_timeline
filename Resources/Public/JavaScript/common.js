@@ -5,15 +5,14 @@ $(function() {
 
 	$('.timeline-box').scrollLeft($('.timeline-panel').width());
 
-	$('.task').click(function() {
+	$('.gantt .task').click(function() {
 		var $this = $(this);
-		$('.task').removeClass('active');
+		$('.gantt .task').removeClass('active');
 		$this.addClass('active');
 		$('#details').html($this.find('.details').html());
 	})
 
 	// collision detection
-
 	function getPositions(box) {
 		var $box = $(box);
 		var pos = $box.position();
@@ -35,9 +34,6 @@ $(function() {
 		return (posA[1][0] == posB[1][0]) && comparePositions(posA[0], posB[0]);
 	}
 
-//	console.log(getPositions($('#uid_1281'))[1][0]);
-//	console.log(getPositions($('#uid_1282')));
-
 	$('.timeline').each(function() {
 		var $timeline = $(this);
 		var $tasks = $('.task', $timeline);
@@ -51,12 +47,10 @@ $(function() {
 
 					var objectTop = parseInt($subject.css('top'));
 
-					// $subject.css('top', (objectTop-4) + 'px');
 					$object.css('top', (objectTop+4) + 'px');
 
 					$subject.css('height', 18);
 					$object.css('height', 18);
-
 				}
 			}
 		}

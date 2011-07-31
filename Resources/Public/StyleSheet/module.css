@@ -127,3 +127,15 @@ div.task:hover {
 .details {
 	display: none;
 }
+
+#details {
+	padding: 5px;
+	width: 600px;
+	border: 1px solid black;
+}
+
+#details pre {
+	background-color: white;
+	padding: 5px;
+	overflow: auto;
+}
