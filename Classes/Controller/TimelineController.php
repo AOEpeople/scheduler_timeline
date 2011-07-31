@@ -1,5 +1,34 @@
 <?php
+/***************************************************************
+*  Copyright notice
+*
+*  (c) 2011 Fabrizio Branca <typo3@fabrizio-branca.de>
+*  All rights reserved
+*
+*  This script is part of the TYPO3 project. The TYPO3 project is
+*  free software; you can redistribute it and/or modify
+*  it under the terms of the GNU General Public License as published by
+*  the Free Software Foundation; either version 2 of the License, or
+*  (at your option) any later version.
+*
+*  The GNU General Public License can be found at
+*  http://www.gnu.org/copyleft/gpl.html.
+*
+*  This script is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*  GNU General Public License for more details.
+*
+*  This copyright notice MUST APPEAR in all copies of the script!
+***************************************************************/
 
+/**
+ * TimelineController
+ *
+ * @author	Fabrizio Branca <typo3@fabrizio-branca.de>
+ * @package TYPO3
+ * @subpackage tx_schedulertimeline
+ */
 class Tx_SchedulerTimeline_Controller_TimelineController extends Tx_Extbase_MVC_Controller_ActionController {
 
     /**
@@ -55,14 +84,18 @@ class Tx_SchedulerTimeline_Controller_TimelineController extends Tx_Extbase_MVC_
      */
     public function timelineAction() {
 
-    	$starttime = mktime(date('H', $GLOBALS['EXEC_TIME'])-24, 0, 0);
+    	$hours = 25; // amount of hours to be displayed
+    	$zoom = 15; // amount of seconds per pixel
+
+    	$pixelsPerMinute = 60 / $zoom;
+    	$pixelsPerHour = 60 * $pixelsPerMinute;
+
+    	$starttime = mktime(date('H', $GLOBALS['EXEC_TIME'])-($hours-1), 0, 0);
     	$endtime = mktime(date('H', $GLOBALS['EXEC_TIME'])+1, 0, 0);
 
-    	$this->view->assign('timelinePanelWidth', 240*25);
-
-    	$intervals = array();
-
+		// y-Axis labels (could be done in a viewhelper)
     	$dateFormat = $GLOBALS['TYPO3_CONF_VARS']['SYS']['ddmmyy'] . ' ' . $GLOBALS['TYPO3_CONF_VARS']['SYS']['hhmm'];
+    	$intervals = array();
     	for ($i = $starttime; $i<$endtime; $i+=60*60) {
     		$intervals[] = date($dateFormat, $i);
     	}
@@ -72,7 +105,8 @@ class Tx_SchedulerTimeline_Controller_TimelineController extends Tx_Extbase_MVC_
 		$this->view->assign('logs', $logs);
 		$this->view->assign('intervals', $intervals);
 		$this->view->assign('starttime', $starttime);
-		$this->view->assign('zoom', 15); // amount of seconds per pixel
+		$this->view->assign('zoom', $zoom);
+		$this->view->assign('timelinePanelWidth', $pixelsPerHour * $hours);
     }
 
 

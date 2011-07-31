@@ -23,6 +23,13 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+/**
+ * Scheduler
+ *
+ * @author	Fabrizio Branca <typo3@fabrizio-branca.de>
+ * @package TYPO3
+ * @subpackage tx_schedulertimeline
+ */
 class ux_tx_scheduler extends tx_scheduler {
 
 	/**
@@ -66,13 +73,31 @@ class ux_tx_scheduler extends tx_scheduler {
 		return $result;
 	}
 
+	/**
+	 * Extend the method to cleanup up the log table aswell
+	 *
+	 * @see tx_scheduler::cleanExecutionArrays()
+	 */
 	protected function cleanExecutionArrays() {
 		parent::cleanExecutionArrays();
 		$this->cleanupLog();
-		$this->cleanupTasks();
 	}
 
-	protected function cleanupTasks() {
+	/**
+	 * Cleanup log
+	 *
+	 * @return void
+	 * @throws Exception
+	 */
+	protected function cleanupLog() {
+		// clean old log entries
+		$dbObj = $GLOBALS['TYPO3_DB']; /* @var $dbObj t3lib_db */
+		$res = $dbObj->exec_DELETEquery('tx_schedulertimeline_domain_model_log', 'endtime > 0 AND endtime <'.(time()-24*60*60));
+		if ($res === false) {
+			throw new Exception('Error while cleaning log');
+		}
+
+		// clean tasks, that exceeded the maxLifetime
 		$maxDuration = $this->extConf['maxLifetime'] * 60;
 		$dbObj = $GLOBALS['TYPO3_DB']; /* @var $dbObj t3lib_db */
 		$res = $dbObj->exec_UPDATEquery(
@@ -88,14 +113,13 @@ class ux_tx_scheduler extends tx_scheduler {
 		}
 	}
 
-	protected function cleanupLog() {
-		$dbObj = $GLOBALS['TYPO3_DB']; /* @var $dbObj t3lib_db */
-		$res = $dbObj->exec_DELETEquery('tx_schedulertimeline_domain_model_log', 'endtime > 0 AND endtime <'.(time()-24*60*60));
-		if ($res === false) {
-			throw new Exception('Error while cleaning log');
-		}
-	}
-
+	/**
+	 * Log the start of a task
+	 *
+	 * @param int $taskUid
+	 * @throws Exception
+	 * @return void
+	 */
 	protected function logStart($taskUid) {
 		$now = time();
 		$dbObj = $GLOBALS['TYPO3_DB']; /* @var $dbObj t3lib_db */
@@ -112,6 +136,13 @@ class ux_tx_scheduler extends tx_scheduler {
 		return $dbObj->sql_insert_id();
 	}
 
+	/**
+	 * Remove a log entry
+	 *
+	 * @param int $logUid
+	 * @throws Exception
+	 * @return void
+	 */
 	protected function removeLog($logUid) {
 		$dbObj = $GLOBALS['TYPO3_DB']; /* @var $dbObj t3lib_db */
 		$res = $dbObj->exec_DELETEquery('tx_schedulertimeline_domain_model_log', 'uid='.intval($logUid));
@@ -120,6 +151,14 @@ class ux_tx_scheduler extends tx_scheduler {
 		}
 	}
 
+	/**
+	 * Log the end of a task
+	 *
+	 * @param int $logUid
+	 * @param Exception $failure
+	 * @param string $returnMessage
+	 * @throws Exception
+	 */
 	protected function logEnd($logUid, $failure, $returnMessage) {
 		$exception = '';
 		if ($failure instanceof Exception) { /* @var $failure Exception */
