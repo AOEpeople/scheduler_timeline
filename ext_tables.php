@@ -3,7 +3,7 @@
 if (!defined ('TYPO3_MODE')) die ('Access denied.');
 
 if (TYPO3_MODE == 'BE' && !(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_INSTALL)) {
-	
+
     /**
     * Registers a Backend Module
     */
@@ -23,7 +23,7 @@ if (TYPO3_MODE == 'BE' && !(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_INSTALL)) {
             // 'navigationComponentId' => 'typo3-pagetree',
         )
     );
-   
+
 }
 
 /**
@@ -31,11 +31,12 @@ if (TYPO3_MODE == 'BE' && !(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_INSTALL)) {
  */
 $TCA['tx_schedulertimeline_domain_model_log'] = array(
 	'ctrl' => array(
-		'label' => 'title',
+		'label' => 'uid',
 		'tstamp' => 'tstamp',
 		'title' => 'Scheduler Timeline Log',
 		'adminOnly' => 1,
 		'rootLevel' => 1,
+		'hideTable' => 1,
 		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'tca.php',
 	)
 );
@@ -46,11 +47,11 @@ $TCA['tx_schedulertimeline_domain_model_log'] = array(
  */
 $TCA['tx_scheduler_task'] = array(
 	'ctrl' => array(
-		'label' => 'title',
-		'tstamp' => 'tstamp',
+		'label' => 'classname',
 		'title' => 'Scheduler Task',
 		'adminOnly' => 1,
 		'rootLevel' => 1,
+		'hideTable' => 1,
 		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'tca.php',
 	)
 );
