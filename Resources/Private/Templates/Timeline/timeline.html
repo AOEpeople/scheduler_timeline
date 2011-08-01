@@ -12,6 +12,17 @@
 			<div class="row hours">
 				<div class="caption"></div>
 			</div>
+
+			<f:if condition="{f:count(subject: logs)} == 0">
+				<div class="row">
+					<div class="caption">
+						<div class="caption-container">
+							<i>No log entries found.</i>
+						</div>
+					</div>
+				</div>
+			</f:if>
+
 			<f:groupedFor each="{logs}" as="logOfThisTask" groupBy="task" groupKey="task">
 				<f:if condition="{task}">
 					<div class="row">
@@ -39,6 +50,14 @@
 							</f:for>
 						</div>
 					</div>
+
+					<f:if condition="{f:count(subject: logs)} == 0">
+						<div class="row">
+							<div class="timeline">
+							</div>
+						</div>
+					</f:if>
+
 					<f:groupedFor each="{logs}" as="logOfThisTask" groupBy="task" groupKey="task">
 						<f:if condition="{task}">
 							<div class="row">
