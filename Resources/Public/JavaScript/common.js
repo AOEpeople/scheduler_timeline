@@ -3,8 +3,6 @@
  */
 $(function() {
 
-	$('.timeline-box').scrollLeft($('.timeline-panel').width());
-
 	$('.gantt .task').click(function() {
 		var $this = $(this);
 		$('.gantt .task').removeClass('active');
@@ -55,6 +53,13 @@ $(function() {
 			}
 		}
 	});
+
+	$('#jump-end').click(function() {
+		$('.timeline-box').scrollLeft($('.timeline-panel').width());
+		return false;
+	});
+
+	$('#jump-end').trigger('click');
 
 
 });

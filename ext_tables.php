@@ -11,7 +11,7 @@ if (TYPO3_MODE == 'BE' && !(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_INSTALL)) {
         $_EXTKEY,
         'tools',    // Make module a submodule of 'web'
         'schedulertimeline',    // Submodule key
-        '', // Position
+        'after:txschedulerM1', // Position
         array(
                 // An array holding the controller-action-combinations that are accessible
             'Timeline' => 'timeline'

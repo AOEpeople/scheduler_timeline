@@ -43,6 +43,9 @@
 		<div class="fluidcolumn">
 			<div class="timeline-box">
 				<div class="timeline-panel" style="width: {timelinePanelWidth}px;">
+
+					<div class="now" style="left: {now}px"></div>
+
 					<div class="row hours">
 						<div class="timeline">
 							<f:for each="{intervals}" as="hour">
@@ -78,6 +81,12 @@
 														<pre>{log.exception.stacktrace}</pre>
 													</div>
 												</f:if>
+												<f:if condition="{log.returnmessage}">
+													<div class="return-message">
+														<h4>Return message</h4>
+														<pre>{log.returnmessage}</pre>
+													</div>
+												</f:if>
 											</div>
 										</s:gantt>
 									</f:for>
@@ -88,6 +97,10 @@
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<div style="text-align: right;">
+		<p><a id="jump-end" href="#" title="Jump to end">[->]</a></p>
 	</div>
 
 	<div class="details-area">

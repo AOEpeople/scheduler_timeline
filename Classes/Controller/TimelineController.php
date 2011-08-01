@@ -102,10 +102,13 @@ class Tx_SchedulerTimeline_Controller_TimelineController extends Tx_Extbase_MVC_
 
 		$logs = $this->logRepository->findByTime($starttime, $endtime); /* @var $logs Tx_Extbase_Persistence_QueryResult */
 
+		$now = ($GLOBALS['EXEC_TIME'] - $starttime) / $zoom;
+
 		$this->view->assign('logs', $logs);
 		$this->view->assign('intervals', $intervals);
 		$this->view->assign('starttime', $starttime);
 		$this->view->assign('zoom', $zoom);
+		$this->view->assign('now', $now);
 		$this->view->assign('timelinePanelWidth', $pixelsPerHour * $hours);
     }
 
