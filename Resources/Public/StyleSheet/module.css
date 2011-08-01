@@ -35,10 +35,12 @@ div.caption {
 	float: left;
 	width: 300px;
 	height: 100%;
+	overflow: hidden;
 }
 
 div.caption-container {
 	padding: 5px;
+	width: 500px;
 }
 
 div.timeline {
@@ -138,4 +140,8 @@ div.task:hover {
 	background-color: white;
 	padding: 5px;
 	overflow: auto;
+}
+
+.additional-information {
+	font-size: 9px;
 }

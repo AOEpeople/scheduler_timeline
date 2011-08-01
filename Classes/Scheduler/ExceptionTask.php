@@ -61,4 +61,8 @@ class Tx_SchedulerTimeline_Scheduler_ExceptionTask extends tx_scheduler_Task imp
 		return "Slept for {$this->sleepTime} seconds";
 	}
 
+	public function getAdditionalInformation() {
+		return "Very long additional information for " . get_class($this);
+	}
+
 }

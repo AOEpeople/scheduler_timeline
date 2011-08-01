@@ -16,11 +16,12 @@
 				<f:if condition="{task}">
 					<div class="row">
 						<div class="caption">
-							<div class="caption-container">
-								{task.title} ({task.extension})
+							<div title="{task.uid}" class="caption-container">
+								<b>{task.title}</b> ({task.extension})
 								<f:if condition="{task.taskObject.additionalInformation}">
-									<br />
-									[{task.taskObject.additionalInformation}]
+									<p class="additional-information" title="{task.taskObject.additionalInformation}">
+										{task.taskObject.additionalInformation}
+									</p>
 								</f:if>
 							</div>
 						</div>
