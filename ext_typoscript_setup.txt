@@ -1,0 +1,3 @@
+config.tx_extbase.persistence.classes {
+	Tx_SchedulerTimeline_Domain_Model_Task.mapping.tableName = tx_scheduler_task
+}
