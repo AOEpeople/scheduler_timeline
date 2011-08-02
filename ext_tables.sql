@@ -19,3 +19,10 @@ CREATE TABLE tx_schedulertimeline_domain_model_log (
     KEY parent (pid)
 );
 
+#
+# Table structure for table 'tx_ptlist_bookmarks'
+#
+CREATE TABLE tx_scheduler_task (
+    pid int(11) DEFAULT '0' NOT NULL,
+);
+
