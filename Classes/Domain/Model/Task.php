@@ -42,14 +42,8 @@ class Tx_SchedulerTimeline_Domain_Model_Task extends Tx_Extbase_DomainObject_Abs
 	 */
 	protected $serializedTaskObject;
 
-	/**
-	 * @var tx_scheduler_Task (access via $this->getTaskObject())
-	 */
 	protected $taskObj;
 
-	/**
-	 * @var string logfile content (access via $this->getLogFileContent())
-	 */
 	protected $logFileContent;
 
 	/**
