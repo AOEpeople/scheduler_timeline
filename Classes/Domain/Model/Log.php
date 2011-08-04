@@ -115,6 +115,11 @@ class Tx_SchedulerTimeline_Domain_Model_Log extends Tx_Extbase_DomainObject_Abst
 		return $endtime - $this->getStarttime();
 	}
 
+	/**
+	 * Get formatted timespan
+	 *
+	 * @return string
+	 */
 	public function getTimespan() {
 		$timespan = date('H:i',  $this->getStarttime());
 		if ($this->isRunning()) {
@@ -125,12 +130,13 @@ class Tx_SchedulerTimeline_Domain_Model_Log extends Tx_Extbase_DomainObject_Abst
 		return $timespan;
 	}
 
+	/**
+	 * Is this task running?
+	 *
+	 * @return bool
+	 */
 	public function isRunning() {
 		return (!$this->getEndtime());
 	}
-
-
-
-
 
 }

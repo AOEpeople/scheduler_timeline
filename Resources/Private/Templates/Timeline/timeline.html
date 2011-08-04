@@ -87,6 +87,12 @@
 														<pre>{log.returnmessage}</pre>
 													</div>
 												</f:if>
+												<f:if condition="{task.logFileContent}">
+													<div class="return-message">
+														<h4>Log file '{task.logFilePath}'</h4>
+														<pre>{task.logFileContent}</pre>
+													</div>
+												</f:if>
 											</div>
 										</s:gantt>
 									</f:for>
