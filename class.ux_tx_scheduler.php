@@ -32,197 +32,197 @@
  */
 class ux_tx_scheduler extends tx_scheduler {
 
-	/**
+    /**
      * Wraps the executeTask method
-	 *
-	 * @param tx_scheduler_Task $task The task to execute
-	 * @return boolean Whether the task was saved successfully to the database or not
-	 */
-	public function executeTask(tx_scheduler_Task $task) {
+     *
+     * @param tx_scheduler_Task $task The task to execute
+     * @return boolean Whether the task was saved successfully to the database or not
+     */
+    public function executeTask(tx_scheduler_Task $task) {
 
-		$taskUid = $task->getTaskUid();
+        $taskUid = $task->getTaskUid();
 
-		// log start
-		$logUid = $this->logStart($taskUid);
+        // log start
+        $logUid = $this->logStart($taskUid);
 
-		$failure = NULL;
-		try {
-			$result = parent::executeTask($task);
-		} catch(Exception $e) {
-			$failure = $e;
-		}
+        $failure = NULL;
+        try {
+            $result = parent::executeTask($task);
+        } catch(Exception $e) {
+            $failure = $e;
+        }
 
-		if ($result || $failure) {
-			$returnMessage = '';
-			if ($task instanceof tx_schedulertimeline_returnmessage) {
-				$returnMessage = $task->getReturnMessage();
-			}
+        if ($result || $failure) {
+            $returnMessage = '';
+            if ($task instanceof tx_schedulertimeline_returnmessage || is_callable(array($task, 'getReturnMessage'))) {
+                $returnMessage = $task->getReturnMessage();
+            }
 
-			// log end
-			$this->logEnd($logUid, $failure, $returnMessage);
-		} else {
-			// task was not executed, because another task was running
-			// and multiple execution is not allowed for this task
-			$this->removeLog($logUid);
-		}
+            // log end
+            $this->logEnd($logUid, $failure, $returnMessage);
+        } else {
+            // task was not executed, because another task was running
+            // and multiple execution is not allowed for this task
+            $this->removeLog($logUid);
+        }
 
-		if ($failure instanceof Exception) {
-			throw $failure;
-		}
+        if ($failure instanceof Exception) {
+            throw $failure;
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	/**
-	 * Extend the method to cleanup up the log table aswell
-	 *
-	 * @see tx_scheduler::cleanExecutionArrays()
-	 */
-	protected function cleanExecutionArrays() {
-		parent::cleanExecutionArrays();
-		$this->cleanupLog();
-	}
+    /**
+     * Extend the method to cleanup up the log table aswell
+     *
+     * @see tx_scheduler::cleanExecutionArrays()
+     */
+    protected function cleanExecutionArrays() {
+        parent::cleanExecutionArrays();
+        $this->cleanupLog();
+    }
 
-	/**
-	 * Cleanup log
-	 *
-	 * @return void
-	 * @throws Exception
-	 */
-	protected function cleanupLog() {
-		// clean old log entries
-		$dbObj = $GLOBALS['TYPO3_DB']; /* @var $dbObj t3lib_db */
-		$res = $dbObj->exec_DELETEquery('tx_schedulertimeline_domain_model_log', 'endtime > 0 AND endtime <'.(time()-24*60*60));
-		if ($res === false) {
-			throw new Exception('Error while cleaning log');
-		}
+    /**
+     * Cleanup log
+     *
+     * @return void
+     * @throws Exception
+     */
+    protected function cleanupLog() {
+        // clean old log entries
+        $dbObj = $GLOBALS['TYPO3_DB']; /* @var $dbObj t3lib_db */
+        $res = $dbObj->exec_DELETEquery('tx_schedulertimeline_domain_model_log', 'endtime > 0 AND endtime <'.(time()-24*60*60));
+        if ($res === false) {
+            throw new Exception('Error while cleaning log');
+        }
 
-		// clean tasks, that exceeded the maxLifetime
-		$maxDuration = $this->extConf['maxLifetime'] * 60;
-		$dbObj = $GLOBALS['TYPO3_DB']; /* @var $dbObj t3lib_db */
-		$res = $dbObj->exec_UPDATEquery(
-			'tx_schedulertimeline_domain_model_log',
-			'endtime = 0 AND starttime < ' . (time() - $maxDuration),
-			array(
-				'endtime' => time(),
-				'exception' => serialize(array('message' => 'Task was cleaned up, because it exceeded maxLifetime.'))
-			)
-		);
-		if ($res === false) {
-			throw new Exception('Error while cleaning tasks');
-		}
+        // clean tasks, that exceeded the maxLifetime
+        $maxDuration = $this->extConf['maxLifetime'] * 60;
+        $dbObj = $GLOBALS['TYPO3_DB']; /* @var $dbObj t3lib_db */
+        $res = $dbObj->exec_UPDATEquery(
+            'tx_schedulertimeline_domain_model_log',
+            'endtime = 0 AND starttime < ' . (time() - $maxDuration),
+            array(
+                'endtime' => time(),
+                'exception' => serialize(array('message' => 'Task was cleaned up, because it exceeded maxLifetime.'))
+            )
+        );
+        if ($res === false) {
+            throw new Exception('Error while cleaning tasks');
+        }
 
-		// check if process are still alive that have been started more than 20 minutes ago
-		$res = $dbObj->exec_SELECTquery('uid, processid', 'tx_schedulertimeline_domain_model_log', 'endtime = 0 AND starttime < ' . (time() - (60 * 20)));
-		while (($row = $dbObj->sql_fetch_assoc($res)) !== false) {
-			$processId = $row['processid'];
-			if (!$this->checkProcess($processId)) {
-				$res = $dbObj->exec_UPDATEquery(
-					'tx_schedulertimeline_domain_model_log',
-					'uid = '.intval($row['uid']),
-					array(
-						'endtime' => time(),
-						'exception' => serialize(array('message' => 'Task was cleaned up, because it seems to be dead.'))
-					)
-				);
-				if ($res === false) { throw new Exception('Error while cleaning tasks'); }
-			}
-		}
+        // check if process are still alive that have been started more than 20 minutes ago
+        $res = $dbObj->exec_SELECTquery('uid, processid', 'tx_schedulertimeline_domain_model_log', 'endtime = 0 AND starttime < ' . (time() - (60 * 20)));
+        while (($row = $dbObj->sql_fetch_assoc($res)) !== false) {
+            $processId = $row['processid'];
+            if (!$this->checkProcess($processId)) {
+                $res = $dbObj->exec_UPDATEquery(
+                    'tx_schedulertimeline_domain_model_log',
+                    'uid = '.intval($row['uid']),
+                    array(
+                        'endtime' => time(),
+                        'exception' => serialize(array('message' => 'Task was cleaned up, because it seems to be dead.'))
+                    )
+                );
+                if ($res === false) { throw new Exception('Error while cleaning tasks'); }
+            }
+        }
 
-	}
+    }
 
-	/**
-	 * Log the start of a task
-	 *
-	 * @param int $taskUid
-	 * @throws Exception
-	 * @return void
-	 */
-	protected function logStart($taskUid) {
-		$now = time();
-		$dbObj = $GLOBALS['TYPO3_DB']; /* @var $dbObj t3lib_db */
-		$res = $dbObj->exec_INSERTquery('tx_schedulertimeline_domain_model_log', array(
-			'pid' => '0',
-			'tstamp' => $now,
-			'starttime' => $now,
-			'task' => $taskUid,
-			'processid' => getmypid()
-		));
-		if ($res === false) {
-			throw new Exception('Error while inserting log entry');
-		}
-		return $dbObj->sql_insert_id();
-	}
+    /**
+     * Log the start of a task
+     *
+     * @param int $taskUid
+     * @throws Exception
+     * @return void
+     */
+    protected function logStart($taskUid) {
+        $now = time();
+        $dbObj = $GLOBALS['TYPO3_DB']; /* @var $dbObj t3lib_db */
+        $res = $dbObj->exec_INSERTquery('tx_schedulertimeline_domain_model_log', array(
+            'pid' => '0',
+            'tstamp' => $now,
+            'starttime' => $now,
+            'task' => $taskUid,
+            'processid' => getmypid()
+        ));
+        if ($res === false) {
+            throw new Exception('Error while inserting log entry');
+        }
+        return $dbObj->sql_insert_id();
+    }
 
-	/**
-	 * Remove a log entry
-	 *
-	 * @param int $logUid
-	 * @throws Exception
-	 * @return void
-	 */
-	protected function removeLog($logUid) {
-		$dbObj = $GLOBALS['TYPO3_DB']; /* @var $dbObj t3lib_db */
-		$res = $dbObj->exec_DELETEquery('tx_schedulertimeline_domain_model_log', 'uid='.intval($logUid));
-		if ($res === false) {
-			throw new Exception('Error while deleting log entry');
-		}
-	}
+    /**
+     * Remove a log entry
+     *
+     * @param int $logUid
+     * @throws Exception
+     * @return void
+     */
+    protected function removeLog($logUid) {
+        $dbObj = $GLOBALS['TYPO3_DB']; /* @var $dbObj t3lib_db */
+        $res = $dbObj->exec_DELETEquery('tx_schedulertimeline_domain_model_log', 'uid='.intval($logUid));
+        if ($res === false) {
+            throw new Exception('Error while deleting log entry');
+        }
+    }
 
-	/**
-	 * Log the end of a task
-	 *
-	 * @param int $logUid
-	 * @param Exception $failure
-	 * @param string $returnMessage
-	 * @throws Exception
-	 */
-	protected function logEnd($logUid, $failure, $returnMessage) {
-		$exception = '';
-		if ($failure instanceof Exception) { /* @var $failure Exception */
-			$exception = serialize(array(
-				'message' => $failure->getMessage(),
-				'stacktrace' => $failure->getTraceAsString(),
-				'endtime' => time(),
-				'class' => get_class($failure)
-			));
-		}
+    /**
+     * Log the end of a task
+     *
+     * @param int $logUid
+     * @param Exception $failure
+     * @param string $returnMessage
+     * @throws Exception
+     */
+    protected function logEnd($logUid, $failure, $returnMessage) {
+        $exception = '';
+        if ($failure instanceof Exception) { /* @var $failure Exception */
+            $exception = serialize(array(
+                'message' => $failure->getMessage(),
+                'stacktrace' => $failure->getTraceAsString(),
+                'endtime' => time(),
+                'class' => get_class($failure)
+            ));
+        }
 
-		$dbObj = $GLOBALS['TYPO3_DB']; /* @var $dbObj t3lib_db */
-		$res = $dbObj->exec_UPDATEquery('tx_schedulertimeline_domain_model_log', 'uid='.intval($logUid), array(
-			'endtime' => time(),
-			'exception' => $exception,
-			'returnmessage' => $returnMessage
-		));
-		if ($res === false) {
-			throw new Exception('Error while updating log entry');
-		}
-	}
+        $dbObj = $GLOBALS['TYPO3_DB']; /* @var $dbObj t3lib_db */
+        $res = $dbObj->exec_UPDATEquery('tx_schedulertimeline_domain_model_log', 'uid='.intval($logUid), array(
+            'endtime' => time(),
+            'exception' => $exception,
+            'returnmessage' => $returnMessage
+        ));
+        if ($res === false) {
+            throw new Exception('Error while updating log entry');
+        }
+    }
 
-	protected function checkProcess($pid) {
-		// form the filename to search for
-		$file = '/proc/' . (int) $pid . '/cmdline';
-		$fp = false;
-		if (file_exists($file)) {
-			$fp = @fopen($file, 'r');
-		}
+    protected function checkProcess($pid) {
+        // form the filename to search for
+        $file = '/proc/' . (int) $pid . '/cmdline';
+        $fp = false;
+        if (file_exists($file)) {
+            $fp = @fopen($file, 'r');
+        }
 
-		if (!$fp) { // if file does not exist or cannot be opened, return false
-			return false;
-		}
-		$buf = fgets($fp);
-		fclose($fp);
+        if (!$fp) { // if file does not exist or cannot be opened, return false
+            return false;
+        }
+        $buf = fgets($fp);
+        fclose($fp);
 
-		if ($buf === false) { // if we failed to read from file, return false
-			return false;
-		}
-		return true;
-	}
+        if ($buf === false) { // if we failed to read from file, return false
+            return false;
+        }
+        return true;
+    }
 
 }
 
 if (defined('TYPO3_MODE') && isset($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/scheduler_timeline/class.ux_tx_scheduler.php'])) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/scheduler_timeline/class.ux_tx_scheduler.php']);
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/scheduler_timeline/class.ux_tx_scheduler.php']);
 }
 
 
