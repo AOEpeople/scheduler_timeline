@@ -118,7 +118,7 @@ class ux_tx_scheduler extends tx_scheduler {
 	        while (($row = $dbObj->sql_fetch_assoc($res)) !== false) {
 	            $processId = $row['processid'];
 	            if (!$this->checkProcess($processId)) {
-	                $res = $dbObj->exec_UPDATEquery(
+	                $res2 = $dbObj->exec_UPDATEquery(
 	                    'tx_schedulertimeline_domain_model_log',
 	                    'uid = '.intval($row['uid']),
 	                    array(
@@ -126,7 +126,7 @@ class ux_tx_scheduler extends tx_scheduler {
 	                        'exception' => serialize(array('message' => 'Task was cleaned up, because it seems to be dead.'))
 	                    )
 	                );
-	                if ($res === false) { throw new Exception('Error while cleaning tasks'); }
+	                if ($res2 === false) { throw new Exception('Error while cleaning tasks'); }
 	            }
 	        }
         }
