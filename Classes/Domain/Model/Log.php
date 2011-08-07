@@ -32,10 +32,10 @@
 class Tx_SchedulerTimeline_Domain_Model_Log extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	const STATUS_PENDING = 'pending';
-    const STATUS_RUNNING = 'running';
-    const STATUS_SUCCESS = 'success';
-    const STATUS_MISSED = 'missed';
-    const STATUS_ERROR = 'error';
+	const STATUS_RUNNING = 'running';
+	const STATUS_SUCCESS = 'success';
+	const STATUS_MISSED = 'missed';
+	const STATUS_ERROR = 'error';
 
 	/**
 	 * @var Tx_SchedulerTimeline_Domain_Model_Task

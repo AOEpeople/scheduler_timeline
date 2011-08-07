@@ -7,32 +7,48 @@
 	</div>
 
 	<div class="details-content">
-		<f:if condition="{task.taskObject.additionalInformation}">
+		<f:if condition="{log.task.taskObject.additionalInformation}">
 			<p>[{log.task.taskObject.additionalInformation}]</p>
 		</f:if>
-		<p>Status: <div class="status"><s:status status="{log.status}"/></div></p>
-		<p>Timespan: {log.timespan}</p>
-		<p>Duration [h:m:s]: <s:duration duration="{log.duration}" /></p>
-		<p>Process id: {log.processid}</p>
-		<f:if condition="{log.exception}">
-			<div class="exception">
-				<h4>Exception: {log.exception.message}</h4>
-				<pre>{log.exception.stacktrace}</pre>
-			</div>
-		</f:if>
-		<f:if condition="{log.returnmessage}">
-			<div class="return-message">
-				<h4>Return message</h4>
-				<pre>{log.returnmessage}</pre>
-			</div>
-		</f:if>
-		<!--
-		<f:if condition="{log.task.logFileContent}">
-			<div class="return-message">
-				<h4>Log file '{log.task.logFilePath}'</h4>
-				<pre>{log.task.logFileContent}</pre>
-			</div>
-		</f:if>  -->
+
+		<table>
+			<tr>
+				<td class="label">Status:</td><td><div class="status"><s:status status="{log.status}"/></div></td>
+			</tr>
+			<tr>
+				<td class="label">Timespan:</td><td>{log.timespan}</td>
+			</tr>
+			<tr>
+				<td class="label">Duration [h:m:s]:</td><td>{log.duration}</td>
+			</tr>
+			<tr>
+				<td class="label">Process id:</td><td>{log.processid}</td>
+			</tr>
+			<f:if condition="{log.exception}">
+				<tr>
+					<td class="label" colspan="2"><h4>Exception: {log.exception.message}</h4></td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<div class="exception">
+							<pre>{log.exception.stacktrace}</pre>
+						</div>
+					</td>
+				</tr>
+			</f:if>
+			<f:if condition="{log.returnmessage}">
+				<tr>
+					<td class="label" colspan="2"><h4>Return message:</h4></td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<div class="return-message">
+							<pre>{log.returnmessage}</pre>
+						</div>
+					</td>
+				</tr>
+			</f:if>
+		</table>
 	</div>
 
 </div>

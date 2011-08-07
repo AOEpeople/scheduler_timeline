@@ -44,3 +44,5 @@ class Tx_SchedulerTimeline_Domain_Repository_TaskRepository extends Tx_Extbase_P
 	}
 
 }
+
+?>

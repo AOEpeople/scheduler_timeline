@@ -31,12 +31,19 @@
  */
 class Tx_SchedulerTimeline_Domain_Repository_LogRepository extends Tx_Extbase_Persistence_Repository {
 
+	/**
+	 * @var int min date timestamp
+	 */
 	protected $minDate;
+
+	/**
+	 * @var int max date timestamp
+	 */
 	protected $maxDate;
 
 	/**
 	 * Initialize object
-	 * Ignore storege pid
+	 * Ignore storage pid
 	 *
 	 * @return void
 	 */
@@ -46,6 +53,13 @@ class Tx_SchedulerTimeline_Domain_Repository_LogRepository extends Tx_Extbase_Pe
 		$this->setDefaultQuerySettings($querySettings);
 	}
 
+	/**
+	 * Find logs by time
+	 *
+	 * @param int $starttime
+	 * @param int $endtime
+	 * @return
+	 */
 	public function findByTime($starttime, $endtime) {
 		$query = $this->createQuery();
 		$query->matching(
@@ -61,6 +75,11 @@ class Tx_SchedulerTimeline_Domain_Repository_LogRepository extends Tx_Extbase_Pe
 		return $query->execute();
 	}
 
+	/**
+	 * Find logs grouped by task
+	 *
+	 * @return array array(<taskUid> => array('task' => <task>, 'logs' => array(<log>, ...) ), ...)
+	 */
 	public function findGroupedByTask() {
 		$logs = $this->findAll();
 		$result = array();
@@ -78,11 +97,24 @@ class Tx_SchedulerTimeline_Domain_Repository_LogRepository extends Tx_Extbase_Pe
 		return $result;
 	}
 
+	/**
+	 * Get min date (from findGroupedByTask)
+	 *
+	 * @return int
+	 */
 	public function getMinDate() {
 		return $this->minDate;
 	}
 
+	/**
+	 * Get max date (from findGroupedByTask)
+	 *
+	 * @return int
+	 */
 	public function getMaxDate() {
 		return $this->maxDate;
 	}
+
 }
+
+?>
