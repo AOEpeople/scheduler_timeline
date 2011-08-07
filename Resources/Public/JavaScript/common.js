@@ -1,18 +1,18 @@
-/**
- *
- */
-$(function() {
+$.noConflict();
+jQuery(function() {
+	jQuery('.timeline-box').scrollLeft(jQuery('.timeline-panel').width());
 
-	$('.gantt .task').click(function() {
-		var $this = $(this);
-		$('.gantt .task').removeClass('active');
-		$this.addClass('active');
-		$('#details').html($this.find('.details').html());
-	})
+	jQuery('.task').tooltip({
+		offsetParent: 'body',
+		predelay: 100,
+		position: 'bottom center',
+		onShow: function() { this.getTrigger().addClass('active'); },
+		onHide: function() { this.getTrigger().removeClass('active'); }
+	}).dynamic();
 
 	// collision detection
 	function getPositions(box) {
-		var $box = $(box);
+		var $box = jQuery(box);
 		var pos = $box.position();
 		var width = $box.width();
 		var height = $box.height();
@@ -32,16 +32,15 @@ $(function() {
 		return (posA[1][0] == posB[1][0]) && comparePositions(posA[0], posB[0]);
 	}
 
-	$('.timeline').each(function() {
-		var $timeline = $(this);
-		var $tasks = $('.task', $timeline);
+	jQuery('.timeline').each(function() {
+		var $tasks = jQuery('.task', jQuery(this));
 		var numberOfTasks = $tasks.length;
 		for (var i=0; i<numberOfTasks; i++) {
-			var u = Math.min(i+5, numberOfTasks);
+			var u = Math.min(i+10, numberOfTasks);
 			for (var j = i+1; j < u; j++) {
 				if (collision($tasks[i], $tasks[j])) {
-					var $subject = $($tasks[i]);
-					var $object = $($tasks[j]);
+					var $subject = jQuery($tasks[i]);
+					var $object = jQuery($tasks[j]);
 
 					var objectTop = parseInt($subject.css('top'));
 
@@ -54,12 +53,4 @@ $(function() {
 		}
 	});
 
-	$('#jump-end').click(function() {
-		$('.timeline-box').scrollLeft($('.timeline-panel').width());
-		return false;
-	});
-
-	$('#jump-end').trigger('click');
-
-
-});
+})
