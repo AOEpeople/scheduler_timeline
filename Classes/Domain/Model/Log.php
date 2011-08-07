@@ -31,6 +31,12 @@
  */
 class Tx_SchedulerTimeline_Domain_Model_Log extends Tx_Extbase_DomainObject_AbstractEntity {
 
+	const STATUS_PENDING = 'pending';
+    const STATUS_RUNNING = 'running';
+    const STATUS_SUCCESS = 'success';
+    const STATUS_MISSED = 'missed';
+    const STATUS_ERROR = 'error';
+
 	/**
 	 * @var Tx_SchedulerTimeline_Domain_Model_Task
 	 */
@@ -137,6 +143,21 @@ class Tx_SchedulerTimeline_Domain_Model_Log extends Tx_Extbase_DomainObject_Abst
 	 */
 	public function isRunning() {
 		return (!$this->getEndtime());
+	}
+
+	/**
+	 * Get status
+	 *
+	 * @return string see class constants STATUS_*
+	 */
+	public function getStatus() {
+		if ($this->getException()) {
+			return self::STATUS_ERROR;
+		} elseif ($this->isRunning()) {
+			return self::STATUS_RUNNING;
+		} else {
+			return self::STATUS_SUCCESS;
+		}
 	}
 
 }

@@ -58,8 +58,14 @@ class Tx_SchedulerTimeline_Controller_TimelineController extends Tx_Extbase_MVC_
      */
     protected function initializeAction() {
         $this->pageRenderer->addInlineLanguageLabelFile('EXT:scheduler_timeline/Resources/Private/Language/locallang.xml');
-        $this->pageRenderer->addCssFile(t3lib_extMgm::extRelPath('scheduler_timeline') . 'Resources/Public/StyleSheet/module.css');
+
+        $this->pageRenderer->addCssFile(t3lib_extMgm::extRelPath('scheduler_timeline') . 'Resources/Public/StyleSheet/timeline.css');
+        $this->pageRenderer->addCssFile(t3lib_extMgm::extRelPath('scheduler_timeline') . 'Resources/Public/StyleSheet/bars.css');
+
         $this->pageRenderer->addJsLibrary('jquery', t3lib_extMgm::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/jquery-1.6.2.min.js');
+        $this->pageRenderer->addJsLibrary('jquery_tooltip', t3lib_extMgm::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/tooltip.js');
+        $this->pageRenderer->addJsLibrary('jquery_tooltip_dynamic', t3lib_extMgm::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/tooltip.dynamic.js');
+
         $this->pageRenderer->addJsFile(t3lib_extMgm::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/common.js');
     }
 

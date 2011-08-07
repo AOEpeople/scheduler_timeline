@@ -1,0 +1,38 @@
+{namespace s=Tx_SchedulerTimeline_ViewHelpers}
+
+<div class="details">
+
+	<div class="details-headline {log.status}">
+		<h3 title="{log.uid}">{log.task.title}</h3>
+	</div>
+
+	<div class="details-content">
+		<f:if condition="{task.taskObject.additionalInformation}">
+			<p>[{log.task.taskObject.additionalInformation}]</p>
+		</f:if>
+		<p>Status: <div class="status"><s:status status="{log.status}"/></div></p>
+		<p>Timespan: {log.timespan}</p>
+		<p>Duration [h:m:s]: <s:duration duration="{log.duration}" /></p>
+		<p>Process id: {log.processid}</p>
+		<f:if condition="{log.exception}">
+			<div class="exception">
+				<h4>Exception: {log.exception.message}</h4>
+				<pre>{log.exception.stacktrace}</pre>
+			</div>
+		</f:if>
+		<f:if condition="{log.returnmessage}">
+			<div class="return-message">
+				<h4>Return message</h4>
+				<pre>{log.returnmessage}</pre>
+			</div>
+		</f:if>
+		<!--
+		<f:if condition="{log.task.logFileContent}">
+			<div class="return-message">
+				<h4>Log file '{log.task.logFilePath}'</h4>
+				<pre>{log.task.logFileContent}</pre>
+			</div>
+		</f:if>  -->
+	</div>
+
+</div>

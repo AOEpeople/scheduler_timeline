@@ -90,9 +90,12 @@ class ux_tx_scheduler extends tx_scheduler {
      * @throws Exception
      */
     protected function cleanupLog() {
+
+    	$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['scheduler_timeline']);
+
         // clean old log entries
         $dbObj = $GLOBALS['TYPO3_DB']; /* @var $dbObj t3lib_db */
-        $res = $dbObj->exec_DELETEquery('tx_schedulertimeline_domain_model_log', 'endtime > 0 AND endtime <'.(time()-24*60*60));
+        $res = $dbObj->exec_DELETEquery('tx_schedulertimeline_domain_model_log', 'endtime > 0 AND endtime <'.(time()- $extConf['cleanLogEntriesOlderThan'] * 60));
         if ($res === false) {
             throw new Exception('Error while cleaning log');
         }

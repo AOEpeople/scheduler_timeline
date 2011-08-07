@@ -6,9 +6,50 @@
 
 	<h2>Scheduler Timeline</h2>
 
-	<div class="gantt">
+	<div id="maincontainer">
 
-		<div class="caption-box">
+		<div id="contentwrapper">
+			<div id="contentcolumn">
+				<div class="timeline-box">
+					<div class="timeline-panel" style="width: {timelinePanelWidth}px;">
+
+						<div id="now" style="left: {now}px"></div>
+
+						<div class="row hours">
+							<div class="timeline">
+								<f:for each="{intervals}" as="hour">
+									<div class="hour">{hour}</div>
+								</f:for>
+							</div>
+						</div>
+
+						<f:if condition="{f:count(subject: logs)} == 0">
+							<div class="row">
+								<div class="timeline">
+								</div>
+							</div>
+						</f:if>
+
+						<f:groupedFor each="{logs}" as="logOfThisTask" groupBy="task" groupKey="task">
+							<f:if condition="{task}">
+								<div class="row">
+									<div class="timeline timeline_{task.uid}">
+										<f:for each="{logOfThisTask}" as="log">
+											<s:gantt log="{log}" starttime="{starttime}" zoom="{zoom}">&nbsp;</s:gantt>
+											<f:render partial="Timeline/Detail" arguments="{log: log}" />
+										</f:for>
+									</div>
+								</div>
+							</f:if>
+						</f:groupedFor>
+
+					</div><!-- class="timeline-panel" -->
+				</div><!-- class="timeline-box" -->
+			</div><!-- id="contentcolumn" -->
+		</div><!-- id="contentwrapper" -->
+
+		<div id="leftcolumn">
+
 			<div class="row hours">
 				<div class="caption"></div>
 			</div>
@@ -39,89 +80,13 @@
 					</div>
 				</f:if>
 			</f:groupedFor>
-		</div>
-		<div class="fluidcolumn">
-			<div class="timeline-box">
-				<div class="timeline-panel" style="width: {timelinePanelWidth}px;">
 
-					<div class="now" style="left: {now}px"></div>
+		</div><!-- id="leftcolumn" -->
 
-					<div class="row hours">
-						<div class="timeline">
-							<f:for each="{intervals}" as="hour">
-								<div class="hour">{hour}</div>
-							</f:for>
-						</div>
-					</div>
-
-					<f:if condition="{f:count(subject: logs)} == 0">
-						<div class="row">
-							<div class="timeline">
-							</div>
-						</div>
-					</f:if>
-
-					<f:groupedFor each="{logs}" as="logOfThisTask" groupBy="task" groupKey="task">
-						<f:if condition="{task}">
-							<div class="row">
-								<div class="timeline timeline_{task.uid}">
-									<f:for each="{logOfThisTask}" as="log">
-										<s:gantt log="{log}" starttime="{starttime}" zoom="{zoom}">
-											<div class="details">
-												<h3 title="{log.uid}">{log.task.title}</h3>
-												<f:if condition="{task.taskObject.additionalInformation}">
-													<p>[{task.taskObject.additionalInformation}]</p>
-												</f:if>
-												<p>Timespan: {log.timespan}</p>
-												<p>Duration [h:m:s]: <s:duration duration="{log.duration}" /></p>
-												<p>Process id: {log.processid}</p>
-												<f:if condition="{log.exception}">
-													<div class="exception">
-														<h4>Exception: {log.exception.message}</h4>
-														<pre>{log.exception.stacktrace}</pre>
-													</div>
-												</f:if>
-												<f:if condition="{log.returnmessage}">
-													<div class="return-message">
-														<h4>Return message</h4>
-														<pre>{log.returnmessage}</pre>
-													</div>
-												</f:if>
-												<f:if condition="{task.logFileContent}">
-													<div class="return-message">
-														<h4>Log file '{task.logFilePath}'</h4>
-														<pre>{task.logFileContent}</pre>
-													</div>
-												</f:if>
-											</div>
-										</s:gantt>
-									</f:for>
-								</div>
-							</div>
-						</f:if>
-					</f:groupedFor>
-				</div>
-			</div>
-		</div>
-	</div>
+	</div><!-- id="maincontainer" -->
 
 	<div style="text-align: right;">
 		<p><a id="jump-end" href="#" title="Jump to end">[->]</a></p>
 	</div>
-
-	<div class="details-area">
-		<h2>Details:</h2>
-		<div id="details">
-			<p>Click on one of the bars in the timeline to see detail information of this execution</p>
-		</div>
-	</div>
-
-	<h2>Status legend</h2>
-	<ul class="legend">
-		<li><div class="task">&nbsp;</div> Successfully executed task</li>
-		<li><div class="task error">&nbsp;</div> An exception has occurred</li>
-		<li><div class="task running">&nbsp;</div> The task is still running</li>
-		<li><div class="task active">&nbsp;</div> Selected task</li>
-	</ul>
 
 </f:section>

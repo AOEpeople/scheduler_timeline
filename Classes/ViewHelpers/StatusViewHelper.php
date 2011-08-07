@@ -29,33 +29,36 @@
  * @package TYPO3
  * @subpackage tx_schedulertimeline
  */
-class Tx_SchedulerTimeline_ViewHelpers_GanttViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractTagBasedViewHelper {
+class Tx_SchedulerTimeline_ViewHelpers_StatusViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
 	/**
 	 * Render
 	 *
-	 * @param Tx_SchedulerTimeline_Domain_Model_Log $log
-	 * @param int $starttime
-	 * @param int $zoom
+	 * @param string $status
 	 * @return string rendered tag
 	 */
-	public function render(Tx_SchedulerTimeline_Domain_Model_Log $log, $starttime, $zoom) {
-
-		$duration = $log->getDuration() / $zoom;
-		$duration = ceil($duration / 4) * 4 - 1; // round to numbers dividable by 4, then remove 1 px border
-		$duration = max($duration, 3);
-
-		$offset = ($log->getStarttime() - $starttime) / $zoom;
-		if ($offset < 0) { // cut bar
-			$duration += $offset;
-			$offset = 0;
+	public function render($status) {
+		switch ($status) {
+			case Tx_SchedulerTimeline_Domain_Model_Log::STATUS_SUCCESS:
+				$result = '<span class="bar-green"><span>'.$status.'</span></span>';
+				break;
+			case Tx_SchedulerTimeline_Domain_Model_Log::STATUS_PENDING:
+				$result = '<span class="bar-lightgray"><span>'.$status.'</span></span>';
+				break;
+			case Tx_SchedulerTimeline_Domain_Model_Log::STATUS_RUNNING:
+				$result = '<span class="bar-yellow"><span>'.$status.'</span></span>';
+				break;
+			case Tx_SchedulerTimeline_Domain_Model_Log::STATUS_MISSED:
+				$result = '<span class="bar-orange"><span>'.$status.'</span></span>';
+				break;
+			case Tx_SchedulerTimeline_Domain_Model_Log::STATUS_ERROR:
+				$result = '<span class="bar-red"><span>'.$status.'</span></span>';
+				break;
+			default:
+				$result = $status;
+				break;
 		}
-		$this->tag->addAttribute('style', sprintf('width: %spx; left: %spx;', $duration, $offset));
-
-		$this->tag->addAttribute('class', 'task ' . $log->getStatus());
-		$this->tag->addAttribute('id', 'uid_'.$log->getUid());
-		$this->tag->setContent($this->renderChildren());
-		return $this->tag->render();
+		return $result;
 	}
 
 }
