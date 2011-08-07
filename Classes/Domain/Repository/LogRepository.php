@@ -31,6 +31,9 @@
  */
 class Tx_SchedulerTimeline_Domain_Repository_LogRepository extends Tx_Extbase_Persistence_Repository {
 
+	protected $minDate;
+	protected $maxDate;
+
 	/**
 	 * Initialize object
 	 * Ignore storege pid
@@ -58,4 +61,28 @@ class Tx_SchedulerTimeline_Domain_Repository_LogRepository extends Tx_Extbase_Pe
 		return $query->execute();
 	}
 
+	public function findGroupedByTask() {
+		$logs = $this->findAll();
+		$result = array();
+		foreach ($logs as $log) { /* @var $log Tx_SchedulerTimeline_Domain_Model_Log */
+
+			// min/max
+			$startTime = $log->getStarttime();
+			$this->minDate = is_null($this->minDate) ? $startTime : min($this->minDate, $startTime);
+			$this->maxDate = is_null($this->maxDate) ? $startTime : max($this->maxDate, $startTime);
+
+			$task = $log->getTask();
+			$result[$task->getUid()]['task'] = $task;
+			$result[$task->getUid()]['logs'][] = $log;
+		}
+		return $result;
+	}
+
+	public function getMinDate() {
+		return $this->minDate;
+	}
+
+	public function getMaxDate() {
+		return $this->maxDate;
+	}
 }

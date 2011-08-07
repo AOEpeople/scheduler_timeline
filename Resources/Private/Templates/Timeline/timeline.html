@@ -17,31 +17,22 @@
 
 						<div class="row hours">
 							<div class="timeline">
-								<f:for each="{intervals}" as="hour">
-									<div class="hour">{hour}</div>
-								</f:for>
+								<s:for.increase start="{starttime}" end="{endtime}" interval="3600">
+									<div class="hour"><s:format.speakingDate timestamp="{i}" /></div>
+								</s:for.increase>
 							</div>
 						</div>
 
-						<f:if condition="{f:count(subject: logs)} == 0">
+						<f:for each="{groupedLogs}" as="group">
 							<div class="row">
-								<div class="timeline">
-								</div>
-							</div>
-						</f:if>
-
-						<f:groupedFor each="{logs}" as="logOfThisTask" groupBy="task" groupKey="task">
-							<f:if condition="{task}">
-								<div class="row">
-									<div class="timeline timeline_{task.uid}">
-										<f:for each="{logOfThisTask}" as="log">
-											<s:gantt log="{log}" starttime="{starttime}" zoom="{zoom}">&nbsp;</s:gantt>
-											<f:render partial="Timeline/Detail" arguments="{log: log}" />
-										</f:for>
-									</div>
-								</div>
-							</f:if>
-						</f:groupedFor>
+								<div class="timeline timeline_{task.uid}">
+									<f:for each="{group.logs}" as="log">
+										<s:gantt log="{log}" starttime="{starttime}" zoom="{zoom}">&nbsp;</s:gantt>
+										<f:render partial="Timeline/Detail" arguments="{log: log}" />
+									</f:for>
+								</div><!-- class="timeline" -->
+							</div><!-- class="row" -->
+						</f:for>
 
 					</div><!-- class="timeline-panel" -->
 				</div><!-- class="timeline-box" -->
@@ -51,42 +42,28 @@
 		<div id="leftcolumn">
 
 			<div class="row hours">
-				<div class="caption"></div>
+				<div class="caption"><s:format.speakingDate timestamp="{starttime}" todayFormat="\T\o\d\a\y, H:i" /> - <s:format.speakingDate timestamp="{endtime}" todayFormat="\T\o\d\a\y, H:i" /></div>
 			</div>
 
-			<f:if condition="{f:count(subject: logs)} == 0">
+			<f:for each="{groupedLogs}" as="group">
 				<div class="row">
 					<div class="caption">
-						<div class="caption-container">
-							<i>No log entries found.</i>
-						</div>
-					</div>
-				</div>
-			</f:if>
-
-			<f:groupedFor each="{logs}" as="logOfThisTask" groupBy="task" groupKey="task">
-				<f:if condition="{task}">
-					<div class="row">
-						<div class="caption">
-							<div title="{task.uid}" class="caption-container">
-								<b>{task.title}</b> ({task.extension})
-								<f:if condition="{task.taskObject.additionalInformation}">
-									<p class="additional-information" title="{task.taskObject.additionalInformation}">
-										{task.taskObject.additionalInformation}
+						<div title="{group.task.uid}" class="caption-container">
+							<div class="configuration">
+								<b>{group.task.title}</b> ({group.task.extension})
+								<f:if condition="{group.task.taskObject.additionalInformation}">
+									<p class="additional-information" title="{group.task.taskObject.additionalInformation}">
+										{group.task.taskObject.additionalInformation}
 									</p>
 								</f:if>
 							</div>
 						</div>
 					</div>
-				</f:if>
-			</f:groupedFor>
+				</div>
+			</f:for>
 
 		</div><!-- id="leftcolumn" -->
 
 	</div><!-- id="maincontainer" -->
-
-	<div style="text-align: right;">
-		<p><a id="jump-end" href="#" title="Jump to end">[->]</a></p>
-	</div>
 
 </f:section>

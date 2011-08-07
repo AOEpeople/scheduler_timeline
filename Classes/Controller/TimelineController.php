@@ -90,33 +90,41 @@ class Tx_SchedulerTimeline_Controller_TimelineController extends Tx_Extbase_MVC_
      */
     public function timelineAction() {
 
-    	$hours = 25; // amount of hours to be displayed
     	$zoom = 15; // amount of seconds per pixel
 
-    	$pixelsPerMinute = 60 / $zoom;
-    	$pixelsPerHour = 60 * $pixelsPerMinute;
+		$groupedLogs = $this->logRepository->findGroupedByTask();
 
-    	$starttime = mktime(date('H', $GLOBALS['EXEC_TIME'])-($hours-1), 0, 0);
-    	$endtime = mktime(date('H', $GLOBALS['EXEC_TIME'])+1, 0, 0);
+		$starttime = $this->hourFloor($this->logRepository->getMinDate());
+		$endtime = $this->hourCeil($this->logRepository->getMaxDate());
 
-		// y-Axis labels (could be done in a viewhelper)
-    	$dateFormat = $GLOBALS['TYPO3_CONF_VARS']['SYS']['ddmmyy'] . ' ' . $GLOBALS['TYPO3_CONF_VARS']['SYS']['hhmm'];
-    	$intervals = array();
-    	for ($i = $starttime; $i<$endtime; $i+=60*60) {
-    		$intervals[] = date($dateFormat, $i);
-    	}
+		$this->view->assign('groupedLogs', $groupedLogs);
 
-		$logs = $this->logRepository->findByTime($starttime, $endtime); /* @var $logs Tx_Extbase_Persistence_QueryResult */
-
-		$now = ($GLOBALS['EXEC_TIME'] - $starttime) / $zoom;
-
-		$this->view->assign('logs', $logs);
-		$this->view->assign('intervals', $intervals);
 		$this->view->assign('starttime', $starttime);
+		$this->view->assign('endtime', $endtime);
 		$this->view->assign('zoom', $zoom);
-		$this->view->assign('now', $now);
-		$this->view->assign('timelinePanelWidth', $pixelsPerHour * $hours);
+		$this->view->assign('now', ($GLOBALS['EXEC_TIME'] - $starttime) / $zoom);
+		$this->view->assign('timelinePanelWidth', ($endtime - $starttime) / $zoom);
     }
+
+	/**
+	 * Return the last full houd
+	 *
+	 * @param int $timestamp
+	 * @return int
+	 */
+	protected function hourFloor($timestamp) {
+		return mktime(date('H', $timestamp), 0, 0, date('n', $timestamp), date('j', $timestamp), date('Y', $timestamp));
+	}
+
+	/**
+	 * Returns the next full hour
+	 *
+	 * @param int $timestamp
+	 * @return int
+	 */
+	protected function hourCeil($timestamp) {
+		return mktime(date('H', $timestamp)+1, 0, 0, date('n', $timestamp), date('j', $timestamp), date('Y', $timestamp));
+	}
 
 
     /**
