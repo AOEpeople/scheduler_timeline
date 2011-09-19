@@ -115,22 +115,25 @@ class ux_tx_scheduler extends tx_scheduler {
             throw new Exception('Error while cleaning tasks');
         }
 
-        // check if process are still alive that have been started more than 20 minutes ago
-        $res = $dbObj->exec_SELECTquery('uid, processid', 'tx_schedulertimeline_domain_model_log', 'endtime = 0 AND starttime < ' . (time() - (60 * 20)));
-        if (is_resource($res)) {
-	        while (($row = $dbObj->sql_fetch_assoc($res)) !== false) {
-	            $processId = $row['processid'];
-	            if (!$this->checkProcess($processId)) {
-	                $res2 = $dbObj->exec_UPDATEquery(
-	                    'tx_schedulertimeline_domain_model_log',
-	                    'uid = '.intval($row['uid']),
-	                    array(
-	                        'endtime' => time(),
-	                        'exception' => serialize(array('message' => 'Task was cleaned up, because it seems to be dead.'))
-	                    )
-	                );
-	                if ($res2 === false) { throw new Exception('Error while cleaning tasks'); }
-	            }
+        // check if process are still alive that have been started more than x minutes ago
+        $checkProcessesAfter = intval($this->extConf['checkProcessesAfter']) * 60;
+        if ($checkProcessesAfter) {
+	        $res = $dbObj->exec_SELECTquery('uid, processid', 'tx_schedulertimeline_domain_model_log', 'endtime = 0 AND starttime < ' . (time() - $checkProcessesAfter));
+	        if (is_resource($res)) {
+		        while (($row = $dbObj->sql_fetch_assoc($res)) !== false) {
+		            $processId = $row['processid'];
+		            if (!$this->checkProcess($processId)) {
+		                $res2 = $dbObj->exec_UPDATEquery(
+		                    'tx_schedulertimeline_domain_model_log',
+		                    'uid = '.intval($row['uid']),
+		                    array(
+		                        'endtime' => time(),
+		                        'exception' => serialize(array('message' => 'Task was cleaned up, because it seems to be dead.'))
+		                    )
+		                );
+		                if ($res2 === false) { throw new Exception('Error while cleaning tasks'); }
+		            }
+		        }
 	        }
         }
 
@@ -204,6 +207,12 @@ class ux_tx_scheduler extends tx_scheduler {
         }
     }
 
+    /**
+     * Check process
+     *
+     * @param int $pid
+     * @return bool
+     */
     protected function checkProcess($pid) {
         // form the filename to search for
         $file = '/proc/' . (int) $pid . '/cmdline';
@@ -229,6 +238,5 @@ class ux_tx_scheduler extends tx_scheduler {
 if (defined('TYPO3_MODE') && isset($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/scheduler_timeline/class.ux_tx_scheduler.php'])) {
     include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/scheduler_timeline/class.ux_tx_scheduler.php']);
 }
-
 
 ?>
