@@ -118,12 +118,14 @@ class ux_tx_scheduler extends tx_scheduler {
         // check if process are still alive that have been started more than x minutes ago
         $checkProcessesAfter = intval($extConf['checkProcessesAfter']) * 60;
         if ($checkProcessesAfter) {
-	        $res = $dbObj->exec_SELECTquery('uid, processid', 'tx_schedulertimeline_domain_model_log', 'endtime = 0 AND starttime < ' . (time() - $checkProcessesAfter));
+	        $res = $dbObj->exec_SELECTquery('uid, processid, task', 'tx_schedulertimeline_domain_model_log', 'endtime = 0 AND starttime < ' . (time() - $checkProcessesAfter));
 	        if (is_resource($res)) {
 		        while (($row = $dbObj->sql_fetch_assoc($res)) !== false) {
 		            $processId = $row['processid'];
 		            if (!$this->checkProcess($processId)) {
-		                $res2 = $dbObj->exec_UPDATEquery(
+
+		            	// update log
+		            	$res2 = $dbObj->exec_UPDATEquery(
 		                    'tx_schedulertimeline_domain_model_log',
 		                    'uid = '.intval($row['uid']),
 		                    array(
@@ -132,6 +134,21 @@ class ux_tx_scheduler extends tx_scheduler {
 		                    )
 		                );
 		                if ($res2 === false) { throw new Exception('Error while cleaning tasks'); }
+
+		                $exception = new tx_scheduler_FailedExecutionException('Task was cleaned up, because it seems to be dead.');
+
+		                // update scheduler task
+						$res3 = $dbObj->exec_UPDATEquery(
+		                    'tx_scheduler_task',
+		                    'uid = '.intval($row['task']),
+		                    array(
+		                        'serialized_executions' => '',
+		                        'lastexecution_failure' => serialize($exception)
+		                    )
+		                );
+
+		            	if ($res3 === false) { throw new Exception('Error while cleaning tasks'); }
+
 		            }
 		        }
 	        }
