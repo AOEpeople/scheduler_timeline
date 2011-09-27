@@ -160,4 +160,15 @@ class Tx_SchedulerTimeline_Domain_Model_Log extends Tx_Extbase_DomainObject_Abst
 		}
 	}
 
+	/**
+	 * Kill this process
+	 *
+	 * @return void
+	 */
+	public function kill() {
+		if ($this->isRunning()) {
+			shell_exec('kill '. intval($this->processid));
+		}
+	}
+
 }
