@@ -41,6 +41,7 @@ div.row {
 	padding: 0;
 	margin: 0;
 	height: 40px;
+	overflow: hidden;
 }
 
 div.timeline-box {
