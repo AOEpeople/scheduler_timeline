@@ -116,7 +116,7 @@ class ux_tx_scheduler extends tx_scheduler {
         }
 
         // check if process are still alive that have been started more than x minutes ago
-        $checkProcessesAfter = intval($this->extConf['checkProcessesAfter']) * 60;
+        $checkProcessesAfter = intval($extConf['checkProcessesAfter']) * 60;
         if ($checkProcessesAfter) {
 	        $res = $dbObj->exec_SELECTquery('uid, processid', 'tx_schedulertimeline_domain_model_log', 'endtime = 0 AND starttime < ' . (time() - $checkProcessesAfter));
 	        if (is_resource($res)) {
