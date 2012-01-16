@@ -17,4 +17,17 @@ if (!empty($extConf['showSampleTasks'])) {
 	);
 }
 
+if ((TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_AJAX) || ('BE' === TYPO3_MODE)) {
+	/** @noinspection PhpUndefinedVariableInspection */
+	$extPath = t3lib_extMgm::extPath($_EXTKEY);
+
+	/*t3lib_extMgm::addTypoScriptConstants(
+		file_get_contents($extPath . 'Configuration/TypoScript/Backend/constants.txt')
+	);*/
+
+	t3lib_extMgm::addTypoScriptSetup(
+		file_get_contents($extPath . 'Configuration/TypoScript/Backend/setup.txt')
+	);
+}
+
 ?>
