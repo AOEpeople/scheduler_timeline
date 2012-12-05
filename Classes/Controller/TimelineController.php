@@ -66,7 +66,7 @@ class Tx_SchedulerTimeline_Controller_TimelineController extends Tx_Extbase_MVC_
 		$this->pageRenderer->addJsLibrary('jquery_tooltip', t3lib_extMgm::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/tooltip.js');
 		$this->pageRenderer->addJsLibrary('jquery_tooltip_dynamic', t3lib_extMgm::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/tooltip.dynamic.js');
 
-		$this->pageRenderer->addJsFile(t3lib_extMgm::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/common.js');
+		$this->addJsFileToPageRenderer(t3lib_extMgm::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/common.js');
 	}
 
 	/**
@@ -152,4 +152,18 @@ class Tx_SchedulerTimeline_Controller_TimelineController extends Tx_Extbase_MVC_
 		$response->setContent($pageHeader . $response->getContent() . $pageEnd);
 	}
 
+
+	/**
+	 * Wrapper for t3lib_PageRenderer->addJsFile. Excludes $jsFile from concatenation on TYPO3 4.6+.
+	 *
+	 * @param string $jsFile
+	 * @return void
+	 */
+	protected function addJsFileToPageRenderer($jsFile) {
+		if (version_compare(TYPO3_version, '4.6', '>=')) {
+			$this->pageRenderer->addJsFile($jsFile, 'text/javascript', TRUE, FALSE, '', TRUE);
+		} else {
+			$this->pageRenderer->addJsFile($jsFile);
+		}
+	}
 }
