@@ -94,6 +94,12 @@ div.hours {
 	height: 28px;
 }
 
+.task-info-details .details-headline {
+    width: 100%;
+    height: auto;
+    background-color: grey;
+}
+
 .details-headline h3 {
 	padding: 5px;
 	color: white;
@@ -118,6 +124,11 @@ div.hours {
 	height: 24px;
 	top: 8px;
 	cursor: default;
+}
+
+.task-title {
+    line-height: 16px;
+    cursor: default;
 }
 
 .status {

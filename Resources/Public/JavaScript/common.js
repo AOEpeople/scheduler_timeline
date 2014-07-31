@@ -2,7 +2,7 @@ $.noConflict();
 jQuery(function() {
 	jQuery('.timeline-box').scrollLeft(jQuery('.timeline-panel').width());
 
-	jQuery('.task').tooltip({
+	jQuery('.task, .task-title').tooltip({
 		offsetParent: 'body',
 		predelay: 100,
 		position: 'bottom center',

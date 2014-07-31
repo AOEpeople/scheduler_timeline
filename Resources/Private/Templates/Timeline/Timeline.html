@@ -1,0 +1,93 @@
+{namespace s=Tx_SchedulerTimeline_ViewHelpers}
+
+<f:layout name="module" />
+
+<f:section name="main">
+
+	<h2>Scheduler Timeline</h2>
+
+	<f:if condition="{groupedLogs -> f:count()}">
+		<f:else>No logs found!</f:else>
+		<f:then>
+
+			<div id="maincontainer">
+
+				<div id="contentwrapper">
+					<div id="contentcolumn">
+						<div class="timeline-box">
+							<div class="timeline-panel" style="width: {timelinePanelWidth}px;">
+
+								<div id="now" style="left: {now}px"></div>
+
+								<div class="row hours">
+									<div class="timeline">
+										<s:for.increase start="{starttime}" end="{endtime}" interval="3600">
+											<div class="hour"><s:format.speakingDate timestamp="{i}" /></div>
+										</s:for.increase>
+									</div>
+								</div>
+
+								<f:for each="{groupedLogs}" as="group">
+									<div class="row">
+										<div class="timeline timeline_{task.uid}">
+											<f:for each="{group.logs}" as="log">
+												<s:gantt log="{log}" starttime="{starttime}" zoom="{zoom}">&nbsp;</s:gantt>
+												<f:render partial="Timeline/Detail" arguments="{log: log}" />
+											</f:for>
+										</div><!-- class="timeline" -->
+									</div><!-- class="row" -->
+								</f:for>
+
+							</div><!-- class="timeline-panel" -->
+						</div><!-- class="timeline-box" -->
+					</div><!-- id="contentcolumn" -->
+				</div><!-- id="contentwrapper" -->
+
+				<div id="leftcolumn">
+
+					<div class="row hours">
+						<div class="caption"><s:format.speakingDate timestamp="{starttime}" todayFormat="\T\o\d\a\y, H:i" /> - <s:format.speakingDate timestamp="{endtime}" todayFormat="\T\o\d\a\y, H:i" /></div>
+					</div>
+
+					<f:for each="{groupedLogs}" as="group">
+						<div class="row">
+							<div class="caption">
+								<div title="{group.task.uid}" class="caption-container">
+									<div class="configuration">
+										<div class="task-title">
+											<b>{group.task.title}</b><br/>({group.task.extension})
+										</div>
+										<div class="details task-info-details">
+											<div class="details-headline">
+												<h3>{group.task.title} ({group.task.extension})</h3>
+											</div>
+
+											<div class="details-content">
+												<f:if condition="{group.task.taskObject.additionalInformation}">
+													<f:then>
+														<p class="additional-information" title="{group.task.taskObject.additionalInformation}">
+															{group.task.taskObject.additionalInformation}
+														</p>
+													</f:then>
+													<f:else>
+														<p class="additional-information">
+															No additional information provided.
+														</p>
+													</f:else>
+												</f:if>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</f:for>
+
+				</div><!-- id="leftcolumn" -->
+
+			</div><!-- id="maincontainer" -->
+
+		</f:then>
+	</f:if>
+
+</f:section>

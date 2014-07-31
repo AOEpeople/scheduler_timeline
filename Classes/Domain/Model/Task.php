@@ -52,7 +52,11 @@ class Tx_SchedulerTimeline_Domain_Model_Task extends Tx_Extbase_DomainObject_Abs
 	 * @return string
 	 */
 	public function getClassname() {
-		return $this->classname;
+		if ($this->classname) {
+			return $this->classname;
+		} else {
+			return get_class($this->getTaskObject());
+		}
 	}
 
 	/**
