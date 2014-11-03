@@ -85,6 +85,3 @@ $TCA['tx_scheduler_task'] = array(
 		'0' => array('showitem' => 'classname')
 	)
 );
-
-
-?>

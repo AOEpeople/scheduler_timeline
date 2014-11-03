@@ -7,7 +7,7 @@ if (TYPO3_MODE == 'BE' && !(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_INSTALL)) {
     /**
     * Registers a Backend Module
     */
-    Tx_Extbase_Utility_Extension::registerModule(
+	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
         $_EXTKEY,
         'tools',    // Make module a submodule of 'web'
         'schedulertimeline',    // Submodule key
@@ -37,7 +37,7 @@ $TCA['tx_schedulertimeline_domain_model_log'] = array(
 		'adminOnly' => 1,
 		'rootLevel' => 1,
 		'hideTable' => 1,
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'tca.php',
+		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'tca.php',
 	)
 );
 
@@ -52,8 +52,6 @@ $TCA['tx_scheduler_task'] = array(
 		'adminOnly' => 1,
 		'rootLevel' => 1,
 		'hideTable' => 1,
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'tca.php',
+		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'tca.php',
 	)
 );
-
-?>

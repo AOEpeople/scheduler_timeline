@@ -29,7 +29,7 @@
  * @package TYPO3
  * @subpackage tx_schedulertimeline
  */
-class Tx_SchedulerTimeline_Domain_Model_Log extends Tx_Extbase_DomainObject_AbstractEntity {
+class Tx_SchedulerTimeline_Domain_Model_Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	const STATUS_PENDING = 'pending';
 	const STATUS_RUNNING = 'running';

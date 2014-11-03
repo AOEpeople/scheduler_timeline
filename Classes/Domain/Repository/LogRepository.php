@@ -29,7 +29,7 @@
  * @package TYPO3
  * @subpackage tx_schedulertimeline
  */
-class Tx_SchedulerTimeline_Domain_Repository_LogRepository extends Tx_Extbase_Persistence_Repository {
+class Tx_SchedulerTimeline_Domain_Repository_LogRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 	/**
 	 * @var int min date timestamp
@@ -48,7 +48,7 @@ class Tx_SchedulerTimeline_Domain_Repository_LogRepository extends Tx_Extbase_Pe
 	 * @return void
 	 */
 	public function initializeObject() {
-		$querySettings = $this->objectManager->create('Tx_Extbase_Persistence_Typo3QuerySettings');
+		$querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
 		$querySettings->setRespectStoragePage(FALSE);
 		$this->setDefaultQuerySettings($querySettings);
 	}
@@ -58,7 +58,7 @@ class Tx_SchedulerTimeline_Domain_Repository_LogRepository extends Tx_Extbase_Pe
 	 *
 	 * @param int $starttime
 	 * @param int $endtime
-	 * @return
+	 * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
 	 */
 	public function findByTime($starttime, $endtime) {
 		$query = $this->createQuery();
@@ -71,7 +71,7 @@ class Tx_SchedulerTimeline_Domain_Repository_LogRepository extends Tx_Extbase_Pe
 				$query->lessThanOrEqual('starttime', $endtime)
 			)
 		);
-		$query->setOrderings(array('starttime' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING));
+		$query->setOrderings(array('starttime' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
 		return $query->execute();
 	}
 
@@ -114,7 +114,4 @@ class Tx_SchedulerTimeline_Domain_Repository_LogRepository extends Tx_Extbase_Pe
 	public function getMaxDate() {
 		return $this->maxDate;
 	}
-
 }
-
-?>

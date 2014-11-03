@@ -29,7 +29,7 @@
  * @package TYPO3
  * @subpackage tx_schedulertimeline
  */
-class Tx_SchedulerTimeline_ViewHelpers_GanttViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractTagBasedViewHelper {
+class Tx_SchedulerTimeline_ViewHelpers_GanttViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper {
 
 	/**
 	 * Render
