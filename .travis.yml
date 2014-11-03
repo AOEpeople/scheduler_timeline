@@ -1,0 +1,59 @@
+language: php
+
+php:
+  - 5.3
+  - 5.4
+  - 5.5
+  - 5.6
+
+env:
+  - TYPO3_BRANCH=master COVERAGE=0
+  - TYPO3_BRANCH=TYPO3_6-2 COVERAGE=0
+
+matrix:
+  allow_failures:
+    - env: TYPO3_BRANCH=master
+  include:
+    - php: 5.5
+      env: TYPO3_BRANCH=TYPO3_6-2 COVERAGE=1
+
+before_script:
+  - sudo apt-get install parallel
+  - composer self-update
+  - cd ..
+  - git clone --single-branch --branch $TYPO3_BRANCH --depth 1 https://github.com/TYPO3/TYPO3.CMS.git typo3_core
+  - mv typo3_core/* .
+  - mkdir -p typo3conf/ext
+  - mv scheduler_timeline typo3conf/ext/
+  - composer install
+
+script:
+  - >
+    if [[ "$COVERAGE" == "0" ]]; then
+      echo;
+      echo "Running unit tests";
+      ./bin/phpunit --colors -c typo3/sysext/core/Build/UnitTests.xml typo3conf/ext/scheduler_timeline/Tests/Unit/*Test.php
+    fi
+  - >
+    if [[ "$COVERAGE" == "1" ]]; then
+      echo;
+      echo "Running unit tests";
+      ./bin/phpunit --coverage-clover=unittest-coverage.clover --colors -c typo3/sysext/core/Build/UnitTests.xml typo3conf/ext/scheduler_timeline/Tests/Unit/*Test.php
+    fi
+  - >
+    if [[ "$COVERAGE" == "1" ]]; then
+      echo;
+      echo "Uploading code coverage results";
+      wget https://scrutinizer-ci.com/ocular.phar
+      cp -R typo3conf/ext/scheduler_timeline/.git .
+      php ocular.phar code-coverage:upload --format=php-clover unittest-coverage.clover
+    fi
+  - >
+    echo;
+    echo "Running php lint";
+    /bin/bash -c "
+        if ! find typo3conf/ext/scheduler_timeline -name \*.php | parallel --gnu 'php -l {}' > /tmp/errors 2>&1; then
+            grep -v \"No syntax errors detected in\" /tmp/errors;
+            exit 99;
+        fi
+    "
