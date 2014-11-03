@@ -22,7 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once t3lib_extMgm::extPath('scheduler_timeline') . 'interface.tx_schedulertimeline_returnmessage.php';
+require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('scheduler_timeline') . 'interface.tx_schedulertimeline_returnmessage.php';
 
 /**
  * ExceptionTask
@@ -31,7 +31,7 @@ require_once t3lib_extMgm::extPath('scheduler_timeline') . 'interface.tx_schedul
  * @package TYPO3
  * @subpackage tx_schedulertimeline
  */
-class Tx_SchedulerTimeline_Scheduler_ExceptionTask extends tx_scheduler_Task implements tx_schedulertimeline_returnmessage {
+class Tx_SchedulerTimeline_Scheduler_ExceptionTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask implements tx_schedulertimeline_returnmessage {
 
 	/**
 	 * @var int

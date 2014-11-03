@@ -29,7 +29,7 @@
  * @package TYPO3
  * @subpackage tx_schedulertimeline
  */
-class Tx_SchedulerTimeline_ViewHelpers_Format_SpeakingDateViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_SchedulerTimeline_ViewHelpers_Format_SpeakingDateViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * Render

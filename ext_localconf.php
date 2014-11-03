@@ -2,7 +2,7 @@
 
 if (!defined ('TYPO3_MODE')) die ('Access denied.');
 
-$GLOBALS['TYPO3_CONF_VARS']['BE']['XCLASS']['ext/scheduler/class.tx_scheduler.php'] = t3lib_extMgm::extPath($_EXTKEY).'class.ux_tx_scheduler.php';
+$GLOBALS['TYPO3_CONF_VARS']['BE']['XCLASS']['ext/scheduler/class.tx_scheduler.php'] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'class.ux_tx_scheduler.php';
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['tx_scheduler']['className'] = 'ux_tx_scheduler';
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Scheduler\\Scheduler']['className'] = 'ux_tx_scheduler';
 
@@ -21,15 +21,13 @@ if (!empty($extConf['showSampleTasks'])) {
 
 if ((TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_AJAX) || ('BE' === TYPO3_MODE)) {
 	/** @noinspection PhpUndefinedVariableInspection */
-	$extPath = t3lib_extMgm::extPath($_EXTKEY);
+	$extPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY);
 
 	/*t3lib_extMgm::addTypoScriptConstants(
 		file_get_contents($extPath . 'Configuration/TypoScript/Backend/constants.txt')
 	);*/
 
-	t3lib_extMgm::addTypoScriptSetup(
+	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup(
 		file_get_contents($extPath . 'Configuration/TypoScript/Backend/setup.txt')
 	);
 }
-
-?>

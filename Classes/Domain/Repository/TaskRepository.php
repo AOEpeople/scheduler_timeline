@@ -29,20 +29,18 @@
  * @package TYPO3
  * @subpackage tx_schedulertimeline
  */
-class Tx_SchedulerTimeline_Domain_Repository_TaskRepository extends Tx_Extbase_Persistence_Repository {
+class Tx_SchedulerTimeline_Domain_Repository_TaskRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 	/**
 	 * Initialize object
-	 * Ignore storege pid
+	 * Ignore storage pid
 	 *
 	 * @return void
 	 */
 	public function initializeObject() {
-		$querySettings = $this->objectManager->create('Tx_Extbase_Persistence_Typo3QuerySettings');
+		$querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
 		$querySettings->setRespectStoragePage(FALSE);
 		$this->setDefaultQuerySettings($querySettings);
 	}
 
 }
-
-?>

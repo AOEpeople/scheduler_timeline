@@ -22,6 +22,8 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 /**
  * TimelineController
  *
@@ -29,7 +31,7 @@
  * @package TYPO3
  * @subpackage tx_schedulertimeline
  */
-class Tx_SchedulerTimeline_Controller_TimelineController extends Tx_Extbase_MVC_Controller_ActionController {
+class Tx_SchedulerTimeline_Controller_TimelineController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
 	 * @var string Key of the extension this controller belongs to
@@ -37,7 +39,7 @@ class Tx_SchedulerTimeline_Controller_TimelineController extends Tx_Extbase_MVC_
 	protected $extensionName = 'SchedulerTimeline';
 
 	/**
-	 * @var t3lib_PageRenderer
+	 * @var \TYPO3\CMS\Core\Page\PageRenderer
 	 */
 	protected $pageRenderer;
 
@@ -52,6 +54,11 @@ class Tx_SchedulerTimeline_Controller_TimelineController extends Tx_Extbase_MVC_
 	protected $taskRepository;
 
 	/**
+	 * @var \TYPO3\CMS\Backend\Template\DocumentTemplate
+	 */
+	protected $template;
+
+	/**
 	 * Initializes the controller before invoking an action method.
 	 *
 	 * @return void
@@ -59,14 +66,14 @@ class Tx_SchedulerTimeline_Controller_TimelineController extends Tx_Extbase_MVC_
 	protected function initializeAction() {
 		$this->pageRenderer->addInlineLanguageLabelFile('EXT:scheduler_timeline/Resources/Private/Language/locallang.xml');
 
-		$this->pageRenderer->addCssFile(t3lib_extMgm::extRelPath('scheduler_timeline') . 'Resources/Public/StyleSheet/timeline.css');
-		$this->pageRenderer->addCssFile(t3lib_extMgm::extRelPath('scheduler_timeline') . 'Resources/Public/StyleSheet/bars.css');
+		$this->pageRenderer->addCssFile(ExtensionManagementUtility::extRelPath('scheduler_timeline') . 'Resources/Public/StyleSheet/timeline.css');
+		$this->pageRenderer->addCssFile(ExtensionManagementUtility::extRelPath('scheduler_timeline') . 'Resources/Public/StyleSheet/bars.css');
 
-		$this->pageRenderer->addJsLibrary('jquery', t3lib_extMgm::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/jquery-1.6.2.min.js');
-		$this->pageRenderer->addJsLibrary('jquery_tooltip', t3lib_extMgm::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/tooltip.js');
-		$this->pageRenderer->addJsLibrary('jquery_tooltip_dynamic', t3lib_extMgm::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/tooltip.dynamic.js');
+		$this->pageRenderer->addJsLibrary('jquery', ExtensionManagementUtility::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/jquery-1.6.2.min.js');
+		$this->pageRenderer->addJsLibrary('jquery_tooltip', ExtensionManagementUtility::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/tooltip.js');
+		$this->pageRenderer->addJsLibrary('jquery_tooltip_dynamic', ExtensionManagementUtility::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/tooltip.dynamic.js');
 
-		$this->addJsFileToPageRenderer(t3lib_extMgm::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/common.js');
+		$this->addJsFileToPageRenderer(ExtensionManagementUtility::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/common.js');
 	}
 
 	/**
@@ -78,7 +85,7 @@ class Tx_SchedulerTimeline_Controller_TimelineController extends Tx_Extbase_MVC_
 	}
 
 	/**
-	 * @param Tx_SchedulerTimeline_Domain_Repository_LogRepository $logRepository
+	 * @param Tx_SchedulerTimeline_Domain_Repository_TaskRepository $taskRepository
 	 * @return void
 	 */
 	public function injectTaskRepository(Tx_SchedulerTimeline_Domain_Repository_TaskRepository $taskRepository) {
@@ -130,13 +137,13 @@ class Tx_SchedulerTimeline_Controller_TimelineController extends Tx_Extbase_MVC_
 	/**
 	 * Processes a general request. The result can be returned by altering the given response.
 	 *
-	 * @param Tx_Extbase_MVC_RequestInterface $request The request object
-	 * @param Tx_Extbase_MVC_ResponseInterface $response The response, modified by this handler
+	 * @param \TYPO3\CMS\Extbase\Mvc\RequestInterface $request The request object
+	 * @param \TYPO3\CMS\Extbase\Mvc\ResponseInterface $response The response, modified by this handler
 	 * @throws Tx_Extbase_MVC_Exception_UnsupportedRequestType if the controller doesn't support the current request type
 	 * @return void
 	 */
-	public function processRequest(Tx_Extbase_MVC_RequestInterface $request, Tx_Extbase_MVC_ResponseInterface $response) {
-		$this->template = t3lib_div::makeInstance('template');
+	public function processRequest(\TYPO3\CMS\Extbase\Mvc\RequestInterface $request, \TYPO3\CMS\Extbase\Mvc\ResponseInterface $response) {
+		$this->template = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Backend\\Template\\DocumentTemplate');
 		$this->pageRenderer = $this->template->getPageRenderer();
 
 		$GLOBALS['SOBE'] = new stdClass();
