@@ -8,7 +8,7 @@ filter:
 tools:
 
     external_code_coverage:
-        timeout: 1000
+        timeout: 1800
         runs: 2
 
     php_cpd:
