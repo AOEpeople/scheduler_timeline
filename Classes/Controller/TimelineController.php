@@ -22,8 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-
 /**
  * TimelineController
  *
@@ -66,14 +64,14 @@ class Tx_SchedulerTimeline_Controller_TimelineController extends \TYPO3\CMS\Extb
 	protected function initializeAction() {
 		$this->pageRenderer->addInlineLanguageLabelFile('EXT:scheduler_timeline/Resources/Private/Language/locallang.xml');
 
-		$this->pageRenderer->addCssFile(ExtensionManagementUtility::extRelPath('scheduler_timeline') . 'Resources/Public/StyleSheet/timeline.css');
-		$this->pageRenderer->addCssFile(ExtensionManagementUtility::extRelPath('scheduler_timeline') . 'Resources/Public/StyleSheet/bars.css');
+		$this->pageRenderer->addCssFile(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('scheduler_timeline') . 'Resources/Public/StyleSheet/timeline.css');
+		$this->pageRenderer->addCssFile(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('scheduler_timeline') . 'Resources/Public/StyleSheet/bars.css');
 
-		$this->pageRenderer->addJsLibrary('jquery', ExtensionManagementUtility::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/jquery-1.6.2.min.js');
-		$this->pageRenderer->addJsLibrary('jquery_tooltip', ExtensionManagementUtility::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/tooltip.js');
-		$this->pageRenderer->addJsLibrary('jquery_tooltip_dynamic', ExtensionManagementUtility::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/tooltip.dynamic.js');
+		$this->pageRenderer->addJsLibrary('jquery', \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/jquery-1.6.2.min.js');
+		$this->pageRenderer->addJsLibrary('jquery_tooltip', \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/tooltip.js');
+		$this->pageRenderer->addJsLibrary('jquery_tooltip_dynamic', \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/tooltip.dynamic.js');
 
-		$this->addJsFileToPageRenderer(ExtensionManagementUtility::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/common.js');
+		$this->addJsFileToPageRenderer(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/common.js');
 	}
 
 	/**
