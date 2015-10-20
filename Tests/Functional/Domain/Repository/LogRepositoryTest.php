@@ -63,38 +63,41 @@ class Tx_SchedulerTimeline_Tests_Functional_Domain_Repository_LogRepositoryTest 
 	}
 
 	/**
-	 * test
+	 * @test
 	 */
 	public function findGroupedByTaskReturnsMultidimensionArray() {
 
 		$actualArray = array();
 		$expectedArray = array(
 			131 => array(
-				'Task' => 131,
-				'Log' => array(1)
+				'task' => 131,
+				'logs' => array(1)
 			),
 			132 => array(
-				'Task' => 132,
-				'Log' => array(2)
+				'task' => 132,
+				'logs' => array(2)
 			),
 			133 => array(
-				'Task' => 133,
-				'Log' => array(3)
+				'task' => 133,
+				'logs' => array(3)
 			),
 			134 => array(
-				'Task' => 134,
-				'Log' => array(4,5)
+				'task' => 134,
+				'logs' => array(4,5)
 			),
 		);
 
 		$logsGroupedByTask = $this->logRepository->findGroupedByTask();
 
-		foreach ($logsGroupedByTask as $taskObject => $taskUid) {
-			$actualArray[$taskUid]['Task'] = $taskUid;
+		foreach ($logsGroupedByTask as $taskUid => $taskObject) {
+			$actualArray[$taskUid]['task'] = $taskUid;
 
 			/** @var Tx_SchedulerTimeline_Domain_Model_Task $task */
 			foreach ($taskObject as $task) {
-				$actualArray[$task]['Log'][] = $task[0]->getUid();
+				/** @var Tx_SchedulerTimeline_Domain_Model_Log @log */
+				foreach ($task as $log) {
+					$actualArray[$taskUid]['logs'][] = $log->getUid();
+				}
 			}
 		}
 
