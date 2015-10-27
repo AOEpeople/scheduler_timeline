@@ -1,5 +1,5 @@
 #
-# Table structure for table 'tx_ptlist_bookmarks'
+# Table structure for table 'tx_schedulertimeline_domain_model_log'
 #
 CREATE TABLE tx_schedulertimeline_domain_model_log (
     uid int(11) NOT NULL auto_increment,
@@ -8,19 +8,19 @@ CREATE TABLE tx_schedulertimeline_domain_model_log (
     crdate int(11) DEFAULT '0' NOT NULL,
     cruser_id int(11) DEFAULT '0' NOT NULL,
 
-	task int(11) DEFAULT '0' NOT NULL,
-	starttime int(11) DEFAULT '0' NOT NULL,
-	endtime int(11) DEFAULT '0' NOT NULL,
-	exception text NOT NULL,
-	returnmessage text NOT NULL,
-	processid int(11) DEFAULT '0' NOT NULL,
+    task int(11) DEFAULT '0' NOT NULL,
+    starttime int(11) DEFAULT '0' NOT NULL,
+    endtime int(11) DEFAULT '0' NOT NULL,
+    exception text NOT NULL,
+    returnmessage text NOT NULL,
+    processid int(11) DEFAULT '0' NOT NULL,
 
     PRIMARY KEY (uid),
     KEY parent (pid)
 );
 
 #
-# Table structure for table 'tx_ptlist_bookmarks'
+# Table structure for table 'tx_scheduler_task'
 #
 CREATE TABLE tx_scheduler_task (
     pid int(11) DEFAULT '0' NOT NULL,

@@ -53,6 +53,24 @@ script:
       php ocular.phar code-coverage:upload --format=php-clover unittest-coverage.clover
     fi
   - >
+    if [[ "$COVERAGE" == "1" ]]; then
+      echo;
+      export typo3DatabaseName="typo3";
+      export typo3DatabaseHost="localhost";
+      export typo3DatabaseUsername="root";
+      export typo3DatabasePassword="";
+      find . -wholename '*/typo3conf/ext/scheduler_timeline/Tests/Functional/*Test.php' | parallel --gnu 'echo; echo "Running functional test suite {}"; ./bin/phpunit --coverage-clover={}functionaltest-coverage.clover --colors -c typo3/sysext/core/Build/FunctionalTests.xml {}'
+    fi
+  - >
+    if [[ "$COVERAGE" == "1" ]]; then
+      echo;
+      echo "Uploading code coverage results";
+      wget https://scrutinizer-ci.com/ocular.phar
+      cp -R typo3conf/ext/scheduler_timeline/.git .
+      php ocular.phar code-coverage:upload --format=php-clover unittest-coverage.clover
+      find . -wholename '*typo3conf/ext/scheduler_timeline/Tests/Functional/*Test.php' -exec php ocular.phar code-coverage:upload --format=php-clover {}functionaltest-coverage.clover \;
+    fi
+  - >
     echo;
     echo "Running php lint";
     /bin/bash -c "
