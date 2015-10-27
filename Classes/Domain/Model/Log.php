@@ -45,27 +45,27 @@ class Tx_SchedulerTimeline_Domain_Model_Log extends \TYPO3\CMS\Extbase\DomainObj
 	/**
 	 * @var int
 	 */
-	protected $starttime;
+	protected $starttime = 0;
 
 	/**
 	 * @var int
 	 */
-	protected $endtime;
+	protected $endtime = 0;
 
 	/**
 	 * @var string
 	 */
-	protected $exception;
+	protected $exception = '';
 
 	/**
 	 * @var string
 	 */
-	protected $returnmessage;
+	protected $returnmessage = '';
 
 	/**
 	 * @var int
 	 */
-	protected $processid;
+	protected $processid = 0;
 
 	/**
 	 * Get task
@@ -117,7 +117,7 @@ class Tx_SchedulerTimeline_Domain_Model_Log extends \TYPO3\CMS\Extbase\DomainObj
 	 * @return int duration (in sec)
 	 */
 	public function getDuration() {
-		$endtime = $this->getEndtime() ? $this->getEndtime() : time();
+		$endtime = $this->getEndtime() ? $this->getEndtime() : $this->getCurrentTime();
 		return $endtime - $this->getStarttime();
 	}
 
@@ -127,11 +127,11 @@ class Tx_SchedulerTimeline_Domain_Model_Log extends \TYPO3\CMS\Extbase\DomainObj
 	 * @return string
 	 */
 	public function getTimespan() {
-		$timespan = date('H:i',  $this->getStarttime());
+		$timespan = $this->getFormattedDateFromTimestamp($this->getStarttime());
 		if ($this->isRunning()) {
 			$timespan .= ' - (still running)';
 		} else {
-			$timespan .= ' - ' . date('H:i',  $this->getEndtime());
+			$timespan .= ' - ' . $this->getFormattedDateFromTimestamp($this->getEndtime());
 		}
 		return $timespan;
 	}
@@ -169,6 +169,26 @@ class Tx_SchedulerTimeline_Domain_Model_Log extends \TYPO3\CMS\Extbase\DomainObj
 		if ($this->isRunning()) {
 			shell_exec('kill '. intval($this->processid));
 		}
+	}
+
+	/**
+	 * Returns the current time
+	 *
+	 * Mockable getter for time()
+	 *
+	 * @return int
+	 */
+	protected function getCurrentTime() {
+		return time();
+	}
+
+	/**
+	 * @param $timestamp
+	 *
+	 * @return bool|string
+	 */
+	protected function getFormattedDateFromTimestamp($timestamp) {
+		return date('H:i',  $timestamp);
 	}
 
 }

@@ -36,13 +36,13 @@ script:
     if [[ "$COVERAGE" == "0" ]]; then
       echo;
       echo "Running unit tests";
-      ./bin/phpunit --colors -c typo3/sysext/core/Build/UnitTests.xml typo3conf/ext/scheduler_timeline/Tests/Unit/*Test.php
+      ./bin/phpunit --colors -c typo3/sysext/core/Build/UnitTests.xml typo3conf/ext/scheduler_timeline/Tests/Unit/
     fi
   - >
     if [[ "$COVERAGE" == "1" ]]; then
       echo;
       echo "Running unit tests";
-      ./bin/phpunit --coverage-clover=unittest-coverage.clover --colors -c typo3/sysext/core/Build/UnitTests.xml typo3conf/ext/scheduler_timeline/Tests/Unit/*Test.php
+      ./bin/phpunit --coverage-clover=unittest-coverage.clover --colors -c typo3/sysext/core/Build/UnitTests.xml typo3conf/ext/scheduler_timeline/Tests/Unit/
     fi
   - >
     if [[ "$COVERAGE" == "1" ]]; then
