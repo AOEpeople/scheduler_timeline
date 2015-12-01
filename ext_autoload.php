@@ -12,7 +12,6 @@ return array(
 	'tx_schedulertimeline_domain_repository_logrepository' => $extensionClassesPath . 'Domain/Repository/LogRepository.php',
 	'tx_schedulertimeline_domain_repository_taskrepository' => $extensionClassesPath . 'Domain/Repository/TaskRepository.php',
 	'tx_schedulertimeline_returnmessage' => $extensionPath . 'interface.tx_schedulertimeline_returnmessage.php',
-	'tx_schedulertimeline_scheduler_exceptiontask' => $extensionClassesPath . 'Scheduler/ExceptionTask.php',
 	'tx_schedulertimeline_viewhelpers_durationviewhelper' => $extensionClassesPath . 'ViewHelpers/DurationViewHelper.php',
 	'tx_schedulertimeline_viewhelpers_for_increaseviewhelper' => $extensionClassesPath . 'ViewHelpers/For/IncreaseViewHelper.php',
 	'tx_schedulertimeline_viewhelpers_format_speakingdateviewhelper' => $extensionClassesPath . 'ViewHelpers/Format/SpeakingDateViewHelper.php',
