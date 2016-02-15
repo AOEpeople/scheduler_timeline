@@ -1,4 +1,7 @@
 <?php
+
+namespace AOE\SchedulerTimeline\Controller;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -22,6 +25,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+
 /**
  * TimelineController
  *
@@ -29,7 +33,7 @@
  * @package TYPO3
  * @subpackage tx_schedulertimeline
  */
-class Tx_SchedulerTimeline_Controller_TimelineController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class TimelineController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
 	 * @var string Key of the extension this controller belongs to
@@ -42,12 +46,12 @@ class Tx_SchedulerTimeline_Controller_TimelineController extends \TYPO3\CMS\Extb
 	protected $pageRenderer;
 
 	/**
-	 * @var Tx_SchedulerTimeline_Domain_Repository_LogRepository
+	 * @var \AOE\SchedulerTimeline\Domain\Repository\LogRepository
 	 */
 	protected $logRepository;
 
 	/**
-	 * @var Tx_SchedulerTimeline_Domain_Repository_TaskRepository
+	 * @var \AOE\SchedulerTimeline\Domain\Repository\TaskRepository
 	 */
 	protected $taskRepository;
 
@@ -75,18 +79,18 @@ class Tx_SchedulerTimeline_Controller_TimelineController extends \TYPO3\CMS\Extb
 	}
 
 	/**
-	 * @param Tx_SchedulerTimeline_Domain_Repository_LogRepository $logRepository
+	 * @param \AOE\SchedulerTimeline\Domain\Repository\LogRepository $logRepository
 	 * @return void
 	 */
-	public function injectLogRepository(Tx_SchedulerTimeline_Domain_Repository_LogRepository $logRepository) {
+	public function injectLogRepository(\AOE\SchedulerTimeline\Domain\Repository\LogRepository $logRepository) {
 		$this->logRepository = $logRepository;
 	}
 
 	/**
-	 * @param Tx_SchedulerTimeline_Domain_Repository_TaskRepository $taskRepository
+	 * @param \AOE\SchedulerTimeline\Domain\Repository\TaskRepository $taskRepository
 	 * @return void
 	 */
-	public function injectTaskRepository(Tx_SchedulerTimeline_Domain_Repository_TaskRepository $taskRepository) {
+	public function injectTaskRepository(\AOE\SchedulerTimeline\Domain\Repository\TaskRepository $taskRepository) {
 		$this->taskRepository = $taskRepository;
 	}
 
@@ -137,7 +141,7 @@ class Tx_SchedulerTimeline_Controller_TimelineController extends \TYPO3\CMS\Extb
 	 *
 	 * @param \TYPO3\CMS\Extbase\Mvc\RequestInterface $request The request object
 	 * @param \TYPO3\CMS\Extbase\Mvc\ResponseInterface $response The response, modified by this handler
-	 * @throws Tx_Extbase_MVC_Exception_UnsupportedRequestType if the controller doesn't support the current request type
+	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException if the controller doesn't support the current request type
 	 * @return void
 	 */
 	public function processRequest(\TYPO3\CMS\Extbase\Mvc\RequestInterface $request, \TYPO3\CMS\Extbase\Mvc\ResponseInterface $response) {

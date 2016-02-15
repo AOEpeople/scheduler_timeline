@@ -1,4 +1,7 @@
 <?php
+
+namespace AOE\SchedulerTimeline\Domain\Model;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -30,7 +33,7 @@
  * @package TYPO3
  * @subpackage tx_schedulertimeline
  */
-class Tx_SchedulerTimeline_Domain_Model_Task extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class Task extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	/**
 	 * @var string
@@ -62,7 +65,7 @@ class Tx_SchedulerTimeline_Domain_Model_Task extends \TYPO3\CMS\Extbase\DomainOb
 	/**
 	 * Get task object
 	 *
-	 * @return tx_scheduler_Task
+	 * @return \TYPO3\CMS\Scheduler\Task\AbstractTask
 	 */
 	public function getTaskObject() {
 		if (is_null($this->taskObj)) {

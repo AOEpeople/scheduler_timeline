@@ -1,4 +1,7 @@
 <?php
+
+namespace AOE\SchedulerTimeline\Domain\Repository;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -29,7 +32,7 @@
  * @package TYPO3
  * @subpackage tx_schedulertimeline
  */
-class Tx_SchedulerTimeline_Domain_Repository_LogRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class LogRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 	/**
 	 * @var int min date timestamp
@@ -83,7 +86,7 @@ class Tx_SchedulerTimeline_Domain_Repository_LogRepository extends \TYPO3\CMS\Ex
 	public function findGroupedByTask() {
 		$logs = $this->findAll();
 		$result = array();
-		foreach ($logs as $log) { /* @var $log Tx_SchedulerTimeline_Domain_Model_Log */
+		foreach ($logs as $log) { /* @var $log \AOE\SchedulerTimeline\Domain\Model\Log */
 
 			// min/max
 			$startTime = $log->getStarttime();
