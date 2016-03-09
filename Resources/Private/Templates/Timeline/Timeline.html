@@ -17,13 +17,13 @@
 						<div class="timeline-box">
 							<div class="timeline-panel" style="width: {timelinePanelWidth}px;">
 
-								<div id="now" style="left: {now}px"></div>
+								<div id="now" style="left: {now}px;"></div>
 
 								<div class="row hours">
 									<div class="timeline">
-										<s:for.increase start="{starttime}" end="{endtime}" interval="3600">
+										<s:increase start="{starttime}" end="{endtime}" interval="3600">
 											<div class="hour"><s:format.speakingDate timestamp="{i}" /></div>
-										</s:for.increase>
+										</s:increase>
 									</div>
 								</div>
 
