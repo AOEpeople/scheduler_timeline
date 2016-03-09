@@ -31,29 +31,31 @@ namespace AOE\SchedulerTimeline\ViewHelpers\Format;
  *
  * @package AOE\SchedulerTimeline\ViewHelpers\Format
  */
-class SpeakingDateViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class SpeakingDateViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
-	/**
-	 * Render
-	 *
-	 * @param string $timestamp
-	 * @param string $defaultFormat
-	 * @param string $todayFormat
-	 * @param string $tomorrowFormat
-	 * @param string $yesterdayFormat
-	 * @return string
-	 */
-	public function render($timestamp, $defaultFormat='Y.m.d H:i', $todayFormat='H:i', $tomorrowFormat='\T\o\m\m\o\r\o\w, H:i', $yesterdayFormat='\Y\e\s\t\e\r\d\a\y, H:i') {
-		$day = date('Ymd', $timestamp);
-		if ($todayFormat && (date('Ymd') == $day)) {
-			$result = date($todayFormat, $timestamp);
-		} elseif ($tomorrowFormat && (date('Ymd', strtotime('+1 day')) == $day)) {
-			$result = date($tomorrowFormat, $timestamp);
-		} elseif ($yesterdayFormat && (date('Ymd', strtotime('-1 day')) == $day)) {
-			$result = date($yesterdayFormat, $timestamp);
-		} else {
-			$result = date($defaultFormat, $timestamp);
-		}
-		return $result;
-	}
+    /**
+     * Render
+     *
+     * @param string $timestamp
+     * @param string $defaultFormat
+     * @param string $todayFormat
+     * @param string $tomorrowFormat
+     * @param string $yesterdayFormat
+     * @return string
+     */
+    public function render($timestamp, $defaultFormat='Y.m.d H:i', $todayFormat='H:i', $tomorrowFormat='\T\o\m\m\o\r\o\w, H:i', $yesterdayFormat='\Y\e\s\t\e\r\d\a\y, H:i')
+    {
+        $day = date('Ymd', $timestamp);
+        if ($todayFormat && (date('Ymd') == $day)) {
+            $result = date($todayFormat, $timestamp);
+        } elseif ($tomorrowFormat && (date('Ymd', strtotime('+1 day')) == $day)) {
+            $result = date($tomorrowFormat, $timestamp);
+        } elseif ($yesterdayFormat && (date('Ymd', strtotime('-1 day')) == $day)) {
+            $result = date($yesterdayFormat, $timestamp);
+        } else {
+            $result = date($defaultFormat, $timestamp);
+        }
+        return $result;
+    }
 }

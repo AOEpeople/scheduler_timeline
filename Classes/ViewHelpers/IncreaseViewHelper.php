@@ -31,24 +31,26 @@ namespace AOE\SchedulerTimeline\ViewHelpers;
  *
  * @package AOE\SchedulerTimeline\ViewHelpers
  */
-class IncreaseViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class IncreaseViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
-	/**
-	 * Render
-	 *
-	 * @param string $start
-	 * @param string $end
-	 * @param string $interval
-	 * @param string $iterator
-	 * @return string
-	 */
-	public function render($start, $end, $interval = '1', $iterator = 'i') {
-		$result = '';
-		for ($i = $start; $i < $end; $i += $interval) {
-			$this->templateVariableContainer->add($iterator, $i);
-			$result .= $this->renderChildren();
-			$this->templateVariableContainer->remove($iterator);
-		}
-		return $result;
-	}
+    /**
+     * Render
+     *
+     * @param string $start
+     * @param string $end
+     * @param string $interval
+     * @param string $iterator
+     * @return string
+     */
+    public function render($start, $end, $interval = '1', $iterator = 'i')
+    {
+        $result = '';
+        for ($i = $start; $i < $end; $i += $interval) {
+            $this->templateVariableContainer->add($iterator, $i);
+            $result .= $this->renderChildren();
+            $this->templateVariableContainer->remove($iterator);
+        }
+        return $result;
+    }
 }

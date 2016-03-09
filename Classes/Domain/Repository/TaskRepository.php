@@ -32,18 +32,19 @@ namespace AOE\SchedulerTimeline\Domain\Repository;
  * @package TYPO3
  * @subpackage tx_schedulertimeline
  */
-class TaskRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class TaskRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
 
-	/**
-	 * Initialize object
-	 * Ignore storage pid
-	 *
-	 * @return void
-	 */
-	public function initializeObject() {
-		$querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
-		$querySettings->setRespectStoragePage(FALSE);
-		$this->setDefaultQuerySettings($querySettings);
-	}
-
+    /**
+     * Initialize object
+     * Ignore storage pid
+     *
+     * @return void
+     */
+    public function initializeObject()
+    {
+        $querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
+        $querySettings->setRespectStoragePage(false);
+        $this->setDefaultQuerySettings($querySettings);
+    }
 }

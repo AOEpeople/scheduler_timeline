@@ -31,32 +31,33 @@ namespace AOE\SchedulerTimeline\ViewHelpers;
  *
  * @package AOE\SchedulerTimeline\ViewHelpers
  */
-class GanttViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper {
+class GanttViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper
+{
 
-	/**
-	 * Render
-	 *
-	 * @param \AOE\SchedulerTimeline\Domain\Model\Log $log
-	 * @param int $starttime
-	 * @param int $zoom
-	 * @return string rendered tag
-	 */
-	public function render(\AOE\SchedulerTimeline\Domain\Model\Log $log, $starttime, $zoom) {
+    /**
+     * Render
+     *
+     * @param \AOE\SchedulerTimeline\Domain\Model\Log $log
+     * @param int $starttime
+     * @param int $zoom
+     * @return string rendered tag
+     */
+    public function render(\AOE\SchedulerTimeline\Domain\Model\Log $log, $starttime, $zoom)
+    {
+        $duration = $log->getDuration() / $zoom;
+        $duration = ceil($duration / 4) * 4 - 1; // round to numbers dividable by 4, then remove 1 px border
+        $duration = max($duration, 3);
 
-		$duration = $log->getDuration() / $zoom;
-		$duration = ceil($duration / 4) * 4 - 1; // round to numbers dividable by 4, then remove 1 px border
-		$duration = max($duration, 3);
+        $offset = ($log->getStarttime() - $starttime) / $zoom;
+        if ($offset < 0) { // cut bar
+            $duration += $offset;
+            $offset = 0;
+        }
+        $this->tag->addAttribute('style', sprintf('width: %spx; left: %spx;', $duration, $offset));
 
-		$offset = ($log->getStarttime() - $starttime) / $zoom;
-		if ($offset < 0) { // cut bar
-			$duration += $offset;
-			$offset = 0;
-		}
-		$this->tag->addAttribute('style', sprintf('width: %spx; left: %spx;', $duration, $offset));
-
-		$this->tag->addAttribute('class', 'task ' . $log->getStatus());
-		$this->tag->addAttribute('id', 'uid_' . $log->getUid());
-		$this->tag->setContent($this->renderChildren());
-		return $this->tag->render();
-	}
+        $this->tag->addAttribute('class', 'task ' . $log->getStatus());
+        $this->tag->addAttribute('id', 'uid_' . $log->getUid());
+        $this->tag->setContent($this->renderChildren());
+        return $this->tag->render();
+    }
 }
