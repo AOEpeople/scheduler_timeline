@@ -1,8 +1,9 @@
 {
   "name": "aoe/scheduler_timeline",
+  "title": "Scheduler Timeline",
   "description": "Logs information about scheduler task execution and displays them in a graphical timeline",
   "type": "typo3-cms-extension",
-  "keywords": ["TYPO3 CMS", "Authentication"],
+  "keywords": ["TYPO3 CMS", "Scheduler", "Timeline"],
   "license": ["GPL-2.0+"],
   "homepage": "https://github.com/AOEpeople/scheduler_timeline",
   "version": "0.1.dev",
