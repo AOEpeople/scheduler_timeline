@@ -1,8 +1,5 @@
 <?php
 
-/**
- * TCA configuration for tx_schedulertimeline_domain_model_log
- */
 $TCA['tx_schedulertimeline_domain_model_log'] = array(
     'ctrl' => $TCA['tx_schedulertimeline_domain_model_log']['ctrl'],
     'columns' => array(
