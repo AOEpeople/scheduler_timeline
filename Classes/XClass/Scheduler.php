@@ -30,26 +30,27 @@ namespace AOE\SchedulerTimeline\XClass;
  * Class Scheduler
  * @package AOE\SchedulerTimeline\XClass
  */
-class Scheduler extends \TYPO3\CMS\Scheduler\Scheduler {
+class Scheduler extends \TYPO3\CMS\Scheduler\Scheduler
+{
 
     /**
      * Wraps the executeTask method
      *
      * @param \TYPO3\CMS\Scheduler\Task\AbstractTask $task The task to execute
      * @return boolean Whether the task was saved successfully to the database or not
-	 * @throws \Exception
+     * @throws \Exception
      */
-    public function executeTask(\TYPO3\CMS\Scheduler\Task\AbstractTask $task) {
-
+    public function executeTask(\TYPO3\CMS\Scheduler\Task\AbstractTask $task)
+    {
         $taskUid = $task->getTaskUid();
 
         // log start
         $logUid = $this->logStart($taskUid);
 
-        $failure = NULL;
+        $failure = null;
         try {
             $result = parent::executeTask($task);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $failure = $e;
         }
 
@@ -79,7 +80,8 @@ class Scheduler extends \TYPO3\CMS\Scheduler\Scheduler {
      *
      * @see tx_scheduler::cleanExecutionArrays()
      */
-    protected function cleanExecutionArrays() {
+    protected function cleanExecutionArrays()
+    {
         parent::cleanExecutionArrays();
         $this->cleanupLog();
     }
@@ -90,9 +92,9 @@ class Scheduler extends \TYPO3\CMS\Scheduler\Scheduler {
      * @return void
      * @throws \Exception
      */
-    protected function cleanupLog() {
-
-    	$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['scheduler_timeline']);
+    protected function cleanupLog()
+    {
+        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['scheduler_timeline']);
 
         // clean old log entries
         $dbObj = $GLOBALS['TYPO3_DB']; /* @var $dbObj \TYPO3\CMS\Core\Database\DatabaseConnection */
@@ -119,42 +121,44 @@ class Scheduler extends \TYPO3\CMS\Scheduler\Scheduler {
         // check if process are still alive that have been started more than x minutes ago
         $checkProcessesAfter = intval($extConf['checkProcessesAfter']) * 60;
         if ($checkProcessesAfter) {
-	        $res = $dbObj->exec_SELECTquery('uid, processid, task', 'tx_schedulertimeline_domain_model_log', 'endtime = 0 AND starttime < ' . (time() - $checkProcessesAfter));
-	        if (is_resource($res)) {
-		        while (($row = $dbObj->sql_fetch_assoc($res)) !== false) {
-		            $processId = $row['processid'];
-		            if (!$this->checkProcess($processId)) {
+            $res = $dbObj->exec_SELECTquery('uid, processid, task', 'tx_schedulertimeline_domain_model_log', 'endtime = 0 AND starttime < ' . (time() - $checkProcessesAfter));
+            if (is_resource($res)) {
+                while (($row = $dbObj->sql_fetch_assoc($res)) !== false) {
+                    $processId = $row['processid'];
+                    if (!$this->checkProcess($processId)) {
 
-		            	// update log
-		            	$res2 = $dbObj->exec_UPDATEquery(
-		                    'tx_schedulertimeline_domain_model_log',
-		                    'uid = '.intval($row['uid']),
-		                    array(
-		                        'endtime' => time(),
-		                        'exception' => serialize(array('message' => 'Task was cleaned up, because it seems to be dead.'))
-		                    )
-		                );
-		                if ($res2 === false) { throw new \Exception('Error while cleaning tasks'); }
+                        // update log
+                        $res2 = $dbObj->exec_UPDATEquery(
+                            'tx_schedulertimeline_domain_model_log',
+                            'uid = '.intval($row['uid']),
+                            array(
+                                'endtime' => time(),
+                                'exception' => serialize(array('message' => 'Task was cleaned up, because it seems to be dead.'))
+                            )
+                        );
+                        if ($res2 === false) {
+                            throw new \Exception('Error while cleaning tasks');
+                        }
 
-		                $exception = new \TYPO3\CMS\Scheduler\FailedExecutionException('Task was cleaned up, because it seems to be dead.');
+                        $exception = new \TYPO3\CMS\Scheduler\FailedExecutionException('Task was cleaned up, because it seems to be dead.');
 
-		                // update scheduler task
-						$res3 = $dbObj->exec_UPDATEquery(
-		                    'tx_scheduler_task',
-		                    'uid = '.intval($row['task']),
-		                    array(
-		                        'serialized_executions' => '',
-		                        'lastexecution_failure' => serialize($exception)
-		                    )
-		                );
+                        // update scheduler task
+                        $res3 = $dbObj->exec_UPDATEquery(
+                            'tx_scheduler_task',
+                            'uid = '.intval($row['task']),
+                            array(
+                                'serialized_executions' => '',
+                                'lastexecution_failure' => serialize($exception)
+                            )
+                        );
 
-		            	if ($res3 === false) { throw new \Exception('Error while cleaning tasks'); }
-
-		            }
-		        }
-	        }
+                        if ($res3 === false) {
+                            throw new \Exception('Error while cleaning tasks');
+                        }
+                    }
+                }
+            }
         }
-
     }
 
     /**
@@ -164,7 +168,8 @@ class Scheduler extends \TYPO3\CMS\Scheduler\Scheduler {
      * @throws \Exception
      * @return int
      */
-    protected function logStart($taskUid) {
+    protected function logStart($taskUid)
+    {
         $now = time();
         $dbObj = $GLOBALS['TYPO3_DB']; /* @var $dbObj \TYPO3\CMS\Core\Database\DatabaseConnection */
         $res = $dbObj->exec_INSERTquery('tx_schedulertimeline_domain_model_log', array(
@@ -187,7 +192,8 @@ class Scheduler extends \TYPO3\CMS\Scheduler\Scheduler {
      * @throws \Exception
      * @return void
      */
-    protected function removeLog($logUid) {
+    protected function removeLog($logUid)
+    {
         $dbObj = $GLOBALS['TYPO3_DB']; /* @var $dbObj \TYPO3\CMS\Core\Database\DatabaseConnection */
         $res = $dbObj->exec_DELETEquery('tx_schedulertimeline_domain_model_log', 'uid='.intval($logUid));
         if ($res === false) {
@@ -203,7 +209,8 @@ class Scheduler extends \TYPO3\CMS\Scheduler\Scheduler {
      * @param string $returnMessage
      * @throws \Exception
      */
-    protected function logEnd($logUid, $failure, $returnMessage) {
+    protected function logEnd($logUid, $failure, $returnMessage)
+    {
         $exception = '';
         if ($failure instanceof \Exception) { /* @var $failure \Exception */
             $exception = serialize(array(
@@ -231,7 +238,8 @@ class Scheduler extends \TYPO3\CMS\Scheduler\Scheduler {
      * @param int $pid
      * @return bool
      */
-    protected function checkProcess($pid) {
+    protected function checkProcess($pid)
+    {
         // form the filename to search for
         $file = '/proc/' . (int) $pid . '/cmdline';
         $fp = false;
@@ -250,7 +258,6 @@ class Scheduler extends \TYPO3\CMS\Scheduler\Scheduler {
         }
         return true;
     }
-
 }
 
 if (defined('TYPO3_MODE') && isset($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/scheduler_timeline/Classes/XClass/Scheduler.php'])) {

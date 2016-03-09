@@ -31,34 +31,36 @@ namespace AOE\SchedulerTimeline\ViewHelpers;
  *
  * @package AOE\SchedulerTimeline\ViewHelpers
  */
-class StatusViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class StatusViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
-	/**
-	 * Render
-	 *
-	 * @param string $status
-	 * @return string rendered tag
-	 */
-	public function render($status) {
-		switch ($status) {
-			case \AOE\SchedulerTimeline\Domain\Model\Log::STATUS_SUCCESS:
-				$result = '<span class="bar-green"><span>' . $status . '</span></span>';
-				break;
-			case \AOE\SchedulerTimeline\Domain\Model\Log::STATUS_PENDING:
-				$result = '<span class="bar-lightgray"><span>' . $status . '</span></span>';
-				break;
-			case \AOE\SchedulerTimeline\Domain\Model\Log::STATUS_RUNNING:
-				$result = '<span class="bar-yellow"><span>' . $status . '</span></span>';
-				break;
-			case \AOE\SchedulerTimeline\Domain\Model\Log::STATUS_MISSED:
-				$result = '<span class="bar-orange"><span>' . $status . '</span></span>';
-				break;
-			case \AOE\SchedulerTimeline\Domain\Model\Log::STATUS_ERROR:
-				$result = '<span class="bar-red"><span>' . $status . '</span></span>';
-				break;
-			default:
-				$result = $status;
-		}
-		return $result;
-	}
+    /**
+     * Render
+     *
+     * @param string $status
+     * @return string rendered tag
+     */
+    public function render($status)
+    {
+        switch ($status) {
+            case \AOE\SchedulerTimeline\Domain\Model\Log::STATUS_SUCCESS:
+                $result = '<span class="bar-green"><span>' . $status . '</span></span>';
+                break;
+            case \AOE\SchedulerTimeline\Domain\Model\Log::STATUS_PENDING:
+                $result = '<span class="bar-lightgray"><span>' . $status . '</span></span>';
+                break;
+            case \AOE\SchedulerTimeline\Domain\Model\Log::STATUS_RUNNING:
+                $result = '<span class="bar-yellow"><span>' . $status . '</span></span>';
+                break;
+            case \AOE\SchedulerTimeline\Domain\Model\Log::STATUS_MISSED:
+                $result = '<span class="bar-orange"><span>' . $status . '</span></span>';
+                break;
+            case \AOE\SchedulerTimeline\Domain\Model\Log::STATUS_ERROR:
+                $result = '<span class="bar-red"><span>' . $status . '</span></span>';
+                break;
+            default:
+                $result = $status;
+        }
+        return $result;
+    }
 }
