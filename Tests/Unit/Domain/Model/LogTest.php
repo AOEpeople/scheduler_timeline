@@ -1,5 +1,7 @@
 <?php
 
+namespace AOE\SchedulerTimeline\Tests\Unit\Domain\Model;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -25,21 +27,22 @@
  ***************************************************************/
 
 /**
- * Class Tx_SchedulerTimeline_Tests_Unit_Domain_Model_LogTest
+ * Class LogTest
+ * @package AOE\SchedulerTimeline\Tests\Unit\Domain\Model
  */
-class Tx_SchedulerTimeline_Tests_Unit_Domain_Model_LogTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class LogTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
 	 * Log
 	 *
-	 * @var \Tx_SchedulerTimeline_Domain_Model_Log
+	 * @var \AOE\SchedulerTime\Domain|Model\Log
 	 */
 	protected $subject;
 
 	public function setUp() {
 		// Make sure that timezone is always the same in all testing environments
 		date_default_timezone_set('GMT+0');
-		$this->subject = new \Tx_SchedulerTimeline_Domain_Model_Log();
+		$this->subject = new \AOE\SchedulerTimeline\Domain\Model\Log();
 	}
 
 	/**
@@ -47,7 +50,7 @@ class Tx_SchedulerTimeline_Tests_Unit_Domain_Model_LogTest extends \TYPO3\CMS\Co
 	 */
 	public function checkInitiationOfSubjectReturnObjectOfDomainModelLog() {
 		$this->assertInstanceOf(
-			'Tx_SchedulerTimeline_Domain_Model_Log',
+			'AOE\SchedulerTimeline\Domain\Model\Log',
 			$this->subject
 		);
 	}
@@ -115,7 +118,7 @@ class Tx_SchedulerTimeline_Tests_Unit_Domain_Model_LogTest extends \TYPO3\CMS\Co
 	 */
 	public function getDurationReturnsDurationInSeconds($starttime, $endtime, $expectedDuration) {
 		$stub = $this->getAccessibleMock(
-			'Tx_SchedulerTimeline_Domain_Model_Log',
+			'AOE\\SchedulerTimeline\\Domain\\Model\\Log',
 			array('getStarttime', 'getEndtime', 'getCurrentTime')
 		);
 		$stub->expects($this->any())->method('getStarttime')->will($this->returnValue($starttime));
@@ -163,7 +166,7 @@ class Tx_SchedulerTimeline_Tests_Unit_Domain_Model_LogTest extends \TYPO3\CMS\Co
 	 * @dataProvider isRunningReturnsBooleanDataProvider()
 	 */
 	public function isRunningReturnsBoolean($endtime, $isRunning) {
-		$stub = $this->getMock('Tx_SchedulerTimeline_Domain_Model_Log', array('getEndtime'));
+		$stub = $this->getMock('AOE\\SchedulerTimeline\\Domain\\Model\\Log', array('getEndtime'));
 		$stub->expects($this->any())->method('getEndtime')->will($this->returnValue($endtime));
 		$this->assertSame(
 			$isRunning,
@@ -196,7 +199,7 @@ class Tx_SchedulerTimeline_Tests_Unit_Domain_Model_LogTest extends \TYPO3\CMS\Co
 	 * @dataProvider getFormattedDateFromTimestampReturnsStringDataProvider()
 	 */
 	public function getFormattedDateFromTimestampReturnsString($timestamp, $expectedFormattedDate) {
-		$stub = $this->getAccessibleMock('Tx_SchedulerTimeline_Domain_Model_Log', array('dummy'));
+		$stub = $this->getAccessibleMock('AOE\\SchedulerTimeline\\Domain\\Model\\Log', array('dummy'));
 
 		$this->assertSame(
 			$expectedFormattedDate,
@@ -238,7 +241,7 @@ class Tx_SchedulerTimeline_Tests_Unit_Domain_Model_LogTest extends \TYPO3\CMS\Co
 	 */
 	public function getTimespanReturnsString($isRunning, $starttime, $starttimeFormatted, $endtime, $endtimeFormatted, $expectedString) {
 		$stub = $this->getAccessibleMock(
-			'Tx_SchedulerTimeline_Domain_Model_Log',
+			'AOE\\SchedulerTimeline\\Domain\\Model\\Log',
 			array('isRunning','getStarttime', 'getEndtime', 'getFormattedDateFromTimestamp')
 		);
 		$stub->expects($this->any())->method('isRunning')->will($this->returnValue($isRunning));
@@ -295,7 +298,7 @@ class Tx_SchedulerTimeline_Tests_Unit_Domain_Model_LogTest extends \TYPO3\CMS\Co
 	 * @dataProvider getStatusReturnStringDataProvider()
 	 */
 	public function getStatusReturnString($exception, $isRunning, $expectedStatus) {
-		$stub = $this->getAccessibleMock('Tx_SchedulerTimeline_Domain_Model_Log', array('isRunning','getException'));
+		$stub = $this->getAccessibleMock('AOE\\SchedulerTimeline\\Domain\\Model\\Log', array('isRunning','getException'));
 		$stub->expects($this->any())->method('isRunning')->will($this->returnValue($isRunning));
 		$stub->expects($this->any())->method('getException')->will($this->returnValue($exception));
 
@@ -313,17 +316,17 @@ class Tx_SchedulerTimeline_Tests_Unit_Domain_Model_LogTest extends \TYPO3\CMS\Co
 			'Task is still running' => array(
 				'exception' => NULL,
 				'isRunning' => TRUE,
-				'expectedStatus' => \Tx_SchedulerTimeline_Domain_Model_Log::STATUS_RUNNING
+				'expectedStatus' => \AOE\SchedulerTimeline\Domain\Model\Log::STATUS_RUNNING
 			),
 			'Task is done' => array(
 				'exception' => NULL,
 				'isRunning' => FALSE,
-				'expectedStatus' => \Tx_SchedulerTimeline_Domain_Model_Log::STATUS_SUCCESS
+				'expectedStatus' => \AOE\SchedulerTimeline\Domain\Model\Log::STATUS_SUCCESS
 			),
 			'Task failed with exception' => array(
 				'exception' => 's:19:"NotWorkingException"',
 				'isRunning' => FALSE,
-				'expectedStatus' => \Tx_SchedulerTimeline_Domain_Model_Log::STATUS_ERROR
+				'expectedStatus' => \AOE\SchedulerTimeline\Domain\Model\Log::STATUS_ERROR
 			)
 		);
 	}

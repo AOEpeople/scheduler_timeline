@@ -1,4 +1,7 @@
 <?php
+
+namespace AOE\SchedulerTimeline\Domain\Model;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -29,7 +32,7 @@
  * @package TYPO3
  * @subpackage tx_schedulertimeline
  */
-class Tx_SchedulerTimeline_Domain_Model_Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	const STATUS_PENDING = 'pending';
 	const STATUS_RUNNING = 'running';
@@ -38,7 +41,7 @@ class Tx_SchedulerTimeline_Domain_Model_Log extends \TYPO3\CMS\Extbase\DomainObj
 	const STATUS_ERROR = 'error';
 
 	/**
-	 * @var Tx_SchedulerTimeline_Domain_Model_Task
+	 * @var \AOE\SchedulerTimeline\Domain\Model\Task
 	 */
 	protected $task;
 
@@ -70,7 +73,7 @@ class Tx_SchedulerTimeline_Domain_Model_Log extends \TYPO3\CMS\Extbase\DomainObj
 	/**
 	 * Get task
 	 *
-	 * @return Tx_SchedulerTimeline_Domain_Model_Task
+	 * @return \AOE\SchedulerTimeline\Domain\Model\Task
 	 */
 	public function getTask() {
 		return $this->task;

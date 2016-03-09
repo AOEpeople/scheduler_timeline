@@ -1,4 +1,7 @@
 <?php
+
+namespace AOE\SchedulerTimeline\ViewHelpers;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -29,17 +32,17 @@
  * @package TYPO3
  * @subpackage tx_schedulertimeline
  */
-class Tx_SchedulerTimeline_ViewHelpers_GanttViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper {
+class GanttViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper {
 
 	/**
 	 * Render
 	 *
-	 * @param Tx_SchedulerTimeline_Domain_Model_Log $log
+	 * @param \AOE\SchedulerTimeline\Domain\Model\Log $log
 	 * @param int $starttime
 	 * @param int $zoom
 	 * @return string rendered tag
 	 */
-	public function render(Tx_SchedulerTimeline_Domain_Model_Log $log, $starttime, $zoom) {
+	public function render(\AOE\SchedulerTimeline\Domain\Model\Log $log, $starttime, $zoom) {
 
 		$duration = $log->getDuration() / $zoom;
 		$duration = ceil($duration / 4) * 4 - 1; // round to numbers dividable by 4, then remove 1 px border

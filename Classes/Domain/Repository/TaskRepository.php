@@ -1,4 +1,7 @@
 <?php
+
+namespace AOE\SchedulerTimeline\Domain\Repository;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -29,7 +32,7 @@
  * @package TYPO3
  * @subpackage tx_schedulertimeline
  */
-class Tx_SchedulerTimeline_Domain_Repository_TaskRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class TaskRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 	/**
 	 * Initialize object

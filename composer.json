@@ -1,0 +1,50 @@
+{
+  "name": "aoe/scheduler_timeline",
+  "description": "Logs information about scheduler task execution and displays them in a graphical timeline",
+  "type": "typo3-cms-extension",
+  "keywords": ["TYPO3 CMS", "Authentication"],
+  "license": ["GPL-2.0+"],
+  "homepage": "https://github.com/AOEpeople/scheduler_timeline",
+  "version": "0.1.dev",
+  "support": {
+    "issues": "https://github.com/AOEpeople/scheduler_timeline/issues"
+  },
+  "require": {
+    "typo3/cms": ">=6.2.0,<8.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.8.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "AOE\\SchedulerTimeline\\": "Classes"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "AOE\\SchedulerTimeline\\Tests\\": "Tests",
+      "TYPO3\\CMS\\Core\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/core/Tests/"
+    }
+  },
+  "config": {
+    "vendor-dir": ".Build/vendor",
+    "bin-dir": ".Build/bin"
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "mkdir -p .Build/Web/typo3conf/ext/",
+      "[ -L .Build/Web/typo3conf/ext/scheduler_timeline ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/scheduler_timeline",
+      "mkdir -p typo3conf/ext",
+      "[ -L typo3conf/ext/scheduler_timeline ] || ln -snvf ../../. typo3conf/ext/scheduler_timeline"
+    ]
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    },
+    "typo3/cms": {
+      "cms-package-dir": "{$vendor-dir}/typo3/cms",
+      "web-dir": ".Build/Web"
+    }
+  }
+}

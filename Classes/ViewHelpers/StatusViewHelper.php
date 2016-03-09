@@ -1,4 +1,7 @@
 <?php
+
+namespace AOE\SchedulerTimeline\ViewHelpers;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -29,7 +32,7 @@
  * @package TYPO3
  * @subpackage tx_schedulertimeline
  */
-class Tx_SchedulerTimeline_ViewHelpers_StatusViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class StatusViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * Render
@@ -39,19 +42,19 @@ class Tx_SchedulerTimeline_ViewHelpers_StatusViewHelper extends \TYPO3\CMS\Fluid
 	 */
 	public function render($status) {
 		switch ($status) {
-			case Tx_SchedulerTimeline_Domain_Model_Log::STATUS_SUCCESS:
+			case \AOE\SchedulerTimeline\Domain\Model\Log::STATUS_SUCCESS:
 				$result = '<span class="bar-green"><span>'.$status.'</span></span>';
 				break;
-			case Tx_SchedulerTimeline_Domain_Model_Log::STATUS_PENDING:
+			case \AOE\SchedulerTimeline\Domain\Model\Log::STATUS_PENDING:
 				$result = '<span class="bar-lightgray"><span>'.$status.'</span></span>';
 				break;
-			case Tx_SchedulerTimeline_Domain_Model_Log::STATUS_RUNNING:
+			case \AOE\SchedulerTimeline\Domain\Model\Log::STATUS_RUNNING:
 				$result = '<span class="bar-yellow"><span>'.$status.'</span></span>';
 				break;
-			case Tx_SchedulerTimeline_Domain_Model_Log::STATUS_MISSED:
+			case \AOE\SchedulerTimeline\Domain\Model\Log::STATUS_MISSED:
 				$result = '<span class="bar-orange"><span>'.$status.'</span></span>';
 				break;
-			case Tx_SchedulerTimeline_Domain_Model_Log::STATUS_ERROR:
+			case \AOE\SchedulerTimeline\Domain\Model\Log::STATUS_ERROR:
 				$result = '<span class="bar-red"><span>'.$status.'</span></span>';
 				break;
 			default:

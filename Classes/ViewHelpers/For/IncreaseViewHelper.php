@@ -1,4 +1,7 @@
 <?php
+
+namespace AOE\SchedulerTimeline\ViewHelpers\For;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -29,7 +32,7 @@
  * @package TYPO3
  * @subpackage tx_schedulertimeline
  */
-class Tx_SchedulerTimeline_ViewHelpers_For_IncreaseViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class IncreaseViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * Render

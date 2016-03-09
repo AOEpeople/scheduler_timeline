@@ -1,12 +1,15 @@
 <?php
 
+namespace AOE\SchedulerTimeline\Tests\Functional\Domain\Repository;
+
 /**
- * Class Tx_SchedulerTimeline_Tests_Functional_Domain_Repository_LogRepositoryTest
+ * Class LogRepositoryTest
+ * @package AOE\SchedulerTimeline\Tests\Functional\Domain\Repository
  */
-class Tx_SchedulerTimeline_Tests_Functional_Domain_Repository_LogRepositoryTest extends \TYPO3\CMS\Core\Tests\FunctionalTestCase {
+class LogRepositoryTest extends \TYPO3\CMS\Core\Tests\FunctionalTestCase {
 
 	/**
-	 * @var \Tx_SchedulerTimeline_Domain_Repository_LogRepository
+	 * @var \AOE\SchedulerTimeline\Domain\Repository\LogRepository
 	 */
 	protected $logRepository;
 
@@ -27,7 +30,7 @@ class Tx_SchedulerTimeline_Tests_Functional_Domain_Repository_LogRepositoryTest 
 		$this->importDataSet(__DIR__ . '/Fixtures/tx_schedulertimeline_domain_model_log.xml');
 		$this->importDataSet(__DIR__ . '/Fixtures/tx_scheduler_task.xml');
 		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-		$this->logRepository = $this->objectManager->get('Tx_SchedulerTimeline_Domain_Repository_LogRepository');
+		$this->logRepository = $this->objectManager->get('AOE\\SchedulerTimeline\\Domain\\Repository\\LogRepository');
 	}
 
 	/**
@@ -51,7 +54,7 @@ class Tx_SchedulerTimeline_Tests_Functional_Domain_Repository_LogRepositoryTest 
 		$endTime = 1445191876; // 18.10.15 18:11
 		$logs = $this->logRepository->findByTime($startTime, $endTime);
 
-		/** @var \Tx_SchedulerTimeline_Domain_Model_Log $log */
+		/** @var \AOE\SchedulerTimeline\Domain\Model\Log $log */
 		foreach ($logs as $log) {
 			$actualArray[] = $log->getUid();
 		}
@@ -92,9 +95,9 @@ class Tx_SchedulerTimeline_Tests_Functional_Domain_Repository_LogRepositoryTest 
 		foreach ($logsGroupedByTask as $taskUid => $taskObject) {
 			$actualArray[$taskUid]['task'] = $taskUid;
 
-			/** @var Tx_SchedulerTimeline_Domain_Model_Task $task */
+			/** @var \AOE\SchedulerTimeline\Domain\Model\Task $task */
 			foreach ($taskObject as $task) {
-				/** @var Tx_SchedulerTimeline_Domain_Model_Log @log */
+				/** @var \AOE\SchedulerTimeline\Domain\Model\Log $log */
 				foreach ($task as $log) {
 					$actualArray[$taskUid]['logs'][] = $log->getUid();
 				}
