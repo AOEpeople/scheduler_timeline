@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:element name="xliff">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="file">
+					<xs:attribute name="version" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="file">
+		<xs:sequence>
+			<xs:element ref="file"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="file">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="header"/>
+				<xs:element ref="body"/>
+			</xs:sequence>
+			<xs:attribute name="datatype" use="required"/>
+			<xs:attribute name="date" use="required"/>
+			<xs:attribute name="original" use="required"/>
+			<xs:attribute name="product-name" use="required"/>
+			<xs:attribute name="source-language" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="header">
+		<xs:complexType/>
+	</xs:element>
+	<xs:element name="body">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="unbounded" ref="trans-unit"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="trans-unit">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="source">
+					<xs:attribute name="id" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="source">
+		<xs:sequence>
+			<xs:element ref="source"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="source" type="xs:string"/>
+</xs:schema>
