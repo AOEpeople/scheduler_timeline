@@ -25,13 +25,9 @@ namespace AOE\SchedulerTimeline\Domain\Model;
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
 /**
- * Task
- *
- * @author	Fabrizio Branca <typo3@fabrizio-branca.de>
- * @package TYPO3
- * @subpackage tx_schedulertimeline
+ * Class Task
+ * @package AOE\SchedulerTimeline\Domain\Model
  */
 class Task extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 

@@ -49,7 +49,7 @@ div.timeline-box {
 }
 
 div.timeline-panel {
-	background-image: url(../Images/hour.gif);
+	background-image: url(../Images/hour.png);
 	border-right: 1px solid black;
 	position: relative;
 }

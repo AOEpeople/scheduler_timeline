@@ -1,4 +1,7 @@
 <?php
+
+namespace AOE\SchedulerTimeline\XClass;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -24,13 +27,10 @@
 ***************************************************************/
 
 /**
- * Scheduler
- *
- * @author	Fabrizio Branca <typo3@fabrizio-branca.de>
- * @package TYPO3
- * @subpackage tx_schedulertimeline
+ * Class Scheduler
+ * @package AOE\SchedulerTimeline\XClass
  */
-class ux_tx_scheduler extends \TYPO3\CMS\Scheduler\Scheduler {
+class Scheduler extends \TYPO3\CMS\Scheduler\Scheduler {
 
     /**
      * Wraps the executeTask method
@@ -55,7 +55,7 @@ class ux_tx_scheduler extends \TYPO3\CMS\Scheduler\Scheduler {
 
         if ($result || $failure) {
             $returnMessage = '';
-            if ($task instanceof tx_schedulertimeline_returnmessage || is_callable(array($task, 'getReturnMessage'))) {
+            if ($task instanceof \AOE\SchedulerTimeline\Interfaces\ReturnMessage || is_callable(array($task, 'getReturnMessage'))) {
                 $returnMessage = $task->getReturnMessage();
             }
 
@@ -253,6 +253,6 @@ class ux_tx_scheduler extends \TYPO3\CMS\Scheduler\Scheduler {
 
 }
 
-if (defined('TYPO3_MODE') && isset($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/scheduler_timeline/class.ux_tx_scheduler.php'])) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/scheduler_timeline/class.ux_tx_scheduler.php']);
+if (defined('TYPO3_MODE') && isset($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/scheduler_timeline/Classes/XClass/Scheduler.php'])) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/scheduler_timeline/Classes/XClass/Scheduler.php']);
 }

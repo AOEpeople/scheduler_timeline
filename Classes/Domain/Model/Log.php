@@ -26,11 +26,8 @@ namespace AOE\SchedulerTimeline\Domain\Model;
 ***************************************************************/
 
 /**
- * Log
- *
- * @author	Fabrizio Branca <typo3@fabrizio-branca.de>
- * @package TYPO3
- * @subpackage tx_schedulertimeline
+ * Class Log
+ * @package AOE\SchedulerTimeline\Domain\Model
  */
 class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
