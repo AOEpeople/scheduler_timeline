@@ -5,7 +5,7 @@ if (!defined('TYPO3_MODE')) {
 
 if (TYPO3_MODE === 'BE' && !(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_INSTALL)) {
 	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-		$_EXTKEY,
+		'AOE.' . $_EXTKEY,
 		'tools',
 		'schedulertimeline',
 		'after:txschedulerM1',
@@ -15,7 +15,7 @@ if (TYPO3_MODE === 'BE' && !(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_INSTALL)) {
 		),
 		array(
 			'access' => 'user,group',
-			'icon' => 'EXT:' . $_EXTKEY . '/Resources/Public/Images/moduleicon.gif',
+			'icon' => 'EXT:' . $_EXTKEY . '/Resources/Public/Images/' . (\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.0') ? 'be_module_icon_v7.png' : 'moduleicon.png'),
 			'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_mod.xlf'
 		)
 	);
@@ -32,7 +32,7 @@ $TCA['tx_schedulertimeline_domain_model_log'] = array(
 		'adminOnly' => 1,
 		'rootLevel' => 1,
 		'hideTable' => 1,
-		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'tca.php',
+		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . '/Configuration/TCA/tca.php',
 	)
 );
 
@@ -46,6 +46,6 @@ $TCA['tx_scheduler_task'] = array(
 		'adminOnly' => 1,
 		'rootLevel' => 1,
 		'hideTable' => 1,
-		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'tca.php',
+		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . '/Configuration/TCA/tca.php',
 	)
 );

@@ -25,13 +25,9 @@ namespace AOE\SchedulerTimeline\Controller;
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
 /**
- * TimelineController
- *
- * @author	Fabrizio Branca <typo3@fabrizio-branca.de>
- * @package TYPO3
- * @subpackage tx_schedulertimeline
+ * Class TimelineController
+ * @package AOE\SchedulerTimeline\Controller
  */
 class TimelineController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
@@ -148,7 +144,7 @@ class TimelineController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 		$this->template = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Backend\\Template\\DocumentTemplate');
 		$this->pageRenderer = $this->template->getPageRenderer();
 
-		$GLOBALS['SOBE'] = new stdClass();
+		$GLOBALS['SOBE'] = new \stdClass();
 		$GLOBALS['SOBE']->doc = $this->template;
 
 		parent::processRequest($request, $response);
