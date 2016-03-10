@@ -45,14 +45,20 @@ class LogRepositoryTest extends \TYPO3\CMS\Core\Tests\FunctionalTestCase
     protected $objectManager;
 
     /**
+     * @var array
+     */
+    protected $coreExtensionsToLoad = array('scheduler');
+
+    /**
+     * @var array
+     */
+    protected $testExtensionsToLoad = array('typo3conf/ext/scheduler_timeline');
+
+    /**
      * SetUp
      */
     public function setUp()
     {
-        $this->testExtensionsToLoad = array(
-            'typo3conf/ext/scheduler_timeline',
-            'typo3/sysext/scheduler'
-        );
         parent::setUp();
         $this->importDataSet(__DIR__ . '/Fixtures/tx_schedulertimeline_domain_model_log.xml');
         $this->importDataSet(__DIR__ . '/Fixtures/tx_scheduler_task.xml');

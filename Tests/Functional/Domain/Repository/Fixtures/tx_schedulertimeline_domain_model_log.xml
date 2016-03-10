@@ -5,8 +5,10 @@
 		<pid>345</pid>
 		<!-- 18.10.2015 18:04 -->
 		<starttime>1445191476</starttime>
-		<endtime></endtime>
+		<endtime>0</endtime>
 		<task>131</task>
+		<exception></exception>
+		<returnmessage></returnmessage>
 	</tx_schedulertimeline_domain_model_log>
 	<tx_schedulertimeline_domain_model_log>
 		<uid>2</uid>
@@ -16,6 +18,8 @@
 		<!-- 18.10.2015 18:26 -->
 		<endtime>1445192788</endtime>
 		<task>132</task>
+		<exception></exception>
+		<returnmessage></returnmessage>
 	</tx_schedulertimeline_domain_model_log>
 	<tx_schedulertimeline_domain_model_log>
 		<uid>3</uid>
@@ -25,6 +29,8 @@
 		<!-- 17.10.15 19:28 -->
 		<endtime>1445110099</endtime>
 		<task>133</task>
+		<exception></exception>
+		<returnmessage></returnmessage>
 	</tx_schedulertimeline_domain_model_log>
 	<tx_schedulertimeline_domain_model_log>
 		<uid>4</uid>
@@ -34,13 +40,17 @@
 		<!-- 19.10.15 20:28 -->
 		<endtime>1445286499</endtime>
 		<task>134</task>
+		<exception></exception>
+		<returnmessage></returnmessage>
 	</tx_schedulertimeline_domain_model_log>
 	<tx_schedulertimeline_domain_model_log>
 		<uid>5</uid>
 		<pid>345</pid>
 		<!-- 17.10.15 20:28 -->
 		<starttime>1445113699</starttime>
-		<endtime></endtime>
+		<endtime>0</endtime>
 		<task>134</task>
+		<exception></exception>
+		<returnmessage></returnmessage>
 	</tx_schedulertimeline_domain_model_log>
 </dataset>
