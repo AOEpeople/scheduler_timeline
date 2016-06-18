@@ -34,9 +34,7 @@
   "scripts": {
     "post-autoload-dump": [
       "mkdir -p .Build/Web/typo3conf/ext/",
-      "[ -L .Build/Web/typo3conf/ext/scheduler_timeline ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/scheduler_timeline",
-      "mkdir -p typo3conf/ext",
-      "[ -L typo3conf/ext/scheduler_timeline ] || ln -snvf ../../. typo3conf/ext/scheduler_timeline"
+      "[ -L .Build/Web/typo3conf/ext/scheduler_timeline ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/scheduler_timeline"
     ]
   },
   "extra": {
