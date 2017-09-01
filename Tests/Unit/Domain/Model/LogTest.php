@@ -43,7 +43,7 @@ class LogTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
     public function setUp()
     {
         // Make sure that timezone is always the same in all testing environments
-        date_default_timezone_set('GMT+0');
+        date_default_timezone_set('UTC');
         $this->subject = new \AOE\SchedulerTimeline\Domain\Model\Log();
     }
 
@@ -232,11 +232,11 @@ class LogTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
                 'expectedFormattedDate' => '00:00'
             ),
             'Timestamp 2015-10-13 16:26' => array(
-                'timestamp' => strtotime('2015-10-13 16:26'),
+                'timestamp' => strtotime('2015-10-13 16:26 UTC'),
                 'expectedFormattedDate' => '16:26'
             ),
             'Timestamp 2015-11-13 10:13' => array(
-                'timestamp' => strtotime('2015-11-13 10:13'),
+                'timestamp' => strtotime('2015-11-13 10:13 UTC'),
                 'expectedFormattedDate' => '10:13'
             ),
         );
