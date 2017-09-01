@@ -6,7 +6,6 @@
   "keywords": ["TYPO3 CMS", "Scheduler", "Timeline"],
   "license": ["GPL-2.0+"],
   "homepage": "https://github.com/AOEpeople/scheduler_timeline",
-  "version": "1.0.3-dev",
   "support": {
     "issues": "https://github.com/AOEpeople/scheduler_timeline/issues"
   },
