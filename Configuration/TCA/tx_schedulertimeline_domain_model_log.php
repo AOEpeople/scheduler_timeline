@@ -1,10 +1,17 @@
 <?php
 
-$TCA['tx_schedulertimeline_domain_model_log'] = array(
-    'ctrl' => $TCA['tx_schedulertimeline_domain_model_log']['ctrl'],
+return array(
+    'ctrl' => array(
+        'label' => 'uid',
+        'tstamp' => 'tstamp',
+        'title' => 'LLL:EXT:scheduler_timeline/Resources/Private/Language/locallang_tca.xlf:tx_schedulertimeline_domain_model_log',
+        'adminOnly' => 1,
+        'rootLevel' => 1,
+        'hideTable' => 1,
+    ),
     'columns' => array(
         'task' => array(
-            'label' => 'Task',
+            'label' => 'task',
             'config' => array(
                 'type' => 'input',
                 'size' => '20',
@@ -56,30 +63,5 @@ $TCA['tx_schedulertimeline_domain_model_log'] = array(
     ),
     'types' => array(
         '0' => array('showitem' => 'task, starttime, endtime, exception, returnmessage, processid')
-    )
-);
-
-$TCA['tx_scheduler_task'] = array(
-    'ctrl' => $TCA['tx_scheduler_task']['ctrl'],
-    'columns' => array(
-        'classname' => array(
-            'label' => 'Classname',
-            'config' => array(
-                'type' => 'input',
-                'size' => '20',
-                'max' => '30',
-            )
-        ),
-        'serialized_task_object' => array(
-            'label' => 'serialized_task_object',
-            'config' => array(
-                'type' => 'input',
-                'size' => '20',
-                'max' => '30',
-            )
-        ),
-    ),
-    'types' => array(
-        '0' => array('showitem' => 'classname')
     )
 );
