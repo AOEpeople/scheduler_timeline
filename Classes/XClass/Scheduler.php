@@ -26,6 +26,8 @@ namespace AOE\SchedulerTimeline\XClass;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Class Scheduler
  *
@@ -101,7 +103,7 @@ class Scheduler extends \TYPO3\CMS\Scheduler\Scheduler
         $dbObj = $GLOBALS['TYPO3_DB']; /* @var $dbObj \TYPO3\CMS\Core\Database\DatabaseConnection */
         $res = $dbObj->exec_DELETEquery('tx_schedulertimeline_domain_model_log', 'endtime > 0 AND endtime <'.(time()- $extConf['cleanLogEntriesOlderThan'] * 60));
         if ($res === false) {
-            throw new \Exception('Error while cleaning log');
+            GeneralUtility::sysLog('Error while cleaning log', 'scheduler_timeline', 0);
         }
 
         // clean tasks, that exceeded the maxLifetime
@@ -116,7 +118,7 @@ class Scheduler extends \TYPO3\CMS\Scheduler\Scheduler
             )
         );
         if ($res === false) {
-            throw new \Exception('Error while cleaning tasks');
+            GeneralUtility::sysLog('Error while cleaning tasks', 'scheduler_timeline', 0);
         }
 
         // check if process are still alive that have been started more than x minutes ago
@@ -154,7 +156,7 @@ class Scheduler extends \TYPO3\CMS\Scheduler\Scheduler
                         );
 
                         if ($res3 === false) {
-                            throw new \Exception('Error while cleaning tasks');
+                            GeneralUtility::sysLog('Error while cleaning tasks', 'scheduler_timeline', 0);
                         }
                     }
                 }
@@ -181,7 +183,7 @@ class Scheduler extends \TYPO3\CMS\Scheduler\Scheduler
             'processid' => getmypid()
         ));
         if ($res === false) {
-            throw new \Exception('Error while inserting log entry');
+            GeneralUtility::sysLog('Error while inserting log entry', 'scheduler_timeline', 0);
         }
         return $dbObj->sql_insert_id();
     }
@@ -198,7 +200,7 @@ class Scheduler extends \TYPO3\CMS\Scheduler\Scheduler
         $dbObj = $GLOBALS['TYPO3_DB']; /* @var $dbObj \TYPO3\CMS\Core\Database\DatabaseConnection */
         $res = $dbObj->exec_DELETEquery('tx_schedulertimeline_domain_model_log', 'uid='.intval($logUid));
         if ($res === false) {
-            throw new \Exception('Error while deleting log entry');
+            GeneralUtility::sysLog('Error while deleting log entry', 'scheduler_timeline', 0);
         }
     }
 
@@ -229,7 +231,7 @@ class Scheduler extends \TYPO3\CMS\Scheduler\Scheduler
             'returnmessage' => $returnMessage
         ));
         if ($res === false) {
-            throw new \Exception('Error while updating log entry');
+            GeneralUtility::sysLog('Error while updating log entry', 'scheduler_timeline', 0);
         }
     }
 
