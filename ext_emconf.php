@@ -2,7 +2,7 @@
 $EM_CONF[$_EXTKEY] = array(
     'title' => 'Scheduler Timeline',
     'description' => 'Logs information about scheduler task execution and displays them in a graphical timeline',
-    'version' => '1.0.4',
+    'version' => '1.0.5-dev',
     'category' => 'module',
     'author' => 'Fabrizio Branca, Erik Frister, Thomas Layh, Tomas Norre Mikkelsen, Stefan Rotsch, Nikola Stojiljković',
     'author_company' => 'AOE GmbH',
