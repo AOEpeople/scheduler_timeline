@@ -90,13 +90,16 @@ class LogRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $logs = $this->findAll();
         $result = array();
         foreach ($logs as $log) { /* @var $log \AOE\SchedulerTimeline\Domain\Model\Log */
+            $task = $log->getTask();
+            if (NULL === $task) {
+                continue;
+            }
 
             // min/max
             $startTime = $log->getStarttime();
             $this->minDate = is_null($this->minDate) ? $startTime : min($this->minDate, $startTime);
             $this->maxDate = is_null($this->maxDate) ? $startTime : max($this->maxDate, $startTime);
 
-            $task = $log->getTask();
             $result[$task->getUid()]['task'] = $task;
             $result[$task->getUid()]['logs'][] = $log;
         }
