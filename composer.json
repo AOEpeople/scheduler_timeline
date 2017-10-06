@@ -10,10 +10,11 @@
     "issues": "https://github.com/AOEpeople/scheduler_timeline/issues"
   },
   "require": {
-    "typo3/cms": ">=6.2.0,<8.0"
+    "typo3/cms": ">=6.2.0,<8.9.99"
   },
   "require-dev": {
-    "phpunit/phpunit": "~4.8.0"
+    "nimut/testing-framework": "2.0.0",
+    "helhum/typo3-console": "*"
   },
   "autoload": {
     "psr-4": {
@@ -33,7 +34,8 @@
   "scripts": {
     "post-autoload-dump": [
       "mkdir -p .Build/Web/typo3conf/ext/",
-      "[ -L .Build/Web/typo3conf/ext/scheduler_timeline ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/scheduler_timeline"
+      "[ -L .Build/Web/typo3conf/ext/scheduler_timeline ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/scheduler_timeline",
+      "[ -e .Build/bin/typo3cms ] &&  .Build/bin/typo3cms install:generatepackagestates || echo 'TYPO3 Console is not installed'"
     ]
   },
   "extra": {
@@ -43,6 +45,9 @@
     "typo3/cms": {
       "cms-package-dir": "{$vendor-dir}/typo3/cms",
       "web-dir": ".Build/Web"
+    },
+    "helhum/typo3-console": {
+      "install-extension-dummy": false
     }
   }
 }

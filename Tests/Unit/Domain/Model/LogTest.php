@@ -30,7 +30,7 @@ namespace AOE\SchedulerTimeline\Tests\Unit\Domain\Model;
  * Class LogTest
  * @package AOE\SchedulerTimeline\Tests\Unit\Domain\Model
  */
-class LogTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
+class LogTest extends \Nimut\TestingFramework\TestCase\UnitTestCase
 {
 
     /**

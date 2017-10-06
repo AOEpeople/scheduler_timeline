@@ -31,7 +31,7 @@ namespace AOE\SchedulerTimeline\Tests\Unit\Domain\Model;
  *
  * @package AOE\SchedulerTimeline\Tests\Unit\Domain\Model
  */
-class TaskTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
+class TaskTest extends \Nimut\TestingFramework\TestCase\UnitTestCase
 {
 
     /**

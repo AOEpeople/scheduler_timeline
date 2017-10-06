@@ -26,6 +26,9 @@ namespace AOE\SchedulerTimeline\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Class TimelineController
  *
@@ -76,6 +79,15 @@ class TimelineController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         $this->pageRenderer->addJsLibrary('jquery_tooltip_dynamic', \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/tooltip.dynamic.js');
 
         $this->addJsFileToPageRenderer(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/common.js');
+    }
+
+    /**
+     * @param \TYPO3\CMS\Core\Page\PageRenderer $pageRenderer
+     * @return void
+     */
+    public function injectPageRenderer(\TYPO3\CMS\Core\Page\PageRenderer $pageRenderer)
+    {
+        $this->pageRenderer = $pageRenderer;
     }
 
     /**
@@ -151,7 +163,6 @@ class TimelineController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
     public function processRequest(\TYPO3\CMS\Extbase\Mvc\RequestInterface $request, \TYPO3\CMS\Extbase\Mvc\ResponseInterface $response)
     {
         $this->template = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Backend\\Template\\DocumentTemplate');
-        $this->pageRenderer = $this->template->getPageRenderer();
 
         $GLOBALS['SOBE'] = new \stdClass();
         $GLOBALS['SOBE']->doc = $this->template;

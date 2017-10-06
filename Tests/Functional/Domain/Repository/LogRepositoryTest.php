@@ -31,7 +31,7 @@ namespace AOE\SchedulerTimeline\Tests\Functional\Domain\Repository;
  *
  * @package AOE\SchedulerTimeline\Tests\Functional\Domain\Repository
  */
-class LogRepositoryTest extends \TYPO3\CMS\Core\Tests\FunctionalTestCase
+class LogRepositoryTest extends \Nimut\TestingFramework\TestCase\FunctionalTestCase
 {
 
     /**
@@ -60,6 +60,7 @@ class LogRepositoryTest extends \TYPO3\CMS\Core\Tests\FunctionalTestCase
     public function setUp()
     {
         parent::setUp();
+        $this->getDatabaseConnection();
         $this->importDataSet(__DIR__ . '/Fixtures/tx_schedulertimeline_domain_model_log.xml');
         $this->importDataSet(__DIR__ . '/Fixtures/tx_scheduler_task.xml');
         $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
@@ -81,7 +82,6 @@ class LogRepositoryTest extends \TYPO3\CMS\Core\Tests\FunctionalTestCase
      */
     public function findByTimeReturnsQueryResultInterface()
     {
-
         // Order by starttime
         $expectedArray = array(5,1,2);
 
