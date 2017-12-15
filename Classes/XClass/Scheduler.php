@@ -262,7 +262,3 @@ class Scheduler extends \TYPO3\CMS\Scheduler\Scheduler
         return true;
     }
 }
-
-if (defined('TYPO3_MODE') && isset($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/scheduler_timeline/Classes/XClass/Scheduler.php'])) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/scheduler_timeline/Classes/XClass/Scheduler.php']);
-}
