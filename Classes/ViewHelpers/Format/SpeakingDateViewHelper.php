@@ -1,11 +1,10 @@
 <?php
-
 namespace AOE\SchedulerTimeline\ViewHelpers\Format;
 
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2016 AOE GmbH <dev@aoe.com>
+ *  (c) 2017 AOE GmbH <dev@aoe.com>
  *
  *  All rights reserved
  *
@@ -26,26 +25,49 @@ namespace AOE\SchedulerTimeline\ViewHelpers\Format;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
+
 /**
  * Class SpeakingDateViewHelper
  *
  * @package AOE\SchedulerTimeline\ViewHelpers\Format
  */
-class SpeakingDateViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class SpeakingDateViewHelper extends AbstractViewHelper implements CompilableInterface
 {
+    use CompileWithRenderStatic;
 
     /**
-     * Render
+     * Initializes the arguments
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('timestamp', 'string', 'Timestamp', true);
+        $this->registerArgument('defaultFormat', 'string', 'Default time format', false, 'Y.m.d H:i');
+        $this->registerArgument('todayFormat', 'string', 'Time format for today', false, 'H:i');
+        $this->registerArgument('tomorrowFormat', 'string', 'Time format for tomorrow', false, '\T\o\m\m\o\r\o\w, H:i');
+        $this->registerArgument('yesterdayFormat', 'string', 'Time format for yesterday', false, '\Y\e\s\t\e\r\d\a\y, H:i');
+    }
+
+    /**
      *
-     * @param string $timestamp
-     * @param string $defaultFormat
-     * @param string $todayFormat
-     * @param string $tomorrowFormat
-     * @param string $yesterdayFormat
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
      * @return string
      */
-    public function render($timestamp, $defaultFormat='Y.m.d H:i', $todayFormat='H:i', $tomorrowFormat='\T\o\m\m\o\r\o\w, H:i', $yesterdayFormat='\Y\e\s\t\e\r\d\a\y, H:i')
+    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
     {
+
+        $timestamp = $arguments['timestamp'];
+        $defaultFormat = $arguments['defaultFormat'];
+        $todayFormat = $arguments['todayFormat'];
+        $tomorrowFormat = $arguments['tomorrowFormat'];
+        $yesterdayFormat = $arguments['yesterdayFormat'];
+
         $day = date('Ymd', $timestamp);
         if ($todayFormat && (date('Ymd') == $day)) {
             $result = date($todayFormat, $timestamp);

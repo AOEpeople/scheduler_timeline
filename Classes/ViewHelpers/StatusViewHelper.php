@@ -1,11 +1,10 @@
 <?php
-
 namespace AOE\SchedulerTimeline\ViewHelpers;
 
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2016 AOE GmbH <dev@aoe.com>
+ *  (c) 2017 AOE GmbH <dev@aoe.com>
  *
  *  All rights reserved
  *
@@ -26,36 +25,66 @@ namespace AOE\SchedulerTimeline\ViewHelpers;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use AOE\SchedulerTimeline\Domain\Model\Log;
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
+
 /**
  * Class StatusViewHelper
  *
  * @package AOE\SchedulerTimeline\ViewHelpers
  */
-class StatusViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class StatusViewHelper extends AbstractViewHelper implements CompilableInterface
 {
 
+    use CompileWithRenderStatic;
+
     /**
-     * Render
+     * View helper returns HTML, thus we need to disable output escaping
      *
-     * @param string $status
-     * @return string rendered tag
+     * @var bool
      */
-    public function render($status)
+    protected $escapeOutput = false;
+
+    /**
+     * Initializes the arguments
+     */
+    public function initializeArguments()
     {
+        parent::initializeArguments();
+        $this->registerArgument('status', 'string', 'the status of the process', true);
+    }
+
+    /**
+     * Prints status html for process
+     *
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     *
+     * @return string
+     */
+    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
+    {
+
+        $status = $arguments['status'];
+
         switch ($status) {
-            case \AOE\SchedulerTimeline\Domain\Model\Log::STATUS_SUCCESS:
-                $result = '<span class="bar-green"><span>' . $status . '</span></span>';
+            case Log::STATUS_SUCCESS:
+                $result = '<span class="bar-green">' . $status . '</span>';
                 break;
-            case \AOE\SchedulerTimeline\Domain\Model\Log::STATUS_PENDING:
+            case Log::STATUS_PENDING:
                 $result = '<span class="bar-lightgray"><span>' . $status . '</span></span>';
                 break;
-            case \AOE\SchedulerTimeline\Domain\Model\Log::STATUS_RUNNING:
+            case Log::STATUS_RUNNING:
                 $result = '<span class="bar-yellow"><span>' . $status . '</span></span>';
                 break;
-            case \AOE\SchedulerTimeline\Domain\Model\Log::STATUS_MISSED:
+            case Log::STATUS_MISSED:
                 $result = '<span class="bar-orange"><span>' . $status . '</span></span>';
                 break;
-            case \AOE\SchedulerTimeline\Domain\Model\Log::STATUS_ERROR:
+            case Log::STATUS_ERROR:
                 $result = '<span class="bar-red"><span>' . $status . '</span></span>';
                 break;
             default:
