@@ -50,7 +50,10 @@ class LogRepositoryTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
     public function findGroupedByTaskIgnoresLogEntriesForDeletedTasks()
     {
         $logCollection = self::getLogCollection();
-        $logRepository = $this->getMock(LogRepository::class, array('findAll'), array(new ObjectManager()));
+        $logRepository = $this->getMockBuilder(LogRepository::class)
+            ->setConstructorArgs([new ObjectManager()])
+            ->setMethods(['findAll'])
+            ->getMock();
         $logRepository->expects(self::any())->method('findAll')->willReturn($logCollection);
 
         $logs = $logRepository->findGroupedByTask();

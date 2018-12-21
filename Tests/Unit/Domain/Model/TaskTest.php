@@ -26,18 +26,19 @@ namespace AOE\SchedulerTimeline\Tests\Unit\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use AOE\SchedulerTimeline\Domain\Model\Task;
+use Nimut\TestingFramework\TestCase\UnitTestCase;
+
 /**
  * Class TaskTest
  *
  * @package AOE\SchedulerTimeline\Tests\Unit\Domain\Model
  */
-class TaskTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
+class TaskTest extends UnitTestCase
 {
 
     /**
-     * Task
-     *
-     * @var \AOE\SchedulerTimeline\Domain\Model\Task
+     * @var Task
      */
     protected $subject;
 

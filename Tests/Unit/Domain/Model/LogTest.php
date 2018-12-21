@@ -26,17 +26,18 @@ namespace AOE\SchedulerTimeline\Tests\Unit\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use AOE\SchedulerTimeline\Domain\Model\Log;
+use Nimut\TestingFramework\TestCase\UnitTestCase;
+
 /**
  * Class LogTest
  * @package AOE\SchedulerTimeline\Tests\Unit\Domain\Model
  */
-class LogTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
+class LogTest extends UnitTestCase
 {
 
     /**
-     * Log
-     *
-     * @var \AOE\SchedulerTime\Domain|Model\Log
+     * @var Log
      */
     protected $subject;
 
@@ -178,7 +179,10 @@ class LogTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
      */
     public function isRunningReturnsBoolean($endtime, $isRunning)
     {
-        $stub = $this->getMock('AOE\\SchedulerTimeline\\Domain\\Model\\Log', array('getEndtime'));
+        $stub = $this->getMockBuilder('AOE\\SchedulerTimeline\\Domain\\Model\\Log')
+            ->setMethods(['getEndtime'])
+            ->disableOriginalConstructor()
+            ->getMock();
         $stub->expects($this->any())->method('getEndtime')->will($this->returnValue($endtime));
         $this->assertSame(
             $isRunning,

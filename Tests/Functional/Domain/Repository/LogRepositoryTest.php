@@ -26,12 +26,14 @@ namespace AOE\SchedulerTimeline\Tests\Functional\Domain\Repository;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Nimut\TestingFramework\TestCase\FunctionalTestCase;
+
 /**
  * Class LogRepositoryTest
  *
  * @package AOE\SchedulerTimeline\Tests\Functional\Domain\Repository
  */
-class LogRepositoryTest extends \TYPO3\CMS\Core\Tests\FunctionalTestCase
+class LogRepositoryTest extends FunctionalTestCase
 {
 
     /**
@@ -81,7 +83,6 @@ class LogRepositoryTest extends \TYPO3\CMS\Core\Tests\FunctionalTestCase
      */
     public function findByTimeReturnsQueryResultInterface()
     {
-
         // Order by starttime
         $expectedArray = array(5,1,2);
 

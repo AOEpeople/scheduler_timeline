@@ -10,10 +10,10 @@
     "issues": "https://github.com/AOEpeople/scheduler_timeline/issues"
   },
   "require": {
-    "typo3/cms": ">=6.2.0,<8.0"
+    "typo3/cms": ">=7.6.0,<8.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "~4.8.0"
+    "nimut/testing-framework": "2.0.*"
   },
   "autoload": {
     "psr-4": {
@@ -34,11 +34,19 @@
     "post-autoload-dump": [
       "mkdir -p .Build/Web/typo3conf/ext/",
       "[ -L .Build/Web/typo3conf/ext/scheduler_timeline ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/scheduler_timeline"
+    ],
+    "test:unit": [
+      "[ -e .Build/bin/phpunit ] || composer update",
+      "TYPO3_PATH_ROOT=$(pwd)/.Build/Web .Build/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/ --debug --verbose"
+    ],
+    "test:functional": [
+      "[ -e .Build/bin/phpunit ] || composer update",
+      "TYPO3_PATH_ROOT=$(pwd)/.Build/Web .Build/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml Tests/Functional --debug --verbose"
     ]
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "1.0.x-dev"
+      "dev-master": "2.0.0-dev"
     },
     "typo3/cms": {
       "cms-package-dir": "{$vendor-dir}/typo3/cms",
