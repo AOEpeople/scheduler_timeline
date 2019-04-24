@@ -14,7 +14,7 @@
     "typo3/cms-fluid": "^7.6 || ^8.7"
   },
   "require-dev": {
-    "nimut/testing-framework": "2.0.0",
+    "nimut/testing-framework": "^2.0 || ^4.1",
     "helhum/typo3-console": "*"
   },
   "autoload": {
