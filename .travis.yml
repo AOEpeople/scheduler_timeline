@@ -1,41 +1,39 @@
 language: php
 
 php:
-  - 5.5
   - 5.6
   - 7.0
+  - 7.1
+  - 7.2
 
 env:
-  - TYPO3_VERSION=^6.2 COVERAGE=0 FUNCTIONAL=0
   - TYPO3_VERSION=^7.6 COVERAGE=0 FUNCTIONAL=0
   - TYPO3_VERSION=^8.7 COVERAGE=0 FUNCTIONAL=0
+  - TYPO3_VERSION=^9.5 COVERAGE=0 FUNCTIONAL=0
   - TYPO3_VERSION=dev-master COVERAGE=0 FUNCTIONAL=0
 
 matrix:
   exclude:
-    - env: TYPO3_VERSION=^6.2 COVERAGE=0 FUNCTIONAL=0
+    - env: TYPO3_VERSION=^9.5 COVERAGE=0 FUNCTIONAL=0
+      php: 5.6
+    - env: TYPO3_VERSION=dev-master COVERAGE=0 FUNCTIONAL=0
+      php: 5.6
+    - env: TYPO3_VERSION=dev-master COVERAGE=0 FUNCTIONAL=0
       php: 7.0
-    - env: TYPO3_VERSION=^8.7 COVERAGE=0 FUNCTIONAL=0
-      php: 5.5
-    - env: TYPO3_VERSION=^8.7 COVERAGE=0 FUNCTIONAL=0
-      php: 5.6
     - env: TYPO3_VERSION=dev-master COVERAGE=0 FUNCTIONAL=0
-      php: 5.5
-    - env: TYPO3_VERSION=dev-master COVERAGE=0 FUNCTIONAL=0
-      php: 5.6
+      php: 7.1
   include:
-    - env: TYPO3_VERSION=^6.2 COVERAGE=0 FUNCTIONAL=1
-      php: 5.5
     - env: TYPO3_VERSION=^7.6 COVERAGE=1 FUNCTIONAL=1
       php: 7.0
     - env: TYPO3_VERSION=^8.7 COVERAGE=0 FUNCTIONAL=1
       php: 7.0
     - env: TYPO3_VERSION=dev-master COVERAGE=0 FUNCTIONAL=1
-      php: 7.0
+      php: 7.2
   allow_failures:
-    - env: TYPO3_VERSION=^7.6 COVERAGE=1 FUNCTIONAL=1
     - env: TYPO3_VERSION=^8.7 COVERAGE=0 FUNCTIONAL=0
     - env: TYPO3_VERSION=^8.7 COVERAGE=0 FUNCTIONAL=1
+    - env: TYPO3_VERSION=^9.5 COVERAGE=0 FUNCTIONAL=1
+    - env: TYPO3_VERSION=^9.5 COVERAGE=0 FUNCTIONAL=1
     - env: TYPO3_VERSION=dev-master COVERAGE=0 FUNCTIONAL=1
     - env: TYPO3_VERSION=dev-master COVERAGE=0 FUNCTIONAL=0
 
