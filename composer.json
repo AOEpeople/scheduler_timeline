@@ -1,6 +1,5 @@
 {
   "name": "aoe/scheduler_timeline",
-  "title": "Scheduler Timeline",
   "description": "Logs information about scheduler task execution and displays them in a graphical timeline",
   "type": "typo3-cms-extension",
   "keywords": ["TYPO3 CMS", "Scheduler", "Timeline"],
@@ -10,7 +9,9 @@
     "issues": "https://github.com/AOEpeople/scheduler_timeline/issues"
   },
   "require": {
-    "typo3/cms": ">=6.2.0,<8.9.99"
+    "typo3/cms-core": ">=7.6.0,<8.7.99",
+    "typo3/cms-scheduler": "^7.6 || ^8.7",
+    "typo3/cms-fluid": "^7.6 || ^8.7"
   },
   "require-dev": {
     "nimut/testing-framework": "2.0.0",

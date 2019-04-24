@@ -4,7 +4,7 @@ namespace AOE\SchedulerTimeline\ViewHelpers;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2017 AOE GmbH <dev@aoe.com>
+ *  (c) 2019 AOE GmbH <dev@aoe.com>
  *
  *  All rights reserved
  *
@@ -65,6 +65,7 @@ class IncreaseViewHelper extends AbstractViewHelper implements CompilableInterfa
      * @param array $arguments
      * @param \Closure $renderChildrenClosure
      * @param RenderingContextInterface $renderingContext
+     *
      * @return string
      */
     public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
