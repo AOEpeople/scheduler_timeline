@@ -25,7 +25,6 @@ namespace AOE\SchedulerTimeline\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
@@ -70,15 +69,6 @@ class TimelineController extends ActionController
     protected function initializeAction()
     {
         $this->pageRenderer->addInlineLanguageLabelFile('EXT:scheduler_timeline/Resources/Private/Language/locallang.xml');
-
-        $this->pageRenderer->addCssFile(ExtensionManagementUtility::siteRelPath('scheduler_timeline') . 'Resources/Public/StyleSheet/timeline.css');
-        $this->pageRenderer->addCssFile(ExtensionManagementUtility::siteRelPath('scheduler_timeline') . 'Resources/Public/StyleSheet/bars.css');
-
-        $this->pageRenderer->addJsLibrary('jquery', ExtensionManagementUtility::siteRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/jquery-1.6.2.min.js');
-        $this->pageRenderer->addJsLibrary('jquery_tooltip', ExtensionManagementUtility::siteRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/tooltip.js');
-        $this->pageRenderer->addJsLibrary('jquery_tooltip_dynamic', ExtensionManagementUtility::siteRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/tooltip.dynamic.js');
-
-        $this->addJsFileToPageRenderer(ExtensionManagementUtility::siteRelPath('scheduler_timeline') . 'Resources/Public/JavaScript/common.js');
     }
 
     /**
