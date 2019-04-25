@@ -11,8 +11,8 @@ CREATE TABLE tx_schedulertimeline_domain_model_log (
   task          INT(11) DEFAULT '0' NOT NULL,
   starttime     INT(11) DEFAULT '0' NOT NULL,
   endtime       INT(11) DEFAULT '0' NOT NULL,
-  exception     TEXT                NOT NULL,
-  returnmessage TEXT                NOT NULL,
+  exception     TEXT,
+  returnmessage TEXT,
   processid     INT(11) DEFAULT '0' NOT NULL,
 
   PRIMARY KEY (uid),

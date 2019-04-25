@@ -247,7 +247,7 @@ class Scheduler extends \TYPO3\CMS\Scheduler\Scheduler
         $file = '/proc/' . (int) $pid . '/cmdline';
         $fp = false;
         if (file_exists($file)) {
-            $fp = @fopen($file, 'r');
+            $fp = @fopen($file, 'rb');
         }
 
         if (!$fp) { // if file does not exist or cannot be opened, return false
