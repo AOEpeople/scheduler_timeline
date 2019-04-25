@@ -81,7 +81,7 @@ class IncreaseViewHelper extends AbstractViewHelper implements CompilableInterfa
         $result = '';
         for ($i = $start; $i < $end; $i += $interval) {
             $templateVariableContainer->add($iterator, $i);
-            $result .= self::renderChildren();
+            $result .= $renderChildrenClosure();
             $templateVariableContainer->remove($iterator);
         }
         return $result;

@@ -82,10 +82,9 @@ class GanttViewHelper extends AbstractTagBasedViewHelper implements CompilableIn
             $offset = 0;
         }
         $tag->addAttribute('style', sprintf('width: %spx; left: %spx;', $duration, $offset));
-
         $tag->addAttribute('class', 'task ' . $log->getStatus());
         $tag->addAttribute('id', 'uid_' . $log->getUid());
-        $tag->setContent(self::renderChildren());
+        $tag->setContent($renderChildrenClosure());
         return $tag->render();
     }
 }
