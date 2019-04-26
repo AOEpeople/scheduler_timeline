@@ -26,7 +26,7 @@ namespace AOE\SchedulerTimeline\ViewHelpers;
  ***************************************************************/
 
 use AOE\SchedulerTimeline\Domain\Model\Log;
-use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
@@ -73,7 +73,7 @@ class StatusViewHelper extends AbstractViewHelper implements CompilableInterface
 
         switch ($status) {
             case Log::STATUS_SUCCESS:
-                $result = '<span class="bar-green">' . $status . '</span>';
+                $result = '<span class="bar-green"><span>' . $status . '</span></span>';
                 break;
             case Log::STATUS_PENDING:
                 $result = '<span class="bar-lightgray"><span>' . $status . '</span></span>';

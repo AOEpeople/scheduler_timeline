@@ -27,10 +27,10 @@ namespace AOE\SchedulerTimeline\ViewHelpers;
 
 use AOE\SchedulerTimeline\Domain\Model\Log;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
-use TYPO3\CMS\Fluid\Core\ViewHelper\TagBuilder;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 /**
@@ -81,6 +81,7 @@ class GanttViewHelper extends AbstractTagBasedViewHelper implements CompilableIn
             $duration += $offset;
             $offset = 0;
         }
+        $tag->setTagName('div');
         $tag->addAttribute('style', sprintf('width: %spx; left: %spx;', $duration, $offset));
         $tag->addAttribute('class', 'task ' . $log->getStatus());
         $tag->addAttribute('id', 'uid_' . $log->getUid());
