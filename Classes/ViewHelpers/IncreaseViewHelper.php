@@ -57,7 +57,7 @@ class IncreaseViewHelper extends AbstractViewHelper implements CompilableInterfa
         $this->registerArgument('start', 'string', 'Start time', true);
         $this->registerArgument('end', 'string', 'End time', true);
         $this->registerArgument('interval', 'string', 'Interval of hours', false, '1');
-        $this->registerArgument('iterator', 'string', 'Iterator of hours', false, '1');
+        $this->registerArgument('iterator', 'string', 'Iterator of hours', false, 'i');
     }
 
     /**
@@ -70,8 +70,7 @@ class IncreaseViewHelper extends AbstractViewHelper implements CompilableInterfa
      */
     public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
     {
-        /** @var TemplateVariableContainer $templateVariableContainer */
-        $templateVariableContainer = GeneralUtility::makeInstance(TemplateVariableContainer::class);
+        $templateVariableContainer = $renderingContext->getVariableProvider();
 
         $start = $arguments['start'];
         $end = $arguments['end'];
