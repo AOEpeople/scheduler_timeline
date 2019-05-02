@@ -1,11 +1,10 @@
 <?php
-
 namespace AOE\SchedulerTimeline\ViewHelpers;
 
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2016 AOE GmbH <dev@aoe.com>
+ *  (c) 2019 AOE GmbH <dev@aoe.com>
  *
  *  All rights reserved
  *
@@ -26,30 +25,61 @@ namespace AOE\SchedulerTimeline\ViewHelpers;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
+
 /**
  * Class IncreaseViewHelper
  *
  * @package AOE\SchedulerTimeline\ViewHelpers
  */
-class IncreaseViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class IncreaseViewHelper extends AbstractViewHelper implements CompilableInterface
 {
+    use CompileWithRenderStatic;
 
     /**
-     * Render
+     * View helper returns HTML, thus we need to disable output escaping
      *
-     * @param string $start
-     * @param string $end
-     * @param string $interval
-     * @param string $iterator
+     * @var bool
+     */
+    protected $escapeOutput = false;
+
+    /**
+     * Initializes the arguments
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('start', 'string', 'Start time', true);
+        $this->registerArgument('end', 'string', 'End time', true);
+        $this->registerArgument('interval', 'string', 'Interval of hours', false, '1');
+        $this->registerArgument('iterator', 'string', 'Iterator of hours', false, 'i');
+    }
+
+    /**
+     *
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     *
      * @return string
      */
-    public function render($start, $end, $interval = '1', $iterator = 'i')
+    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
     {
+        $templateVariableContainer = $renderingContext->getVariableProvider();
+
+        $start = $arguments['start'];
+        $end = $arguments['end'];
+        $interval = $arguments['interval'];
+        $iterator = $arguments['iterator'];
+
         $result = '';
         for ($i = $start; $i < $end; $i += $interval) {
-            $this->templateVariableContainer->add($iterator, $i);
-            $result .= $this->renderChildren();
-            $this->templateVariableContainer->remove($iterator);
+            $templateVariableContainer->add($iterator, $i);
+            $result .= $renderChildrenClosure();
+            $templateVariableContainer->remove($iterator);
         }
         return $result;
     }

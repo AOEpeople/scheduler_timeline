@@ -1,5 +1,5 @@
 <?php
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
     'title' => 'Scheduler Timeline',
     'description' => 'Logs information about scheduler task execution and displays them in a graphical timeline',
     'version' => '2.0.0',
@@ -11,15 +11,15 @@ $EM_CONF[$_EXTKEY] = array(
     'uploadfolder' => 0,
     'createDirs' => '',
     'clearCacheOnLoad' => 0,
-    'constraints' => array(
-        'depends' => array(
-            'php' => '7.0.0-7.99.99',
-            'typo3' => '7.6.0-8.7.99',
+    'constraints' => [
+        'depends' => [
+            'php' => '7.0.0-7.2.99',
+            'typo3' => '8.7.0-8.7.99',
             'extbase' => '',
             'fluid' => '',
             'scheduler' => '',
-        ),
-        'conflicts' => array(),
-        'suggests' => array(),
-    )
-);
+        ],
+        'conflicts' => [],
+        'suggests' => [],
+    ],
+];

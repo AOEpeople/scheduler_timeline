@@ -35,7 +35,7 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
  * Class LogRepositoryTest
  * @package AOE\SchedulerTimeline\Tests\Unit\Domain\Repository
  */
-class LogRepositoryTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
+class LogRepositoryTest extends \Nimut\TestingFramework\TestCase\UnitTestCase
 {
 
     public function setUp()

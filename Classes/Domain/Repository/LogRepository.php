@@ -5,7 +5,7 @@ namespace AOE\SchedulerTimeline\Domain\Repository;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2016 AOE GmbH <dev@aoe.com>
+ *  (c) 2019 AOE GmbH <dev@aoe.com>
  *
  *  All rights reserved
  *

@@ -1,6 +1,5 @@
 {
   "name": "aoe/scheduler_timeline",
-  "title": "Scheduler Timeline",
   "description": "Logs information about scheduler task execution and displays them in a graphical timeline",
   "type": "typo3-cms-extension",
   "keywords": ["TYPO3 CMS", "Scheduler", "Timeline"],
@@ -10,10 +9,13 @@
     "issues": "https://github.com/AOEpeople/scheduler_timeline/issues"
   },
   "require": {
-    "typo3/cms": ">=7.6.0,<=8.7.99"
+    "typo3/cms-core": "^8.7",
+    "typo3/cms-scheduler": "^8.7",
+    "typo3fluid/fluid": "^2.6"
   },
   "require-dev": {
-    "nimut/testing-framework": "2.0.*"
+    "nimut/testing-framework": "^2.0 || ^4.1",
+    "helhum/typo3-console": "*"
   },
   "autoload": {
     "psr-4": {
@@ -41,7 +43,9 @@
     ],
     "test:functional": [
       "[ -e .Build/bin/phpunit ] || composer update",
-      "TYPO3_PATH_ROOT=$(pwd)/.Build/Web .Build/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml Tests/Functional --debug --verbose"
+      "TYPO3_PATH_ROOT=$(pwd)/.Build/Web .Build/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml Tests/Functional --debug --verbose",
+      "[ -L .Build/Web/typo3conf/ext/scheduler_timeline ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/scheduler_timeline",
+      "[ -e .Build/bin/typo3cms ] &&  .Build/bin/typo3cms install:generatepackagestates || echo 'TYPO3 Console is not installed'"
     ]
   },
   "extra": {
@@ -51,6 +55,9 @@
     "typo3/cms": {
       "cms-package-dir": "{$vendor-dir}/typo3/cms",
       "web-dir": ".Build/Web"
+    },
+    "helhum/typo3-console": {
+      "install-extension-dummy": false
     }
   }
 }

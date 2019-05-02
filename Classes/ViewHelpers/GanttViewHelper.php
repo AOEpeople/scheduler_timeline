@@ -1,11 +1,10 @@
 <?php
-
 namespace AOE\SchedulerTimeline\ViewHelpers;
 
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2016 AOE GmbH <dev@aoe.com>
+ *  (c) 2019 AOE GmbH <dev@aoe.com>
  *
  *  All rights reserved
  *
@@ -26,38 +25,67 @@ namespace AOE\SchedulerTimeline\ViewHelpers;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use AOE\SchedulerTimeline\Domain\Model\Log;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
+use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
+
 /**
  * Class GanttViewHelper
  *
  * @package AOE\SchedulerTimeline\ViewHelpers
  */
-class GanttViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper
+class GanttViewHelper extends AbstractTagBasedViewHelper implements CompilableInterface
 {
 
+    use CompileWithRenderStatic;
+
     /**
-     * Render
-     *
-     * @param \AOE\SchedulerTimeline\Domain\Model\Log $log
-     * @param int $starttime
-     * @param int $zoom
-     * @return string rendered tag
+     * Initializes the arguments
      */
-    public function render(\AOE\SchedulerTimeline\Domain\Model\Log $log, $starttime, $zoom)
+    public function initializeArguments()
     {
+        parent::initializeArguments();
+        $this->registerArgument('log', '\AOE\SchedulerTimeline\Domain\Model\Log', 'Log Record', true);
+        $this->registerArgument('starttime', 'string', 'Start time', true);
+        $this->registerArgument('zoom', 'string', 'Zoom level', true);
+    }
+
+    /**
+     *
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     *
+     * @return string
+     */
+    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
+    {
+        /** @var TagBuilder $tag */
+        $tag = GeneralUtility::makeInstance(TagBuilder::class);
+
+        /** @var Log $log */
+        $log = $arguments['log'];
+        $zoom = $arguments['zoom'];
+        $startTime = $arguments['starttime'];
+
         $duration = $log->getDuration() / $zoom;
         $duration = ceil($duration / 4) * 4 - 1; // round to numbers dividable by 4, then remove 1 px border
         $duration = max($duration, 3);
 
-        $offset = ($log->getStarttime() - $starttime) / $zoom;
+        $offset = ($log->getStarttime() - $startTime) / $zoom;
         if ($offset < 0) { // cut bar
             $duration += $offset;
             $offset = 0;
         }
-        $this->tag->addAttribute('style', sprintf('width: %spx; left: %spx;', $duration, $offset));
-
-        $this->tag->addAttribute('class', 'task ' . $log->getStatus());
-        $this->tag->addAttribute('id', 'uid_' . $log->getUid());
-        $this->tag->setContent($this->renderChildren());
-        return $this->tag->render();
+        $tag->setTagName('div');
+        $tag->addAttribute('style', sprintf('width: %spx; left: %spx;', $duration, $offset));
+        $tag->addAttribute('class', 'task ' . $log->getStatus());
+        $tag->addAttribute('id', 'uid_' . $log->getUid());
+        $tag->setContent($renderChildrenClosure());
+        return $tag->render();
     }
 }

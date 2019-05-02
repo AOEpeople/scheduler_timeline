@@ -2,7 +2,9 @@
 defined('TYPO3_MODE') or die();
 
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['tx_scheduler']['className'] = 'Scheduler';
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Scheduler\\Scheduler']['className'] = 'AOE\\SchedulerTimeline\\XClass\\Scheduler';
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Scheduler\Scheduler::class] = [
+    'className' => \AOE\SchedulerTimeline\XClass\Scheduler::class
+];
 
 // Get the extensions's configuration
 $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['scheduler_timeline']);

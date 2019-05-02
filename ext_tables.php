@@ -7,14 +7,14 @@ if (TYPO3_MODE === 'BE' && !(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_INSTALL)) {
         'tools',
         'schedulertimeline',
         'after:txschedulerM1',
-        array(
+        [
             // An array holding the controller-action-combinations that are accessible
-            'Timeline' => 'timeline'
-        ),
-        array(
+            'Timeline' => 'timeline',
+        ],
+        [
             'access' => 'user,group',
-            'icon' => 'EXT:' . $_EXTKEY . '/Resources/Public/Images/' . (\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.0') ? 'be_module_icon_v7.png' : 'moduleicon.png'),
-            'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_mod.xlf'
-        )
+            'icon' => 'EXT:' . $_EXTKEY . '/Resources/Public/Images/be_module_icon_v7.png',
+            'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_mod.xlf',
+        ]
     );
 }

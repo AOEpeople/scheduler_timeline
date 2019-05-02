@@ -3,21 +3,31 @@
 	<tx_scheduler_task>
 		<uid>131</uid>
 		<pid>345</pid>
+		<description>Not important for the test</description>
+		<lastexecution_failure>1507140146</lastexecution_failure>
 	</tx_scheduler_task>
 	<tx_scheduler_task>
 		<uid>132</uid>
 		<pid>345</pid>
+		<description>Not important for the test</description>
+		<lastexecution_failure>1507140147</lastexecution_failure>
 	</tx_scheduler_task>
 	<tx_scheduler_task>
 		<uid>133</uid>
 		<pid>345</pid>
+		<description>Not important for the test</description>
+		<lastexecution_failure>1507140148</lastexecution_failure>
 	</tx_scheduler_task>
 	<tx_scheduler_task>
 		<uid>134</uid>
 		<pid>345</pid>
+		<description>Not important for the test</description>
+		<lastexecution_failure>1507140149</lastexecution_failure>
 	</tx_scheduler_task>
 	<tx_scheduler_task>
 		<uid>135</uid>
 		<pid>345</pid>
+		<description>Not important for the test</description>
+		<lastexecution_failure>1507140150</lastexecution_failure>
 	</tx_scheduler_task>
 </dataset>
