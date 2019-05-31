@@ -9,13 +9,14 @@
     "issues": "https://github.com/AOEpeople/scheduler_timeline/issues"
   },
   "require": {
+    "php": ">=7.0",
     "typo3/cms-core": "^8.7",
+    "typo3/cms-extbase": "^8.7",
     "typo3/cms-scheduler": "^8.7",
     "typo3fluid/fluid": "^2.6"
   },
   "require-dev": {
-    "nimut/testing-framework": "^2.0 || ^4.1",
-    "helhum/typo3-console": "*"
+    "nimut/testing-framework": "^4.1"
   },
   "autoload": {
     "psr-4": {
@@ -24,8 +25,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "AOE\\SchedulerTimeline\\Tests\\": "Tests",
-      "TYPO3\\CMS\\Core\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/core/Tests/"
+      "AOE\\SchedulerTimeline\\Tests\\": "Tests"
     }
   },
   "config": {
@@ -44,8 +44,7 @@
     "test:functional": [
       "[ -e .Build/bin/phpunit ] || composer update",
       "TYPO3_PATH_ROOT=$(pwd)/.Build/Web .Build/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml Tests/Functional --debug --verbose",
-      "[ -L .Build/Web/typo3conf/ext/scheduler_timeline ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/scheduler_timeline",
-      "[ -e .Build/bin/typo3cms ] &&  .Build/bin/typo3cms install:generatepackagestates || echo 'TYPO3 Console is not installed'"
+      "[ -L .Build/Web/typo3conf/ext/scheduler_timeline ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/scheduler_timeline"
     ]
   },
   "extra": {
