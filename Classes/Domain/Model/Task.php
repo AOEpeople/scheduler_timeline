@@ -33,13 +33,31 @@ namespace AOE\SchedulerTimeline\Domain\Model;
  */
 class Task extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
-
     /**
      * @var string
      */
     protected $serializedTaskObject;
 
+    /**
+     * @var string
+     */
     protected $logFileContent;
+
+    /**
+     * @return string
+     */
+    public function getSerializedTaskObject(): string
+    {
+        return $this->serializedTaskObject;
+    }
+
+    /**
+     * @param string $serializedTaskObject
+     */
+    public function setSerializedTaskObject(string $serializedTaskObject)
+    {
+        $this->serializedTaskObject = $serializedTaskObject;
+    }
 
     /**
      * Get classname

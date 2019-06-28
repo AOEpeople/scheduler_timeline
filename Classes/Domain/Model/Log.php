@@ -71,6 +71,54 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $processid = 0;
 
     /**
+     * @param \AOE\SchedulerTimeline\Domain\Model\Task $task
+     */
+    public function setTask(Task $task)
+    {
+        $this->task = $task;
+    }
+
+    /**
+     * @param int $starttime
+     */
+    public function setStarttime(int $starttime)
+    {
+        $this->starttime = $starttime;
+    }
+
+    /**
+     * @param int $endtime
+     */
+    public function setEndtime(int $endtime)
+    {
+        $this->endtime = $endtime;
+    }
+
+    /**
+     * @param string $exception
+     */
+    public function setException(string $exception)
+    {
+        $this->exception = $exception;
+    }
+
+    /**
+     * @param string $returnmessage
+     */
+    public function setReturnmessage(string $returnmessage)
+    {
+        $this->returnmessage = $returnmessage;
+    }
+
+    /**
+     * @param int $processid
+     */
+    public function setProcessid(int $processid)
+    {
+        $this->processid = $processid;
+    }
+
+    /**
      * Get task
      *
      * @return \AOE\SchedulerTimeline\Domain\Model\Task
