@@ -1,38 +1,5 @@
 language: php
 
-php:
-  - 7.0
-  - 7.1
-  - 7.2
-
-env:
-  - TYPO3_VERSION=^8.7 COVERAGE=0 FUNCTIONAL=0
-  - TYPO3_VERSION=^9.5 COVERAGE=0 FUNCTIONAL=0
-  - TYPO3_VERSION=dev-master COVERAGE=0 FUNCTIONAL=0
-
-matrix:
-  exclude:
-    - env: TYPO3_VERSION=^9.5 COVERAGE=0 FUNCTIONAL=0
-      php: 7.0
-    - env: TYPO3_VERSION=^9.5 COVERAGE=0 FUNCTIONAL=0
-      php: 7.1
-    - env: TYPO3_VERSION=dev-master COVERAGE=0 FUNCTIONAL=0
-      php: 7.0
-    - env: TYPO3_VERSION=dev-master COVERAGE=0 FUNCTIONAL=0
-      php: 7.1
-  include:
-    - env: TYPO3_VERSION=^8.7 COVERAGE=0 FUNCTIONAL=1
-      php: 7.0
-    - env: TYPO3_VERSION=^9.5 COVERAGE=0 FUNCTIONAL=1
-      php: 7.2
-    - env: TYPO3_VERSION=dev-master COVERAGE=0 FUNCTIONAL=1
-      php: 7.2
-  allow_failures:
-    - env: TYPO3_VERSION=^9.5 COVERAGE=0 FUNCTIONAL=0
-    - env: TYPO3_VERSION=^9.5 COVERAGE=0 FUNCTIONAL=1
-    - env: TYPO3_VERSION=dev-master COVERAGE=0 FUNCTIONAL=1
-    - env: TYPO3_VERSION=dev-master COVERAGE=0 FUNCTIONAL=0
-
 notifications:
   email:
     on_success: never
@@ -48,6 +15,9 @@ addons:
       - nodejs
       - npm
 
+services:
+  - mysql
+
 cache:
   directories:
     - $HOME/.composer/cache
@@ -57,10 +27,11 @@ before_install:
   - composer --version
 
 before_script:
-  # Installs TYPO3
-  - composer require typo3/cms=$TYPO3_VERSION
-  # Restore composer.json
-  - git checkout composer.json
+  # Enables us to test dev-master
+  - composer config minimum-stability dev
+  - composer config prefer-stable true
+  # Installs nimut/typo3-complete
+  - travis_wait 30 composer require --dev nimut/typo3-complete=$TYPO3_VERSION
   - export "TYPO3_PATH_WEB"=$PWD/.Build/Web;
   # Locating UnitTests.xml
   - export "UNIT_XML"='.Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml'
@@ -78,11 +49,11 @@ script:
     echo;
     echo "Running PHP lint";
     find . -name \*.php ! -path "./.Build/*" ! -path "./scripts/*" ! -path "./typo3_src/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;
-#  - >
-#    echo;
-#    echo "Running JavaScript lint";
-#    npm install -g jslint;
-#    find Resources/Public/JavaScript/ -name '*.js' ! -name 'jquery*' ! -name 'tooltip*' -type f | xargs jslint
+  #  - >
+  #    echo;
+  #    echo "Running JavaScript lint";
+  #    npm install -g jslint;
+  #    find Resources/Public/JavaScript/ -name '*.js' ! -name 'jquery*' ! -name 'tooltip*' -type f | xargs jslint
   - >
     if [[ "$COVERAGE" == "0" ]]; then
       echo;
@@ -112,3 +83,51 @@ script:
       php ocular.phar code-coverage:upload --format=php-clover unittest-coverage.clover
       find 'Tests/Functional' -wholename '*Test.php' -exec php ocular.phar code-coverage:upload --format=php-clover {}functionaltest-coverage.clover \;
     fi
+
+jobs:
+  allow_failures:
+    - env: TYPO3_VERSION=^9.5 COVERAGE=0 FUNCTIONAL=1
+    - env: TYPO3_VERSION=^10.4 COVERAGE=0 FUNCTIONAL=1
+    - env: TYPO3_VERSION=dev-master COVERAGE=0 FUNCTIONAL=1
+  include:
+    - stage: test
+      env: TYPO3_VERSION=^8.7 COVERAGE=0 FUNCTIONAL=0
+      php: 7.0
+    - stage: test
+      env: TYPO3_VERSION=^8.7 COVERAGE=0 FUNCTIONAL=1
+      php: 7.0
+    - stage: test
+      env: TYPO3_VERSION=^8.7 COVERAGE=0 FUNCTIONAL=0
+      php: 7.2
+    - stage: test
+      env: TYPO3_VERSION=^8.7 COVERAGE=1 FUNCTIONAL=1
+      php: 7.2
+    - stage: test
+      env: TYPO3_VERSION=^9.5 COVERAGE=0 FUNCTIONAL=1
+      php: 7.2
+    - stage: test
+      env: TYPO3_VERSION=^10.4 COVERAGE=0 FUNCTIONAL=1
+      php: 7.2
+    - stage: test
+      env: TYPO3_VERSION=dev-master COVERAGE=0 FUNCTIONAL=1
+      php: 7.2
+
+    - stage: ship to ter
+      if: tag IS present
+      php: 7.2
+      install: skip
+      before_script: skip
+      script:
+        - |
+          if [ -n "$TYPO3_ORG_USERNAME" ] && [ -n "$TYPO3_ORG_PASSWORD" ]; then
+            echo -e "Preparing upload of release ${TRAVIS_TAG} to TER\n";
+            # Install ter client
+            composer global require helhum/ter-client
+            # Build extension files
+            composer extension-release
+            # Upload
+            TAG_MESSAGE=`git log -1 --pretty=%B`
+            echo "Tag-Message: ${TAG_MESSAGE}"
+            echo "Uploading release ${TRAVIS_TAG} to TER"
+            $HOME/.composer/vendor/bin/ter-client upload scheduler_timeline . -u "$TYPO3_ORG_USERNAME" -p "$TYPO3_ORG_PASSWORD" -m "$TAG_MESSAGE"
+          fi;
