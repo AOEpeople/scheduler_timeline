@@ -1,4 +1,5 @@
 <?php
+
 namespace AOE\SchedulerTimeline\Controller;
 
 /***************************************************************
@@ -25,6 +26,7 @@ namespace AOE\SchedulerTimeline\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use AOE\SchedulerTimeline\Converter\FormValueTimestampConverter;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
@@ -105,18 +107,54 @@ class TimelineController extends ActionController
     {
         $zoom = 15; // amount of seconds per pixel
 
-        $groupedLogs = $this->logRepository->findGroupedByTask();
+        $startTime = strtoTime('-1 hour');
+        $endTime = time();
+        $postVars = GeneralUtility::_POST('tx_schedulertimeline_tools_schedulertimelineschedulertimeline');
+        $timespan = $postVars['timespan'] ?? null;
+        if ($timespan !== null) {
+            $startTime = $this->getStartTime($postVars['timespan']);
+        }
+        $groupedLogs = $this->logRepository->findGroupedByTask($startTime, $endTime);
 
-        $starttime = $this->hourFloor($this->logRepository->getMinDate());
-        $endtime = $this->hourCeil($this->logRepository->getMaxDate());
+        // To have logs that was added this second included,
+        $startTimeFloor = $this->hourFloor($startTime);
+        $endTimeCeil = $this->hourCeil($endTime);
 
         $this->view->assign('groupedLogs', $groupedLogs);
-
-        $this->view->assign('starttime', $starttime);
-        $this->view->assign('endtime', $endtime);
+        $this->view->assign('starttime', $startTimeFloor);
+        $this->view->assign('endtime', $endTimeCeil);
         $this->view->assign('zoom', $zoom);
-        $this->view->assign('now', ($GLOBALS['EXEC_TIME'] - $starttime) / $zoom);
-        $this->view->assign('timelinePanelWidth', ($endtime - $starttime) / $zoom);
+        $this->view->assign('now', ($GLOBALS['EXEC_TIME'] - $startTimeFloor) / $zoom);
+        $this->view->assign('timelinePanelWidth', ($endTimeCeil - $startTimeFloor) / $zoom);
+        $this->view->assign('actionMenuValues', $this->getActionMenuValues());
+        $this->view->assign('actionMenuSelected', $timespan);
+    }
+
+    /**
+     * @param string $timespan
+     * @return int
+     */
+    private function getStartTime(string $timespan)
+    {
+        $strToTimeValue = FormValueTimestampConverter::convertValueToStrToTimeValue($timespan);
+        return strtotime('-' . $strToTimeValue);
+    }
+
+    /**
+     * @return array
+     */
+    private function getActionMenuValues()
+    {
+        return [
+            '1h' => '1 Hour',
+            '3h' => '3 Hours',
+            '1d' => '1 Day',
+            '3d' => '3 Days',
+            '1w' => '1 Week',
+            '2w' => '2 Weeks',
+            '3w' => '3 Weeks',
+            '4w' => '4 Weeks',
+        ];
     }
 
     /**

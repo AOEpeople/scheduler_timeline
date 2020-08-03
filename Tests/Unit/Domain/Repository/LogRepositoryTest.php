@@ -52,11 +52,11 @@ class LogRepositoryTest extends \Nimut\TestingFramework\TestCase\UnitTestCase
         $logCollection = self::getLogCollection();
         $logRepository = $this->getMockBuilder(LogRepository::class)
             ->setConstructorArgs([new ObjectManager()])
-            ->setMethods(['findAll'])
+            ->setMethods(['findByTime'])
             ->getMock();
-        $logRepository->expects(self::any())->method('findAll')->willReturn($logCollection);
+        $logRepository->expects(self::any())->method('findByTime')->willReturn($logCollection);
 
-        $logs = $logRepository->findGroupedByTask();
+        $logs = $logRepository->findGroupedByTask(0, time());
 
         self::assertCount(3, $logs);
         self::assertSame($logCollection[0]->getTask(), $logs[1]['task']);

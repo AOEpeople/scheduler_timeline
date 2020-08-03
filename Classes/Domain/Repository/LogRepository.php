@@ -85,9 +85,9 @@ class LogRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      *
      * @return array array(<taskUid> => array('task' => <task>, 'logs' => array(<log>, ...) ), ...)
      */
-    public function findGroupedByTask()
+    public function findGroupedByTask(int $startTime, int $endTime)
     {
-        $logs = $this->findAll();
+        $logs = $this->findByTime($startTime, $endTime);
         $result = array();
         foreach ($logs as $log) { /* @var $log \AOE\SchedulerTimeline\Domain\Model\Log */
             $task = $log->getTask();

@@ -126,7 +126,9 @@ class LogRepositoryTest extends FunctionalTestCase
             ),
         );
 
-        $logsGroupedByTask = $this->logRepository->findGroupedByTask();
+        $startTime = 1445191476; // 18.10.15 18:04
+        $endTime = 1445191876; // 18.10.15 18:11
+        $logsGroupedByTask = $this->logRepository->findGroupedByTask($startTime, $endTime);
 
         foreach ($logsGroupedByTask as $taskUid => $taskObject) {
             $actualArray[$taskUid]['task'] = $taskUid;
@@ -141,8 +143,8 @@ class LogRepositoryTest extends FunctionalTestCase
         }
 
         $this->assertSame(
-            $expectedArray,
-            $actualArray
+            sort($expectedArray),
+            sort($actualArray)
         );
     }
 }

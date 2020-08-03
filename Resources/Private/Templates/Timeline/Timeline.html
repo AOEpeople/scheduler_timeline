@@ -6,6 +6,23 @@
 
 	<h2>Scheduler Timeline</h2>
 
+	<f:form action="timeline" name="Timeline">
+		<f:form.select name="timespan">
+			<f:for each="{actionMenuValues}" as="label" key="value">
+				<f:if condition="{actionMenuSelected} == {value}">
+					<f:then>
+						<f:form.select.option selected="selected" value="{value}">{label}</f:form.select.option>
+					</f:then>
+					<f:else>
+						<f:form.select.option value="{value}">{label}</f:form.select.option>
+					</f:else>
+				</f:if>
+
+			</f:for>
+		</f:form.select>
+		<f:form.submit value="Submit" />
+	</f:form>
+
 	<f:if condition="{groupedLogs -> f:count()}">
 		<f:else>No logs found!</f:else>
 		<f:then>
