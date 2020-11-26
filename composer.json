@@ -18,7 +18,7 @@
     "typo3/cms": ">=7.6.0,<8.0"
   },
   "require-dev": {
-    "nimut/testing-framework": "2.0.*"
+    "nimut/testing-framework": "^2.0 || ^4.1"
   },
   "autoload": {
     "psr-4": {
