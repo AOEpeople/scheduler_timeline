@@ -9,7 +9,7 @@
     "Timeline"
   ],
   "license": [
-    "GPL-2.0+"
+    "GPL-2.0-or-later"
   ],
   "homepage": "https://github.com/AOEpeople/scheduler_timeline",
   "support": {
