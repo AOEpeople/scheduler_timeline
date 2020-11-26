@@ -29,16 +29,17 @@ namespace AOE\SchedulerTimeline\Tests\Unit\Domain\Repository;
 use AOE\SchedulerTimeline\Domain\Model\Log;
 use AOE\SchedulerTimeline\Domain\Model\Task;
 use AOE\SchedulerTimeline\Domain\Repository\LogRepository;
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Class LogRepositoryTest
  * @package AOE\SchedulerTimeline\Tests\Unit\Domain\Repository
  */
-class LogRepositoryTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
+class LogRepositoryTest extends UnitTestCase
 {
 
-    public function setUp()
+    public function setUp(): void
     {
         // Make sure that timezone is always the same in all testing environments
         date_default_timezone_set('UTC');
