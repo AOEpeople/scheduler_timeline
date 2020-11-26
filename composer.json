@@ -3,8 +3,14 @@
   "title": "Scheduler Timeline",
   "description": "Logs information about scheduler task execution and displays them in a graphical timeline",
   "type": "typo3-cms-extension",
-  "keywords": ["TYPO3 CMS", "Scheduler", "Timeline"],
-  "license": ["GPL-2.0+"],
+  "keywords": [
+    "TYPO3 CMS",
+    "Scheduler",
+    "Timeline"
+  ],
+  "license": [
+    "GPL-2.0+"
+  ],
   "homepage": "https://github.com/AOEpeople/scheduler_timeline",
   "support": {
     "issues": "https://github.com/AOEpeople/scheduler_timeline/issues"
@@ -42,6 +48,12 @@
     "test:functional": [
       "[ -e .Build/bin/phpunit ] || composer update",
       "TYPO3_PATH_ROOT=$(pwd)/.Build/Web .Build/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml Tests/Functional --debug --verbose"
+    ],
+    "extension-release": [
+      "rm -rf Tests/",
+      "rm .gitignore",
+      "rm .scrutinizer.yml",
+      "rm disabled.travis.yml"
     ]
   },
   "extra": {
