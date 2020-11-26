@@ -1,6 +1,5 @@
 {
   "name": "aoe/scheduler_timeline",
-  "title": "Scheduler Timeline",
   "description": "Logs information about scheduler task execution and displays them in a graphical timeline",
   "type": "typo3-cms-extension",
   "keywords": [
